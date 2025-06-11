@@ -1,0 +1,3 @@
+[submodule "Chisel"]
+	path = src/Chisel
+	url = https://github.com/0xced/Chisel
