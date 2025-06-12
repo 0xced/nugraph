@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Chisel;
 using NuGet.Common;
+using NuGet.Frameworks;
 using NuGet.Packaging.Core;
 using NuGet.Versioning;
 using Spectre.Console;
@@ -28,7 +29,8 @@ internal class GraphCommandSettings : CommandSettings
 
     [CommandOption("-f|--framework <FRAMEWORK>")]
     [Description("The target framework to consider when building the dependency graph.")]
-    public string? Framework { get; init; }
+    [TypeConverter(typeof(NuGetFrameworkConverter))]
+    public NuGetFramework? Framework { get; init; }
 
     [CommandOption("-r|--runtime <RUNTIME_IDENTIFIER>")]
     [Description("The target runtime to consider when building the dependency graph.")]

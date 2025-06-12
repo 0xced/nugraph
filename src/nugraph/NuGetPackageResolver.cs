@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Espresso3389.HttpStream;
 using NuGet.Common;
 using NuGet.Configuration;
+using NuGet.Frameworks;
+using NuGet.Packaging;
 using NuGet.Packaging.Core;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
@@ -26,28 +29,24 @@ public class NuGetPackageResolver
         _sourceCacheContext = sourceCacheContext;
     }
 
-    /// <summary>
-    /// Resolves a NuGet package by searching the configured package sources.
-    /// </summary>
-    /// <param name="package">The NuGet package identifier.</param>
-    /// <param name="cancellationToken">The <see cref="CancellationToken"/> that can be used to cancel the operation.</param>
-    /// <returns>
-    /// The package identity. If no version is specified in the <paramref name="package"/> then the latest non-prerelease version of the package is used.
-    /// If the package only has prerelease versions, then the latest prerelease version is used.
-    /// Returns <see langword="null"/> if no package is found in any of the configured package sources.
-    /// </returns>
-    public async Task<FindPackageByIdDependencyInfo> ResolvePackageInfoAsync(PackageIdentity package, CancellationToken cancellationToken)
+    public async Task<(PackageIdentity Identity, IReadOnlyCollection<NuGetFramework> Frameworks)> ResolveAsync(PackageIdentity package, CancellationToken cancellationToken)
     {
         var packageSources = GetPackageSources(package);
 
-        using var sourceCacheContext = new SourceCacheContext();
         foreach (var sourceRepository in packageSources.Select(e => Repository.Factory.GetCoreV3(e)))
         {
-            var packageIdentity = await GetPackageIdentityAsync(package, sourceRepository, cancellationToken);
-            if (packageIdentity != null)
+            var packageInfo = await GetRemoteSourceDependencyInfoAsync(package, _sourceCacheContext, sourceRepository, cancellationToken);
+            if (packageInfo != null)
             {
-                var findPackageByIdResource = await sourceRepository.GetResourceAsync<FindPackageByIdResource>(cancellationToken);
-                return await findPackageByIdResource.GetDependencyInfoAsync(packageIdentity.Id, packageIdentity.Version, sourceCacheContext, _logger, cancellationToken);
+                // Don't use FindPackageByIdResource + GetDependencyInfoAsync because it downloads the full nupkg
+                // Using HttpStream (which does HTTP range requests) is much more efficient
+                var packageUri = new Uri(packageInfo.ContentUri);
+                _logger.LogDebug($"Retrieving supported frameworks for {packageUri}");
+                await using var packageStream = await HttpStream.CreateAsync(packageUri, cancellationToken);
+                using var reader = new PackageArchiveReader(packageStream, leaveStreamOpen: true);
+                var supportedFrameworks = (await reader.GetSupportedFrameworksAsync(cancellationToken)).Where(e => e.IsSpecificFramework).ToList();
+                _logger.LogDebug($"  => {string.Join(", ", supportedFrameworks.Select(e => e.GetShortFolderName()))}");
+                return (packageInfo.Identity, supportedFrameworks);
             }
         }
 
@@ -71,27 +70,37 @@ public class NuGetPackageResolver
         return _packageSources;
     }
 
-    private async Task<PackageIdentity?> GetPackageIdentityAsync(PackageIdentity package, SourceRepository sourceRepository, CancellationToken cancellationToken)
+    private async Task<RemoteSourceDependencyInfo?> GetRemoteSourceDependencyInfoAsync(PackageIdentity package, SourceCacheContext sourceCacheContext, SourceRepository sourceRepository, CancellationToken cancellationToken)
     {
-        var metadataResource = await sourceRepository.GetResourceAsync<MetadataResource>(cancellationToken);
-        if (package.Version != null)
+        _logger.LogDebug($"Retrieving DependencyInfoResource for {sourceRepository}");
+        var dependencyInfoResource = await sourceRepository.GetResourceAsync<DependencyInfoResource>(cancellationToken);
+        _logger.LogDebug($"Resolving {package.Id}");
+        var packageInfos = await dependencyInfoResource.ResolvePackages(package.Id, sourceCacheContext, _logger, cancellationToken);
+
+        if (package.HasVersion)
         {
-            _logger.LogDebug($"Verifying if {package} exists in {sourceRepository.PackageSource}");
-            var exists = await metadataResource.Exists(package, _sourceCacheContext, _logger, cancellationToken);
-            _logger.LogDebug($"  => {package} {(exists ? "found" : "not found")}");
-            return exists ? package : null;
+            var versionMatch = packageInfos.FirstOrDefault(e => e.Identity.Version == package.Version);
+            _logger.LogDebug($"  => {package.Id}{(versionMatch != null ? $"/{versionMatch.Identity.Version} found" : " not found")}");
+            return versionMatch;
         }
 
-        _logger.LogDebug($"Getting last release version of {package} in {sourceRepository.PackageSource}");
-        var latestReleaseVersion = await metadataResource.GetLatestVersion(package.Id, includePrerelease: false, includeUnlisted: false, _sourceCacheContext, _logger, cancellationToken);
-        _logger.LogDebug($"  => {package}{(latestReleaseVersion == null ? " not found" : $"/{latestReleaseVersion}")}");
-        if (latestReleaseVersion is not null)
+        RemoteSourceDependencyInfo? release = null;
+        RemoteSourceDependencyInfo? preRelease = null;
+        foreach (var packageInfo in packageInfos.Where(p => p.Listed))
         {
-            return new PackageIdentity(package.Id, latestReleaseVersion);
+            switch (packageInfo.Identity.Version.IsPrerelease)
+            {
+                case true when preRelease == null || packageInfo.Identity.Version > preRelease.Identity.Version:
+                    preRelease = packageInfo;
+                    break;
+                case false when release == null || packageInfo.Identity.Version > release.Identity.Version:
+                    release = packageInfo;
+                    break;
+            }
         }
-        _logger.LogDebug($"Getting last pre-release version of {package} in {sourceRepository.PackageSource}");
-        var latestPrereleaseVersion = await metadataResource.GetLatestVersion(package.Id, includePrerelease: true, includeUnlisted: false, _sourceCacheContext, _logger, cancellationToken);
-        _logger.LogDebug($"  => {package}{(latestPrereleaseVersion == null ? " not found" : $"/{latestPrereleaseVersion}")}");
-        return latestPrereleaseVersion is null ? null : new PackageIdentity(package.Id, latestPrereleaseVersion);
+
+        var latestVersion = release ?? preRelease;
+        _logger.LogDebug($"  => {package.Id}{(latestVersion != null ? $"/{latestVersion.Identity.Version}" : " not found")}");
+        return latestVersion;
     }
 }
