@@ -80,6 +80,7 @@ internal class GraphCommand(IAnsiConsole console, CancellationToken cancellation
             var graphOptions = new GraphOptions
             {
                 Direction = settings.GraphDirection,
+                IncludeLinks = !settings.NoLinks,
                 IncludeVersions = settings.GraphIncludeVersions,
                 WriteIgnoredPackages = settings.GraphWriteIgnoredPackages,
             };

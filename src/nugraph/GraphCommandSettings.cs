@@ -60,6 +60,11 @@ internal class GraphCommandSettings : CommandSettings
     [Description("Packages to ignore in the dependency graph. May be used multiple times.")]
     public string[] GraphIgnore { get; init; } = [];
 
+    [CommandOption("--no-links")]
+    [Description("Remove clickable links from the the dependency graph.")]
+    [DefaultValue(false)]
+    public bool NoLinks { get; set; }
+
     [CommandOption("-l|--log <LEVEL>")]
     [Description($"The NuGet operations log level. Possible values are [b]{nameof(LogLevel.Debug)}[/], [b]{nameof(LogLevel.Verbose)}[/], [b]{nameof(LogLevel.Information)}[/], [b]{nameof(LogLevel.Minimal)}[/], [b]{nameof(LogLevel.Warning)}[/] and [b]{nameof(LogLevel.Error)}[/]")]
 #if DEBUG
