@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +12,8 @@ using NuGet.Configuration;
 using NuGet.Frameworks;
 using NuGet.Packaging.Core;
 using NuGet.Protocol.Core.Types;
+using NuGet.Versioning;
+using static NuGet.Frameworks.FrameworkConstants.CommonFrameworks;
 
 namespace nugraph;
 
@@ -34,10 +35,12 @@ internal class TemporaryProject : IDisposable
         if (package != null)
         {
             project.Add(new XElement("ItemGroup",
-                new XElement("PackageReference", new XAttribute("Include", package.Id), new XAttribute("Version", package.Version?.ToString() ?? "*" ))));
+                new XElement("PackageReference", new XAttribute("Include", package.Id), new XAttribute("Version", package.Version?.ToString() ?? "*"))));
         }
 
         File = new FileInfo(Path.Combine(_directory.FullName, "project.csproj"));
+        Package = package ?? new PackageIdentity("", new NuGetVersion(0, 0, 0));
+        TargetFramework = targetFramework;
 
         var settings = new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true, Encoding = Utf8NoBom };
         using var xmlWriter = XmlWriter.Create(File.FullName, settings);
@@ -46,28 +49,51 @@ internal class TemporaryProject : IDisposable
 
     public static async Task<TemporaryProject> CreateAsync(PackageIdentity package, NuGetFramework? targetFramework, ILogger logger, CancellationToken cancellationToken)
     {
-        var (identity, appropriateTargetFramework) = await ResolveAsync(package, logger, cancellationToken);
-        return new TemporaryProject(identity, targetFramework ?? appropriateTargetFramework);
+        var (identity, resolvedTargetFramework) = await ResolveAsync(package, targetFramework, logger, cancellationToken);
+        return new TemporaryProject(identity, resolvedTargetFramework);
     }
 
-    private static async Task<(PackageIdentity Identity, NuGetFramework Framework)> ResolveAsync(PackageIdentity package, ILogger logger, CancellationToken cancellationToken)
+    private static async Task<(PackageIdentity Identity, NuGetFramework Framework)> ResolveAsync(PackageIdentity package, NuGetFramework? framework, ILogger logger, CancellationToken cancellationToken)
     {
-       var nugetSettings = Settings.LoadDefaultSettings(null);
-       using var sourceCacheContext = new SourceCacheContext();
-       var packageSources = GetPackageSources(nugetSettings, logger);
-       var packageIdentityResolver = new NuGetPackageResolver(nugetSettings, logger, packageSources, sourceCacheContext);
+        var nugetSettings = Settings.LoadDefaultSettings(null);
+        using var sourceCacheContext = new SourceCacheContext();
+        var packageSources = GetPackageSources(nugetSettings, logger);
+        var packageIdentityResolver = new NuGetPackageResolver(nugetSettings, logger, packageSources, sourceCacheContext);
 
-       var (identity, targetFrameworks) = await packageIdentityResolver.ResolveAsync(package, cancellationToken);
+        var (identity, targetFrameworks) = await packageIdentityResolver.ResolveAsync(package, cancellationToken);
 
-       var compatibleTfm = targetFrameworks.Order(NuGetFrameworkVersionComparer.Instance).FirstOrDefault();
-       if (compatibleTfm != null)
-       {
-           return (identity, compatibleTfm);
-       }
+        if (framework != null)
+        {
+            if (targetFrameworks.All(f => !DefaultCompatibilityProvider.Instance.IsCompatible(framework, f)))
+            {
+                var tfms = string.Join(", ", targetFrameworks.Select(e => e.GetShortFolderName()));
+                logger.LogWarning($"The specified framework ({framework.GetShortFolderName()}) is not compatible with the supported frameworks of {identity} ({tfms})");
+            }
 
-       using var emptyProject = new TemporaryProject(package: null, targetFramework: FrameworkConstants.CommonFrameworks.NetStandard20);
-       var latestTfm = await Dotnet.GetLatestTargetFrameworkAsync(emptyProject.File, cancellationToken);
-       return (identity, latestTfm ?? FrameworkConstants.CommonFrameworks.NetStandard10);
+            return (identity, framework);
+        }
+
+        var supportedTargetFrameworks = await GetSdkSupportedTargetFrameworksAsync(cancellationToken);
+
+        var supportedTargetFramework = targetFrameworks.Intersect(supportedTargetFrameworks).Order(NuGetFrameworkVersionComparer.Instance).FirstOrDefault();
+        if (supportedTargetFramework != null)
+        {
+            return (identity, supportedTargetFramework);
+        }
+
+        var targetFramework = targetFrameworks.Order(NuGetFrameworkVersionComparer.Instance).FirstOrDefault();
+        if (targetFramework != null)
+        {
+            return (identity, targetFramework);
+        }
+
+        return (identity, NetStandard10);
+    }
+
+    private static async Task<IReadOnlyCollection<NuGetFramework>> GetSdkSupportedTargetFrameworksAsync(CancellationToken cancellationToken)
+    {
+        using var emptyProject = new TemporaryProject(package: null, targetFramework: NetStandard20);
+        return await Dotnet.GetSupportedTargetFrameworksAsync(emptyProject.File, cancellationToken);
     }
 
     private static List<PackageSource> GetPackageSources(ISettings settings, ILogger logger)
@@ -86,11 +112,14 @@ internal class TemporaryProject : IDisposable
         return packageSources;
     }
 
-
     public void Dispose()
     {
         _directory.Delete(recursive: true);
     }
 
     public FileInfo File { get; }
+
+    public PackageIdentity Package { get; }
+
+    public NuGetFramework TargetFramework { get; }
 }

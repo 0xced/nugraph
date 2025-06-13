@@ -44,8 +44,8 @@ public class NuGetPackageResolver
                 _logger.LogDebug($"Retrieving supported frameworks for {packageUri}");
                 await using var packageStream = await HttpStream.CreateAsync(packageUri, cancellationToken);
                 using var reader = new PackageArchiveReader(packageStream, leaveStreamOpen: true);
-                var supportedFrameworks = (await reader.GetSupportedFrameworksAsync(cancellationToken)).Where(e => e.IsSpecificFramework).ToList();
-                _logger.LogDebug($"  => {string.Join(", ", supportedFrameworks.Select(e => e.GetShortFolderName()))}");
+                var supportedFrameworks = (await reader.GetSupportedFrameworksAsync(cancellationToken)).Where(e => e.IsSpecificFramework).ToHashSet();
+                _logger.LogDebug($"  => {(supportedFrameworks.Count == 0 ? "∅" : string.Join(", ", supportedFrameworks.Select(e => e.GetShortFolderName())))}");
                 return (packageInfo.Identity, supportedFrameworks);
             }
         }
@@ -80,7 +80,7 @@ public class NuGetPackageResolver
         if (package.HasVersion)
         {
             var versionMatch = packageInfos.FirstOrDefault(e => e.Identity.Version == package.Version);
-            _logger.LogDebug($"  => {package.Id}{(versionMatch != null ? $"/{versionMatch.Identity.Version} found" : " not found")}");
+            _logger.LogDebug($"  => {package.Id}{(versionMatch != null ? $"/{versionMatch.Identity.Version} found" : $"/{package.Version} not found")}");
             return versionMatch;
         }
 

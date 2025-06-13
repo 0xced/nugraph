@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -18,18 +17,18 @@ namespace nugraph;
 /// </summary>
 internal static partial class Dotnet
 {
-    public static async Task<NuGetFramework?> GetLatestTargetFrameworkAsync(FileInfo source, CancellationToken cancellationToken)
+    public static async Task<IReadOnlyCollection<NuGetFramework>> GetSupportedTargetFrameworksAsync(FileInfo source, CancellationToken cancellationToken)
     {
         void ConfigureArgs(ArgumentsBuilder args)
         {
             args.Add(source.FullName);
-            args.Add($"--getItem:{nameof(Item.SupportedNETCoreAppTargetFramework)}");
+            args.Add($"--getItem:{nameof(Item.SupportedTargetFramework)}");
         }
 
         var (_, items) = await RestoreAsync(ConfigureArgs, cancellationToken);
 
         var supportedTargetFrameworks = items.GetSupportedTargetFrameworks();
-        return supportedTargetFrameworks.LastOrDefault();
+        return supportedTargetFrameworks;
     }
 
     public static async Task<ProjectInfo> RestoreAsync(FileSystemInfo? source, CancellationToken cancellationToken)
@@ -119,8 +118,7 @@ internal static partial class Dotnet
         }
     }
 
-    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Must match the MSBuild item name found in the Microsoft.NET.SupportedTargetFrameworks.props file")]
-    private record Item(CopyLocalItem[]? RuntimeCopyLocalItems, CopyLocalItem[]? NativeCopyLocalItems, SupportedTargetFramework[]? SupportedNETCoreAppTargetFramework)
+    private record Item(CopyLocalItem[]? RuntimeCopyLocalItems, CopyLocalItem[]? NativeCopyLocalItems, TargetFrameworkItem[]? SupportedTargetFramework)
     {
         public HashSet<string> GetNuGetPackageIds()
         {
@@ -129,17 +127,17 @@ internal static partial class Dotnet
             return runtimeCopyLocalItems.Concat(nativeCopyLocalItems).Select(e => e.NuGetPackageId).OfType<string>().ToHashSet();
         }
 
-        public List<NuGetFramework> GetSupportedTargetFrameworks()
+        public HashSet<NuGetFramework> GetSupportedTargetFrameworks()
         {
-            var supportedTargetFrameworks = SupportedNETCoreAppTargetFramework ?? throw new Exception($"{nameof(SupportedNETCoreAppTargetFramework)} is missing");
+            var supportedTargetFrameworks = SupportedTargetFramework ?? throw new Exception($"{nameof(SupportedTargetFramework)} is missing");
             return supportedTargetFrameworks
                 .Select(e => e.Identity == null ? null : NuGetFramework.Parse(e.Identity))
                 .OfType<NuGetFramework>()
-                .ToList();
+                .ToHashSet();
         }
     }
 
     private record CopyLocalItem(string? NuGetPackageId);
 
-    private record SupportedTargetFramework(string? Identity);
+    private record TargetFrameworkItem(string? Identity);
 }

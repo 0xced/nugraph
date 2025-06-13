@@ -28,11 +28,11 @@ internal class GraphCommand(IAnsiConsole console, CancellationToken cancellation
     protected override async Task<int> ExecuteAsync(CommandContext commandContext, GraphCommandSettings settings, CancellationToken cancellationToken)
     {
         var source = settings.Source;
-        var graphUrl = await console.Status().StartAsync($"Generating dependency graph for {source}", async _ =>
+        var graphUrl = await console.Status().StartAsync($"Generating dependency graph for {source}", async context =>
         {
             var graph = await source.Match(
                 file => ComputeDependencyGraphAsync(file, settings, cancellationToken),
-                package => ComputeDependencyGraphAsync(package, settings, new SpectreLogger(console, settings.LogLevel), cancellationToken)
+                package => ComputeDependencyGraphAsync(package, settings, new SpectreLogger(console, settings.LogLevel), context, cancellationToken)
             );
             return await WriteGraphAsync(graph, settings);
         });
@@ -61,9 +61,10 @@ internal class GraphCommand(IAnsiConsole console, CancellationToken cancellation
         return new DependencyGraph(packages, roots, ignores: settings.GraphIgnore);
     }
 
-    private static async Task<DependencyGraph> ComputeDependencyGraphAsync(PackageIdentity package, GraphCommandSettings settings, ILogger logger, CancellationToken cancellationToken)
+    private static async Task<DependencyGraph> ComputeDependencyGraphAsync(PackageIdentity package, GraphCommandSettings settings, ILogger logger, StatusContext context, CancellationToken cancellationToken)
     {
         using var project = await TemporaryProject.CreateAsync(package, settings.Framework, logger, cancellationToken);
+        context.Status = $"Generating dependency graph for {project.Package.Id}/{project.Package.Version} on {project.TargetFramework.GetShortFolderName()}";
         return await ComputeDependencyGraphAsync(project.File, settings, cancellationToken);
     }
 
