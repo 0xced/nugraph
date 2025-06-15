@@ -29,11 +29,29 @@
     <NoWarn>$(NoWarn);CA1867</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup>
+  <PropertyGroup Label="Packaging">
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>nugraph</ToolCommandName>
     <RollForward>LatestMajor</RollForward>
   </PropertyGroup>
+
+  <PropertyGroup Label="Packaging Metadata">
+    <Authors>Cédric Luthi</Authors>
+    <Copyright>Copyright © Cédric Luthi</Copyright>
+    <Description>Create dependency graphs of NuGet packages</Description>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>nuget graph mermaid graphviz</PackageTags>
+    <PackageProjectUrl>https://github.com/0xced/nugraph</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/0xced/nugraph/blob/main/CHANGELOG.md</PackageReleaseNotes>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup Label="Packaging Metadata">
+    <None Include="../../resources/icon.png" Pack="true" PackagePath="" Visible="false" />
+    <None Include="../../README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CliWrap" Version="3.9.0" />
