@@ -6,8 +6,10 @@ using NuGet.Versioning;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
+// ReSharper disable AccessToDisposedClosure
+
 var app = new CommandApp<GraphCommand>();
-var cancellationTokenSource = new CancellationTokenSource();
+using var cancellationTokenSource = new CancellationTokenSource();
 
 Console.CancelKeyPress += (_, eventArgs) =>
 {

@@ -14,7 +14,7 @@ using NuGet.Protocol.Core.Types;
 
 namespace nugraph;
 
-public class NuGetPackageResolver
+internal sealed class NuGetPackageResolver
 {
     private readonly ISettings _settings;
     private readonly ILogger _logger;

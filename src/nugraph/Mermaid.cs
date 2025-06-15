@@ -35,6 +35,16 @@ internal static class Mermaid
 #else
         var payload = Base64Url.EncodeToString(memoryStream.AsSpan());
 #endif
-        return new Uri($"https://mermaid.live/{mode.ToString().ToLowerInvariant()}#pako:{payload}");
+        return new Uri($"https://mermaid.live/{GetMermaidEditorMode(mode)}#pako:{payload}");
+    }
+
+    private static string GetMermaidEditorMode(MermaidEditorMode mode)
+    {
+        return mode switch
+        {
+            MermaidEditorMode.Edit => "edit",
+            MermaidEditorMode.View => "view",
+            _ => ""
+        };
     }
 }

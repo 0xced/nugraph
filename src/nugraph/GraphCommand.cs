@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -17,13 +18,15 @@ using Spectre.Console.Cli;
 namespace nugraph;
 
 [GenerateOneOf]
-internal partial class FileOrPackage : OneOfBase<FileSystemInfo?, PackageIdentity>
+internal sealed partial class FileOrPackage : OneOfBase<FileSystemInfo?, PackageIdentity>
 {
     public override string ToString() => Match(file => file?.FullName ?? Environment.CurrentDirectory, package => package.ToString());
 }
 
+[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Instantiated by Spectre.Console.Cli through reflection")]
+[SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Instantiated by Spectre.Console.Cli through reflection")]
 [Description("Generates dependency graphs for .NET projects and NuGet packages.")]
-internal class GraphCommand(IAnsiConsole console, CancellationToken cancellationToken) : CancelableCommand<GraphCommandSettings>(cancellationToken)
+internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cancellationToken) : CancelableCommand<GraphCommandSettings>(cancellationToken)
 {
     protected override async Task<int> ExecuteAsync(CommandContext commandContext, GraphCommandSettings settings, CancellationToken cancellationToken)
     {

@@ -5,7 +5,7 @@ using Spectre.Console;
 
 namespace nugraph;
 
-internal class SpectreLogger(IAnsiConsole console, LogLevel minimumLevel) : LoggerBase
+internal sealed class SpectreLogger(IAnsiConsole console, LogLevel minimumLevel) : LoggerBase
 {
     public override void Log(ILogMessage message)
     {

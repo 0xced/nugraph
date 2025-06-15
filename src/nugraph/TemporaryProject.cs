@@ -17,7 +17,7 @@ using static NuGet.Frameworks.FrameworkConstants.CommonFrameworks;
 
 namespace nugraph;
 
-internal class TemporaryProject : IDisposable
+internal sealed class TemporaryProject : IDisposable
 {
     private static readonly Encoding Utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
 
@@ -25,7 +25,7 @@ internal class TemporaryProject : IDisposable
 
     private TemporaryProject(PackageIdentity? package, NuGetFramework targetFramework)
     {
-        _directory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "nugraph", Path.GetRandomFileName().Replace(".", "")));
+        _directory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "nugraph", Path.GetRandomFileName().Replace(".", "", StringComparison.OrdinalIgnoreCase)));
         _directory.Create();
 
         var project = new XElement("Project", new XAttribute("Sdk", "Microsoft.NET.Sdk"),

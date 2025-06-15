@@ -77,7 +77,7 @@ internal static partial class Dotnet
         if (!commandResult.IsSuccess)
         {
             var message = stderr.Length > 0 ? stderr.ToString() : stdout.ToString();
-            if (message.Contains("MSB1001"))
+            if (message.Contains("MSB1001", StringComparison.OrdinalIgnoreCase))
             {
                 throw new Exception("nugraph requires the .NET 8 SDK. Make sure that it's installed and that the global.json file (if any) is configured to use it.");
             }
@@ -87,16 +87,16 @@ internal static partial class Dotnet
         return jsonPipe.Result ?? throw new Exception($"Running \"{dotnet}\" in \"{dotnet.WorkingDirPath}\" returned a literal 'null' JSON payload");
     }
 
-    public record ProjectInfo(FileInfo ProjectAssetsFile, IReadOnlyCollection<string> TargetFrameworks, IReadOnlyCollection<string> CopyLocalPackages);
+    public sealed record ProjectInfo(FileInfo ProjectAssetsFile, IReadOnlyCollection<string> TargetFrameworks, IReadOnlyCollection<string> CopyLocalPackages);
 
     [JsonSerializable(typeof(Result))]
-    private partial class SourceGenerationContext : JsonSerializerContext;
+    private sealed partial class SourceGenerationContext : JsonSerializerContext;
 
-    private record Result(Property Properties, Item Items);
+    private sealed record Result(Property Properties, Item Items);
 
-    private record Property(string? ProjectAssetsFile, string? TargetFramework, string? TargetFrameworks)
+    private sealed record Property(string? ProjectAssetsFile, string? TargetFramework, string? TargetFrameworks)
     {
-        public IReadOnlyCollection<string> GetTargetFrameworks()
+        public HashSet<string> GetTargetFrameworks()
         {
             var targetFrameworks = TargetFrameworks?.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToHashSet();
             if (targetFrameworks?.Count > 0)
@@ -118,7 +118,7 @@ internal static partial class Dotnet
         }
     }
 
-    private record Item(CopyLocalItem[]? RuntimeCopyLocalItems, CopyLocalItem[]? NativeCopyLocalItems, TargetFrameworkItem[]? SupportedTargetFramework)
+    private sealed record Item(CopyLocalItem[]? RuntimeCopyLocalItems, CopyLocalItem[]? NativeCopyLocalItems, TargetFrameworkItem[]? SupportedTargetFramework)
     {
         public HashSet<string> GetNuGetPackageIds()
         {
@@ -137,7 +137,7 @@ internal static partial class Dotnet
         }
     }
 
-    private record CopyLocalItem(string? NuGetPackageId);
+    private sealed record CopyLocalItem(string? NuGetPackageId);
 
-    private record TargetFrameworkItem(string? Identity);
+    private sealed record TargetFrameworkItem(string? Identity);
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.ExceptionServices;
 using System.Text.Json;
@@ -9,11 +10,12 @@ using CliWrap;
 
 namespace nugraph;
 
-internal class JsonPipeTarget<T>(JsonTypeInfo<T> jsonTypeInfo) : PipeTarget
+internal sealed class JsonPipeTarget<T>(JsonTypeInfo<T> jsonTypeInfo) : PipeTarget
 {
     private T? _result;
     private ExceptionDispatchInfo? _exceptionDispatchInfo;
 
+    [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Rethrown through ExceptionDispatchInfo")]
     public override async Task CopyFromAsync(Stream stream, CancellationToken cancellationToken = default)
     {
         try

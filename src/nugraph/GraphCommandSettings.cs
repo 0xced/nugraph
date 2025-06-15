@@ -14,7 +14,9 @@ namespace nugraph;
 
 [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global", Justification = "Required for Spectre.Console.Cli binding")]
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global", Justification = "Required for Spectre.Console.Cli binding")]
-internal class GraphCommandSettings : CommandSettings
+[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Instantiated by Spectre.Console.Cli through reflection")]
+[SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Instantiated by Spectre.Console.Cli through reflection")]
+internal sealed class GraphCommandSettings : CommandSettings
 {
     [CommandArgument(0, "[SOURCE]")]
     [Description("The source of the graph. Can be either a directory containing a .NET project, a .NET project file (csproj) or the name of a NuGet package, " +
@@ -95,9 +97,9 @@ internal class GraphCommandSettings : CommandSettings
             Source = GetSource();
             return base.Validate();
         }
-        catch (Exception exception)
+        catch (InvalidNuGetVersionException exception)
         {
-            return ValidationResult.Error(exception.Message);
+            return ValidationResult.Error($"Version {exception.Version} for package {exception.PackageName} is not a valid NuGet version.");
         }
     }
 
@@ -132,9 +134,17 @@ internal class GraphCommandSettings : CommandSettings
                 return new PackageIdentity(parts[0], version);
             }
 
-            throw new ArgumentException($"Version {parts[1]} for package {parts[0]} is not a valid NuGet version.", nameof(packageId));
+            throw new InvalidNuGetVersionException(packageName: parts[0], version: parts[1]);
         }
 
         return new PackageIdentity(packageId, version: null);
+    }
+
+    [SuppressMessage("Design", "CA1032:Implement standard exception constructors", Justification = "Not needed")]
+    [SuppressMessage("Design", "CA1064:Exceptions should be public", Justification = "Not needed")]
+    private sealed class InvalidNuGetVersionException(string packageName, string version) : Exception
+    {
+        public string PackageName { get; } = packageName;
+        public string Version { get; } = version;
     }
 }

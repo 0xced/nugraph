@@ -3,7 +3,7 @@ using NuGet.Frameworks;
 
 namespace nugraph;
 
-internal class NuGetFrameworkVersionComparer : IComparer<NuGetFramework>
+internal sealed class NuGetFrameworkVersionComparer : IComparer<NuGetFramework>
 {
     public static NuGetFrameworkVersionComparer Instance { get; } = new();
 
