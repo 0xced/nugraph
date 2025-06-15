@@ -61,6 +61,7 @@
     <PackageReference Include="NuGet.ProjectModel" Version="6.14.0" />
     <PackageReference Include="OneOf" Version="3.0.271" />
     <PackageReference Include="OneOf.SourceGenerator" Version="3.0.271" PrivateAssets="all" />
+    <PackageReference Include="Spectre.Console.Analyzer" Version="1.0.0" PrivateAssets="all" />
     <PackageReference Include="Spectre.Console.Cli" Version="0.50.1-preview.0.11" />
   </ItemGroup>
 

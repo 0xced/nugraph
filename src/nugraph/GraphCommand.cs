@@ -43,7 +43,11 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
         if (graphUrl != null)
         {
             var url = graphUrl.ToString();
-            console.WriteLine(url);
+#pragma warning disable Spectre1000
+            // Using "console.WriteLine(url)" (lowercase c) would insert newlines at the physical console length, making the written URL not copiable nor clickable
+            // At that point the status has terminated so it's fine not using the IAnsiConsole methods
+            Console.WriteLine(url);
+#pragma warning restore Spectre1000
             Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
         else if (settings.OutputFile != null)
