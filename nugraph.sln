@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4371CFB1-11A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nugraph", "src\nugraph\nugraph.csproj", "{848D0747-9760-4867-B48C-92C89CB64BC4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pako", "src\pako\pako.csproj", "{5EFD1FF4-05D9-43DF-8F4C-CD447FDB6E8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +22,13 @@ Global
 		{848D0747-9760-4867-B48C-92C89CB64BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{848D0747-9760-4867-B48C-92C89CB64BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{848D0747-9760-4867-B48C-92C89CB64BC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EFD1FF4-05D9-43DF-8F4C-CD447FDB6E8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EFD1FF4-05D9-43DF-8F4C-CD447FDB6E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EFD1FF4-05D9-43DF-8F4C-CD447FDB6E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EFD1FF4-05D9-43DF-8F4C-CD447FDB6E8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{848D0747-9760-4867-B48C-92C89CB64BC4} = {4371CFB1-11A3-4951-BBB6-077D72024122}
+		{5EFD1FF4-05D9-43DF-8F4C-CD447FDB6E8C} = {4371CFB1-11A3-4951-BBB6-077D72024122}
 	EndGlobalSection
 EndGlobal
