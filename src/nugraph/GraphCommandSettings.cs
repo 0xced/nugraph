@@ -63,7 +63,7 @@ internal sealed class GraphCommandSettings : CommandSettings
     public string[] GraphIgnore { get; init; } = [];
 
     [CommandOption("--no-links")]
-    [Description("Remove clickable links from the the dependency graph.")]
+    [Description("Remove clickable links from the the dependency graph. Can be useful to reduce the size of the graph if you get \"Maximum text size in diagram exceeded\" in Mermaid Live Editor.")]
     [DefaultValue(false)]
     public bool NoLinks { get; set; }
 
