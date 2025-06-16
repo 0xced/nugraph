@@ -54,6 +54,10 @@ internal sealed class GraphCommandSettings : CommandSettings
     [DefaultValue(GraphDirection.LeftToRight)]
     public GraphDirection GraphDirection { get; init; }
 
+    [CommandOption("-t|--title <GRAPH_TITLE>")]
+    [Description("The title of the dependency graph. Defaults to [b]Dependency graph of [i][[SOURCE]][/][/]")]
+    public string? Title { get; set; }
+
     [CommandOption("-v|--include-version")]
     [Description("Include package versions in the dependency graph. E.g. [b]Serilog/3.1.1[/] instead of [b]Serilog[/]")]
     [DefaultValue(false)]
@@ -100,6 +104,12 @@ internal sealed class GraphCommandSettings : CommandSettings
         catch (InvalidNuGetVersionException exception)
         {
             return ValidationResult.Error($"Version {exception.Version} for package {exception.PackageName} is not a valid NuGet version.");
+        }
+
+        if (Source.TryPickT0(out var fileSystemInfo, out _))
+        {
+            var name = fileSystemInfo == null ? Path.GetFileNameWithoutExtension(Environment.CurrentDirectory) : Path.GetFileNameWithoutExtension(fileSystemInfo.Name);
+            Title ??= $"Dependency graph of {name}";
         }
 
         if (EditorInput.StartsWith("mermaid", StringComparison.OrdinalIgnoreCase) || EditorInput.StartsWith("mmd", StringComparison.OrdinalIgnoreCase))

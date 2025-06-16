@@ -71,7 +71,8 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
     private static async Task<DependencyGraph> ComputeDependencyGraphAsync(PackageIdentity package, GraphCommandSettings settings, ILogger logger, StatusContext context, CancellationToken cancellationToken)
     {
         using var project = await TemporaryProject.CreateAsync(package, settings.Framework, logger, cancellationToken);
-        context.Status = $"Generating dependency graph for {project.Package.Id}/{project.Package.Version} on {project.TargetFramework.GetShortFolderName()}";
+        settings.Title ??= $"Dependency graph of {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})";
+        context.Status = $"Generating dependency graph for {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})";
         return await ComputeDependencyGraphAsync(project.File, settings, cancellationToken);
     }
 
@@ -92,6 +93,7 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
             var graphOptions = new GraphOptions
             {
                 Direction = settings.GraphDirection,
+                Title = settings.Title,
                 IncludeLinks = !settings.NoLinks,
                 IncludeVersions = settings.GraphIncludeVersions,
                 WriteIgnoredPackages = settings.GraphWriteIgnoredPackages,
