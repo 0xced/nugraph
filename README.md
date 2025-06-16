@@ -90,4 +90,4 @@ dotnet tool install --global nugraph
 
 ## Usage
 
-In its simplest form, the `nugraph` command creates the dependency graph of the project or solution in the current working directory and opens the resulting graph the default browser, leveraging the [Mermaid Live Editor](https://mermaid.live).
+In its simplest form, the `nugraph` command creates the dependency graph of the project in the current working directory and opens the resulting graph the default browser, leveraging the [Mermaid Live Editor](https://mermaid.live).

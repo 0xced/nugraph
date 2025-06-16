@@ -47,6 +47,8 @@ internal static partial class Dotnet
             args.Add($"--getProperty:{nameof(Property.TargetFrameworks)}");
             args.Add($"--getItem:{nameof(Item.RuntimeCopyLocalItems)}");
             args.Add($"--getItem:{nameof(Item.NativeCopyLocalItems)}");
+            // Workaround to get ProjectAssetsFile, see https://github.com/dotnet/sdk/issues/49426
+            args.Add("--getTargetResult:_LoadRestoreGraphEntryPoints");
         }
 
         var (properties, items) = await RestoreAsync(ConfigureArgs, cancellationToken);
