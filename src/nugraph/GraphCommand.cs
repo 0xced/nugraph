@@ -44,7 +44,7 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
         {
             var url = graphUrl.ToString();
 #pragma warning disable Spectre1000
-            // Using "console.WriteLine(url)" (lowercase c) would insert newlines at the physical console length, making the written URL not copiable nor clickable
+            // Using "console.WriteLine(url)" (lowercase c) would insert newlines at the physical console length, making the written URL neither copyable nor clickable
             // At that point the status has terminated so it's fine not using the IAnsiConsole methods
             Console.WriteLine(url);
 #pragma warning restore Spectre1000
@@ -82,7 +82,12 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
         var stream = (fileStream ?? memoryStream as Stream)!;
         await using (var streamWriter = new StreamWriter(stream, leaveOpen: true))
         {
-            var isMermaid = fileStream == null || Path.GetExtension(fileStream.Name) is ".mmd" or ".mermaid";
+            bool isMermaid;
+            if (fileStream == null)
+                isMermaid = settings.Editor is LiveEditor.Service.MermaidLiveView or LiveEditor.Service.MermaidLiveEdit;
+            else
+                isMermaid = Path.GetExtension(fileStream.Name) is ".mmd" or ".mermaid";
+
             var graphWriter = isMermaid ? GraphWriter.Mermaid(streamWriter) : GraphWriter.Graphviz(streamWriter);
             var graphOptions = new GraphOptions
             {
@@ -94,6 +99,6 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
             graphWriter.Write(graph, graphOptions);
         }
 
-        return memoryStream == null ? null : Mermaid.GetLiveEditorUri(memoryStream.AsSpan(), settings.MermaidEditorMode);
+        return memoryStream == null ? null : LiveEditor.GetUri(memoryStream.AsSpan(), settings.Editor);
     }
 }
