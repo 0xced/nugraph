@@ -79,6 +79,7 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
     private static async Task<Uri?> WriteGraphAsync(DependencyGraph graph, GraphCommandSettings settings)
     {
         await using var fileStream = settings.OutputFile?.OpenWrite();
+        fileStream?.SetLength(0);
         await using var memoryStream = fileStream == null ? new MemoryStream(capacity: 2048) : null;
         var stream = (fileStream ?? memoryStream as Stream)!;
         await using (var streamWriter = new StreamWriter(stream, leaveOpen: true))
