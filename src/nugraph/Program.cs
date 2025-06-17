@@ -20,9 +20,11 @@ Console.CancelKeyPress += (_, eventArgs) =>
 
 app.Configure(config =>
 {
-    // TODO: add some more examples
-    config.AddExample("spectre.console/src/Spectre.Console.Cli/Spectre.Console.Cli.csproj", "-v");
+    config.AddExample("spectre.console/src/Spectre.Console.Cli/Spectre.Console.Cli.csproj", "--include-version");
     config.AddExample("Serilog.Sinks.MSSqlServer", "--ignore", "Microsoft.Data.SqlClient");
+    config.AddExample("Newtonsoft.Json/12.0.3", "--framework", "netstandard1.0");
+    config.AddExample("Azure.Core", "--direction", "TopToBottom", "--output", "Azure.Core.gv");
+    config.AddExample("Polly", "--editor", "dot", "--title", "\"\"");
 #if DEBUG
     config.ValidateExamples();
 #endif
