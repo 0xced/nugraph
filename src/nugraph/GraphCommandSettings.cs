@@ -90,11 +90,6 @@ internal sealed class GraphCommandSettings : CommandSettings
     [DefaultValue(false)]
     public bool GraphWriteIgnoredPackages { get; init; }
 
-    [CommandOption("--parallel", IsHidden = true)]
-    [Description("The maximum degree of parallelism.")]
-    [DefaultValue(16)]
-    public int MaxDegreeOfParallelism { get; init; }
-
     public override ValidationResult Validate()
     {
         try
