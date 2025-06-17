@@ -88,12 +88,7 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
         var stream = (fileStream ?? memoryStream as Stream)!;
         await using (var streamWriter = new StreamWriter(stream, leaveOpen: true))
         {
-            bool isMermaid;
-            if (fileStream == null)
-                isMermaid = settings.Editor is LiveEditor.Service.MermaidLiveView or LiveEditor.Service.MermaidLiveEdit;
-            else
-                isMermaid = Path.GetExtension(fileStream.Name) is ".mmd" or ".mermaid";
-
+            var isMermaid = fileStream != null ? Path.GetExtension(fileStream.Name) is ".mmd" or ".mermaid" : settings.Editor.ToString().StartsWith("Mermaid");
             var graphWriter = isMermaid ? GraphWriter.Mermaid(streamWriter) : GraphWriter.Graphviz(streamWriter);
             var graphOptions = new GraphOptions
             {
