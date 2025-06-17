@@ -1,10 +1,12 @@
+using System;
+using System.Collections.Generic;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Renderers.Roundtrip;
 
 namespace mmd;
 
-internal class MermaidImageExtension : IMarkdownExtension
+internal class MermaidImageExtension(IReadOnlyDictionary<string, Uri> titleMap) : IMarkdownExtension
 {
     public void Setup(MarkdownPipelineBuilder pipeline)
     {
@@ -14,7 +16,7 @@ internal class MermaidImageExtension : IMarkdownExtension
     {
         if (renderer is RoundtripRenderer)
         {
-            renderer.ObjectRenderers.Replace<CodeBlockRenderer>(new MermaidImageCodeBlockRenderer());
+            renderer.ObjectRenderers.Replace<CodeBlockRenderer>(new MermaidImageCodeBlockRenderer(titleMap));
         }
     }
 }

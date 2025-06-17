@@ -1,12 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using Markdig.Renderers.Roundtrip;
 using Markdig.Syntax;
 using nugraph;
 
 namespace mmd;
 
-internal class MermaidImageCodeBlockRenderer : CodeBlockRenderer
+internal partial class MermaidImageCodeBlockRenderer(IReadOnlyDictionary<string, Uri> titleMap) : CodeBlockRenderer
 {
     protected override void Write(RoundtripRenderer renderer, CodeBlock codeBlock)
     {
@@ -16,9 +18,16 @@ internal class MermaidImageCodeBlockRenderer : CodeBlockRenderer
             renderer.Write(codeBlock.TriviaBefore);
 
             var text = fencedCodeBlock.Lines.ToString();
-            var data = Encoding.UTF8.GetBytes(text);
-            var url = GraphService.GetUri(data, OnlineService.MermaidInkSvg);
-            renderer.WriteLine($"![]({url})");
+            var titleMatch = TitleRegex().Match(text);
+            var title = titleMatch.Success ? titleMatch.Groups[1].Value : "";
+            if (!titleMap.TryGetValue(title, out var url))
+            {
+                // Requires [Remove the allowlist for allowed image domains in READMEs](https://github.com/NuGet/NuGetGallery/issues/10198) to be resolved first in order to use mermaid.ink images
+                var data = Encoding.UTF8.GetBytes(text);
+                url = GraphService.GetUri(data, OnlineService.MermaidInkSvg);
+            }
+
+            renderer.WriteLine($"![{title}]({url})");
 
             renderer.Write(codeBlock.TriviaAfter);
             renderer.RenderLinesAfter(codeBlock);
@@ -28,4 +37,7 @@ internal class MermaidImageCodeBlockRenderer : CodeBlockRenderer
             base.Write(renderer, codeBlock);
         }
     }
+
+    [GeneratedRegex(@"^title:\s*(.*)", RegexOptions.Multiline)]
+    private static partial Regex TitleRegex();
 }
