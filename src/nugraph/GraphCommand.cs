@@ -48,7 +48,10 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
             // At that point the status has terminated so it's fine not using the IAnsiConsole methods
             Console.WriteLine(url);
 #pragma warning restore Spectre1000
-            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            if (!settings.NoBrowser)
+            {
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            }
         }
         else if (settings.OutputFile != null)
         {

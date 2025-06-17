@@ -38,8 +38,6 @@ internal sealed class GraphCommandSettings : CommandSettings
     [Description("The target runtime to consider when building the dependency graph.")]
     public string? RuntimeIdentifier { get; init; }
 
-    // TODO: option to disable opening the url in the default web browser in case (thus only printing the URL on stdout)
-
     [CommandOption("-e|--editor <FORMAT>")]
     [Description($"The live editor to use when the [b]--output[/] option is not specified.\n" +
                  $"Use [b]mmd[/] or [b]mermaid[/] for Mermaid Live Editor https://mermaid.live\n" +
@@ -71,6 +69,11 @@ internal sealed class GraphCommandSettings : CommandSettings
     [Description("Remove clickable links from the the dependency graph. Can be useful to reduce the size of the graph if you get \"Maximum text size in diagram exceeded\" in Mermaid Live Editor.")]
     [DefaultValue(false)]
     public bool NoLinks { get; set; }
+
+    [CommandOption("--no-browser")]
+    [Description("Do not open the default browser, only print the graph URL on the console when the [b]--output[/] option is not specified.")]
+    [DefaultValue(false)]
+    public bool NoBrowser { get; set; }
 
     [CommandOption("-l|--log <LEVEL>")]
     [Description($"The NuGet operations log level. Possible values are [b]{nameof(LogLevel.Debug)}[/], [b]{nameof(LogLevel.Verbose)}[/], [b]{nameof(LogLevel.Information)}[/], [b]{nameof(LogLevel.Minimal)}[/], [b]{nameof(LogLevel.Warning)}[/] and [b]{nameof(LogLevel.Error)}[/]")]
