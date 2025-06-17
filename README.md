@@ -3,6 +3,10 @@ nugraph is a [.NET tool](https://learn.microsoft.com/en-us/dotnet/core/tools/glo
 A picture is worth a thousand words, so here's the dependency graph produced by running `nugraph Microsoft.Extensions.Logging.Console`
 
 ```mermaid
+---
+title: Dependency graph of Microsoft.Extensions.Logging.Console 9.0.6 (net8.0)
+---
+
 graph LR
 
 classDef root stroke-width:4px
@@ -27,11 +31,11 @@ Microsoft.Extensions.Logging.Configuration --> Microsoft.Extensions.Logging.Abst
 Microsoft.Extensions.Logging.Configuration --> Microsoft.Extensions.Options
 Microsoft.Extensions.Logging.Configuration --> Microsoft.Extensions.Options.ConfigurationExtensions
 Microsoft.Extensions.Logging.Console{{Microsoft.Extensions.Logging.Console}} --> Microsoft.Extensions.DependencyInjection.Abstractions
-Microsoft.Extensions.Logging.Console{{Microsoft.Extensions.Logging.Console}} --> Microsoft.Extensions.Logging
-Microsoft.Extensions.Logging.Console{{Microsoft.Extensions.Logging.Console}} --> Microsoft.Extensions.Logging.Abstractions
-Microsoft.Extensions.Logging.Console{{Microsoft.Extensions.Logging.Console}} --> Microsoft.Extensions.Logging.Configuration
-Microsoft.Extensions.Logging.Console{{Microsoft.Extensions.Logging.Console}} --> Microsoft.Extensions.Options
-Microsoft.Extensions.Logging.Console{{Microsoft.Extensions.Logging.Console}} --> System.Text.Json
+Microsoft.Extensions.Logging.Console --> Microsoft.Extensions.Logging
+Microsoft.Extensions.Logging.Console --> Microsoft.Extensions.Logging.Abstractions
+Microsoft.Extensions.Logging.Console --> Microsoft.Extensions.Logging.Configuration
+Microsoft.Extensions.Logging.Console --> Microsoft.Extensions.Options
+Microsoft.Extensions.Logging.Console --> System.Text.Json
 Microsoft.Extensions.Options --> Microsoft.Extensions.DependencyInjection.Abstractions
 Microsoft.Extensions.Options --> Microsoft.Extensions.Primitives
 Microsoft.Extensions.Options.ConfigurationExtensions --> Microsoft.Extensions.Configuration.Abstractions
