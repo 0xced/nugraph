@@ -75,7 +75,10 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
     private static async Task<DependencyGraph> ComputeDependencyGraphAsync(PackageIdentity package, GraphCommandSettings settings, ISettings nugetSettings, ILogger logger, StatusContext context, CancellationToken cancellationToken)
     {
         using var project = await TemporaryProject.CreateAsync(package, settings.Framework, nugetSettings, logger, cancellationToken);
-        settings.Title ??= $"Dependency graph of {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})";
+        if (settings.Title == GraphCommandSettings.DefaultTitle)
+        {
+            settings.Title = $"Dependency graph of {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})";
+        }
         context.Status = $"Generating dependency graph for {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})";
         return await ComputeDependencyGraphAsync(project.File, settings, cancellationToken);
     }

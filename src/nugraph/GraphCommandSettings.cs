@@ -18,6 +18,8 @@ namespace nugraph;
 [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Instantiated by Spectre.Console.Cli through reflection")]
 internal sealed class GraphCommandSettings : CommandSettings
 {
+    public const string DefaultTitle = "Dependency graph of [SOURCE]";
+
     [CommandArgument(0, "[SOURCE]")]
     [Description("The source of the graph. Can be either a directory containing a .NET project, a .NET project file (csproj) or the name of a NuGet package, " +
                  "optionally with a specific version, e.g. [b]Newtonsoft.Json/13.0.3[/].")]
@@ -39,7 +41,7 @@ internal sealed class GraphCommandSettings : CommandSettings
     public string? RuntimeIdentifier { get; init; }
 
     [CommandOption("-m|--format <FORMAT>")]
-    [Description($"The online service to use when the [b]--output[/] option is not specified.\n" +
+    [Description($"The format to use when the [b]--output[/] option is not specified.\n" +
                  $"Use [b]mmd[/] or [b]mermaid[/] for Mermaid Live Editor https://mermaid.live\n" +
                  $"Use [b]dot[/], [b]gv[/] or [b]graphviz[/] for Edotor https://edotor.net")]
     [DefaultValue("mermaid")]
@@ -53,8 +55,9 @@ internal sealed class GraphCommandSettings : CommandSettings
     public GraphDirection GraphDirection { get; init; }
 
     [CommandOption("-t|--title <GRAPH_TITLE>")]
-    [Description("The title of the dependency graph. Defaults to [b]Dependency graph of [i][[SOURCE]][/][/]")]
-    public string? Title { get; set; }
+    [Description("The title of the dependency graph.")]
+    [DefaultValue(DefaultTitle)]
+    public string Title { get; set; } = "";
 
     [CommandOption("-v|--include-version")]
     [Description("Include package versions in the dependency graph. E.g. [b]Serilog/3.1.1[/] instead of [b]Serilog[/]")]
@@ -107,7 +110,10 @@ internal sealed class GraphCommandSettings : CommandSettings
         if (Source.TryPickT0(out var fileSystemInfo, out _))
         {
             var name = fileSystemInfo == null ? Path.GetFileNameWithoutExtension(Environment.CurrentDirectory) : Path.GetFileNameWithoutExtension(fileSystemInfo.Name);
-            Title ??= $"Dependency graph of {name}";
+            if (Title == DefaultTitle)
+            {
+                Title = $"Dependency graph of {name}";
+            }
         }
 
         Service = GetOnlineService(Format);
