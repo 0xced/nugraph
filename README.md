@@ -79,8 +79,6 @@ click System.Text.Json "https://www.nuget.org/packages/System.Text.Json/9.0.6" "
 
 ## Installation
 
-⚠️ The `nugraph` tool is not yet published on nuget.org
-
 ```sh
 dotnet tool install --global nugraph
 ```
