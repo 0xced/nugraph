@@ -47,15 +47,14 @@ internal sealed class TemporaryProject : IDisposable
         project.Save(xmlWriter);
     }
 
-    public static async Task<TemporaryProject> CreateAsync(PackageIdentity package, NuGetFramework? targetFramework, ILogger logger, CancellationToken cancellationToken)
+    public static async Task<TemporaryProject> CreateAsync(PackageIdentity package, NuGetFramework? targetFramework, ISettings nugetSettings, ILogger logger, CancellationToken cancellationToken)
     {
-        var (identity, resolvedTargetFramework) = await ResolveAsync(package, targetFramework, logger, cancellationToken);
+        var (identity, resolvedTargetFramework) = await ResolveAsync(package, targetFramework, nugetSettings, logger, cancellationToken);
         return new TemporaryProject(identity, resolvedTargetFramework);
     }
 
-    private static async Task<(PackageIdentity Identity, NuGetFramework Framework)> ResolveAsync(PackageIdentity package, NuGetFramework? framework, ILogger logger, CancellationToken cancellationToken)
+    private static async Task<(PackageIdentity Identity, NuGetFramework Framework)> ResolveAsync(PackageIdentity package, NuGetFramework? framework, ISettings nugetSettings, ILogger logger, CancellationToken cancellationToken)
     {
-        var nugetSettings = Settings.LoadDefaultSettings(null);
         using var sourceCacheContext = new SourceCacheContext();
         var packageSources = GetPackageSources(nugetSettings, logger);
         var packageIdentityResolver = new NuGetPackageResolver(nugetSettings, logger, packageSources, sourceCacheContext);

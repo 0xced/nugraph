@@ -84,7 +84,7 @@ internal sealed class GraphCommandSettings : CommandSettings
 #endif
     public LogLevel LogLevel { get; init; }
 
-    [CommandOption("--nuget-root")]
+    [CommandOption("--nuget-root", IsHidden = true)]
     [Description("The NuGet root directory. Can be used to completely isolate nugraph from default NuGet operations.")]
     public string? NuGetRoot { get; init; }
 

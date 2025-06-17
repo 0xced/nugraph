@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Chisel;
 using NuGet.Common;
+using NuGet.Configuration;
 using NuGet.Frameworks;
 using NuGet.Packaging.Core;
 using NuGet.ProjectModel;
@@ -35,7 +36,7 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
         {
             var graph = await source.Match(
                 file => ComputeDependencyGraphAsync(file, settings, cancellationToken),
-                package => ComputeDependencyGraphAsync(package, settings, new SpectreLogger(console, settings.LogLevel), context, cancellationToken)
+                package => ComputeDependencyGraphAsync(package, settings, Settings.LoadDefaultSettings(settings.NuGetRoot), new SpectreLogger(console, settings.LogLevel), context, cancellationToken)
             );
             return await WriteGraphAsync(graph, settings);
         });
@@ -71,9 +72,9 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
         return new DependencyGraph(packages, roots, ignores: settings.GraphIgnore);
     }
 
-    private static async Task<DependencyGraph> ComputeDependencyGraphAsync(PackageIdentity package, GraphCommandSettings settings, ILogger logger, StatusContext context, CancellationToken cancellationToken)
+    private static async Task<DependencyGraph> ComputeDependencyGraphAsync(PackageIdentity package, GraphCommandSettings settings, ISettings nugetSettings, ILogger logger, StatusContext context, CancellationToken cancellationToken)
     {
-        using var project = await TemporaryProject.CreateAsync(package, settings.Framework, logger, cancellationToken);
+        using var project = await TemporaryProject.CreateAsync(package, settings.Framework, nugetSettings, logger, cancellationToken);
         settings.Title ??= $"Dependency graph of {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})";
         context.Status = $"Generating dependency graph for {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})";
         return await ComputeDependencyGraphAsync(project.File, settings, cancellationToken);
