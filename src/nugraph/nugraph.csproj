@@ -66,15 +66,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Chisel\src\Chisel\DependencyGraph.cs" LinkBase="Chisel" />
-    <Compile Include="..\Chisel\src\Chisel\GraphDirection.cs" LinkBase="Chisel" />
-    <Compile Include="..\Chisel\src\Chisel\GraphOptions.cs" LinkBase="Chisel" />
-    <Compile Include="..\Chisel\src\Chisel\GraphWriter.cs" LinkBase="Chisel" />
-    <Compile Include="..\Chisel\src\Chisel\GraphWriter.Graphviz.cs" LinkBase="Chisel" />
-    <Compile Include="..\Chisel\src\Chisel\GraphWriter.Mermaid.cs" LinkBase="Chisel" />
-    <Compile Include="..\Chisel\src\Chisel\LockFileExtensions.cs" LinkBase="Chisel" />
-    <Compile Include="..\Chisel\src\Chisel\Package.cs" LinkBase="Chisel" />
-    <Compile Include="..\Chisel\src\Chisel\PackageState.cs" LinkBase="Chisel" />
+    <Compile Include="..\Chisel\src\Chisel\*.cs" LinkBase="Chisel" />
+    <Compile Remove="..\Chisel\src\Chisel\Chisel.cs" />
+    <Compile Remove="..\Chisel\src\Chisel\SdkAssemblyResolver.cs" />
   </ItemGroup>
 
 </Project>
