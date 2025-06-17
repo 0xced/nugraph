@@ -26,7 +26,7 @@ internal sealed class GraphCommandSettings : CommandSettings
     public FileOrPackage Source { get; private set; } = (FileSystemInfo?)null;
 
     [CommandOption("-o|--output <OUTPUT>")]
-    [Description("The path to the dependency graph output file. If not specified, the dependency graph URL is written on the standard output and a live editor is opened in the default browser.")]
+    [Description("The path to the dependency graph output file. If not specified, the dependency graph URL is written on the standard output and an online service is opened in the default browser.")]
     public FileInfo? OutputFile { get; init; }
 
     [CommandOption("-f|--framework <FRAMEWORK>")]
@@ -38,14 +38,14 @@ internal sealed class GraphCommandSettings : CommandSettings
     [Description("The target runtime to consider when building the dependency graph.")]
     public string? RuntimeIdentifier { get; init; }
 
-    [CommandOption("-e|--editor <FORMAT>")]
-    [Description($"The live editor to use when the [b]--output[/] option is not specified.\n" +
+    [CommandOption("-m|--format <FORMAT>")]
+    [Description($"The online service to use when the [b]--output[/] option is not specified.\n" +
                  $"Use [b]mmd[/] or [b]mermaid[/] for Mermaid Live Editor https://mermaid.live\n" +
                  $"Use [b]dot[/], [b]gv[/] or [b]graphviz[/] for Edotor https://edotor.net")]
     [DefaultValue("mermaid")]
-    public string EditorInput { get; init; } = "";
+    public string Format { get; init; } = "";
 
-    public LiveEditor.Service Editor { get; private set; }
+    public OnlineService Service { get; private set; }
 
     [CommandOption("-d|--direction <GRAPH_DIRECTION>")]
     [Description($"The direction of the dependency graph. Possible values are [b]{nameof(GraphDirection.LeftToRight)}[/] and [b]{nameof(GraphDirection.TopToBottom)}[/]")]
@@ -110,21 +110,73 @@ internal sealed class GraphCommandSettings : CommandSettings
             Title ??= $"Dependency graph of {name}";
         }
 
-        if (EditorInput.StartsWith("mermaid", StringComparison.OrdinalIgnoreCase) || EditorInput.StartsWith("mmd", StringComparison.OrdinalIgnoreCase))
+        Service = GetOnlineService(Format);
+        if (!Enum.IsDefined(typeof(OnlineService), Service))
         {
-            var editMode = EditorInput.EndsWith("-e", StringComparison.OrdinalIgnoreCase) || EditorInput.EndsWith("-edit", StringComparison.OrdinalIgnoreCase);
-            Editor = editMode ? LiveEditor.Service.MermaidLiveEdit : LiveEditor.Service.MermaidLiveView;
-        }
-        else if (EditorInput.Equals("dot", StringComparison.OrdinalIgnoreCase) || EditorInput.Equals("gv", StringComparison.OrdinalIgnoreCase) || EditorInput.Equals("graphviz", StringComparison.OrdinalIgnoreCase))
-        {
-            Editor = LiveEditor.Service.Edotor;
-        }
-        else
-        {
-            return ValidationResult.Error($"{EditorInput} is not a valid live editor. Valid values are mmd, mermaid, dot, gv and graphviz.");
+            return ValidationResult.Error($"{Format} is not a supported format. Valid values are mmd, mermaid, dot, gv and graphviz.");
         }
 
         return base.Validate();
+    }
+
+    private static OnlineService GetOnlineService(string fmt)
+    {
+        if (fmt.StartsWith("mermaid", StringComparison.OrdinalIgnoreCase) || fmt.StartsWith("mmd", StringComparison.OrdinalIgnoreCase))
+        {
+            if (fmt.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
+            {
+                return fmt.Contains("kroki", StringComparison.OrdinalIgnoreCase) ? OnlineService.MermaidKrokiSvg : OnlineService.MermaidInkSvg;
+            }
+
+            if (fmt.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
+            {
+                return fmt.Contains("kroki", StringComparison.OrdinalIgnoreCase) ? OnlineService.MermaidKrokiPng : OnlineService.MermaidInkPng;
+            }
+
+            if (fmt.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) || fmt.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase))
+            {
+                return OnlineService.MermaidInkJpg;
+            }
+
+            if (fmt.EndsWith(".webp", StringComparison.OrdinalIgnoreCase))
+            {
+                return OnlineService.MermaidInkWebp;
+            }
+
+            if (fmt.EndsWith("-edit", StringComparison.OrdinalIgnoreCase))
+            {
+                return OnlineService.MermaidLiveEdit;
+            }
+
+            return OnlineService.MermaidLiveView;
+        }
+
+        if (fmt.StartsWith("dot", StringComparison.OrdinalIgnoreCase) || fmt.StartsWith("gv", StringComparison.OrdinalIgnoreCase) || fmt.StartsWith("graphviz", StringComparison.OrdinalIgnoreCase))
+        {
+            if (fmt.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
+            {
+                return OnlineService.GraphvizKrokiPng;
+            }
+
+            if (fmt.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
+            {
+                return OnlineService.GraphvizKrokiSvg;
+            }
+
+            if (fmt.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) || fmt.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase))
+            {
+                return OnlineService.GraphvizKrokiJpg;
+            }
+
+            if (fmt.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+            {
+                return OnlineService.GraphvizKrokiPdf;
+            }
+
+            return OnlineService.GraphvizEdotor;
+        }
+
+        return (OnlineService)(-1);
     }
 
     private FileOrPackage GetSource()

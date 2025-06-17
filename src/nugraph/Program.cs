@@ -24,7 +24,7 @@ app.Configure(config =>
     config.AddExample("Serilog.Sinks.MSSqlServer", "--ignore", "Microsoft.Data.SqlClient");
     config.AddExample("Newtonsoft.Json/12.0.3", "--framework", "netstandard1.0");
     config.AddExample("Azure.Core", "--direction", "TopToBottom", "--output", "Azure.Core.gv");
-    config.AddExample("Polly", "--editor", "dot", "--title", "\"\"");
+    config.AddExample("Polly", "--format", "dot", "--title", "\"\"");
 #if DEBUG
     config.ValidateExamples();
 #endif
