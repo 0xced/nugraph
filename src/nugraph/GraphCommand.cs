@@ -64,6 +64,11 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
 
     private static async Task<DependencyGraph> ComputeDependencyGraphAsync(FileSystemInfo? source, GraphCommandSettings settings, CancellationToken cancellationToken)
     {
+        var name = source == null ? Path.GetFileNameWithoutExtension(Environment.CurrentDirectory) : Path.GetFileNameWithoutExtension(source.Name);
+        if (settings.Title == GraphCommandSettings.DefaultTitle)
+        {
+            settings.Title = $"Dependency graph of {name}";
+        }
         var projectInfo = await Dotnet.RestoreAsync(source, cancellationToken);
         var targetFramework = settings.Framework ?? projectInfo.TargetFrameworks.Select(NuGetFramework.Parse).First();
         var lockFile = new LockFileFormat().Read(projectInfo.ProjectAssetsFile.FullName);

@@ -107,15 +107,6 @@ internal sealed class GraphCommandSettings : CommandSettings
             return ValidationResult.Error($"Version {exception.Version} for package {exception.PackageName} is not a valid NuGet version.");
         }
 
-        if (Source.TryPickT0(out var fileSystemInfo, out _))
-        {
-            var name = fileSystemInfo == null ? Path.GetFileNameWithoutExtension(Environment.CurrentDirectory) : Path.GetFileNameWithoutExtension(fileSystemInfo.Name);
-            if (Title == DefaultTitle)
-            {
-                Title = $"Dependency graph of {name}";
-            }
-        }
-
         Service = GetOnlineService(Format);
         if (!Enum.IsDefined(typeof(OnlineService), Service))
         {
