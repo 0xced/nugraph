@@ -15,7 +15,7 @@ namespace nugraph;
 /// <summary>
 /// Runs <c>dotnet</c> commands.
 /// </summary>
-internal static partial class Dotnet
+internal static partial class DotnetCli
 {
     public static async Task<IReadOnlyCollection<NuGetFramework>> GetSupportedTargetFrameworksAsync(FileInfo source, CancellationToken cancellationToken)
     {

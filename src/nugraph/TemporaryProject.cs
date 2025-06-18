@@ -92,7 +92,7 @@ internal sealed class TemporaryProject : IDisposable
     private static async Task<IReadOnlyCollection<NuGetFramework>> GetSdkSupportedTargetFrameworksAsync(CancellationToken cancellationToken)
     {
         using var emptyProject = new TemporaryProject(package: null, targetFramework: NetStandard20);
-        return await Dotnet.GetSupportedTargetFrameworksAsync(emptyProject.File, cancellationToken);
+        return await DotnetCli.GetSupportedTargetFrameworksAsync(emptyProject.File, cancellationToken);
     }
 
     private static List<PackageSource> GetPackageSources(ISettings settings, ILogger logger)
