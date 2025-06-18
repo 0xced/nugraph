@@ -60,7 +60,7 @@ internal sealed class GraphCommandSettings : CommandSettings
     [DefaultValue(DefaultTitle)]
     public string Title { get; set; } = "";
 
-    [CommandOption("-v|--include-version")]
+    [CommandOption("-s|--include-version")]
     [Description("Include package versions in the dependency graph. E.g. [b]Serilog/3.1.1[/] instead of [b]Serilog[/]")]
     [DefaultValue(false)]
     public bool GraphIncludeVersions { get; init; }
