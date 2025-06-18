@@ -88,11 +88,11 @@ internal sealed class GraphCommandSettings : CommandSettings
 #endif
     public LogLevel LogLevel { get; init; }
 
-    [CommandOption("--nuget-root", IsHidden = true)]
+    [CommandOption("--nuget-root <PATH>", IsHidden = true)]
     [Description("The NuGet root directory. Can be used to completely isolate nugraph from default NuGet operations.")]
     public string? NuGetRoot { get; init; }
 
-    [CommandOption("--sdk", IsHidden = true)]
+    [CommandOption("--sdk <PATH>", IsHidden = true)]
     [Description("Path to the .NET SDK directory. E.g. [b]/usr/local/share/dotnet/sdk/8.0.410[/]")]
     public DirectoryInfo? Sdk { get; init; }
 
