@@ -7,7 +7,6 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using CliWrap;
-using CliWrap.Builders;
 
 namespace nugraph;
 
@@ -18,30 +17,6 @@ internal static partial class DotnetCli
 {
     public static async Task<ProjectInfo> RestoreAsync(FileSystemInfo? source, CancellationToken cancellationToken)
     {
-        void ConfigureArgs(ArgumentsBuilder args)
-        {
-            if (source != null)
-            {
-                args.Add(source.FullName);
-            }
-
-            // !!! Requires a recent .NET SDK (see https://github.com/dotnet/msbuild/issues/3911)
-            // arguments.Add("--target:ResolvePackageAssets"); // may enable if the project is an exe in order to get RuntimeCopyLocalItems + NativeCopyLocalItems
-            args.Add($"--getProperty:{nameof(Property.ProjectAssetsFile)}");
-            args.Add($"--getProperty:{nameof(Property.TargetFramework)}");
-            args.Add($"--getProperty:{nameof(Property.TargetFrameworks)}");
-            args.Add($"--getItem:{nameof(Item.RuntimeCopyLocalItems)}");
-            args.Add($"--getItem:{nameof(Item.NativeCopyLocalItems)}");
-            // Workaround to get ProjectAssetsFile, see https://github.com/dotnet/sdk/issues/49426
-            args.Add("--getTargetResult:_LoadRestoreGraphEntryPoints");
-        }
-
-        var (properties, items) = await RestoreAsync(ConfigureArgs, cancellationToken);
-        return new ProjectInfo(properties.GetProjectAssetsFile(), properties.GetTargetFrameworks(), items.GetNuGetPackageIds());
-    }
-
-    private static async Task<Result> RestoreAsync(Action<ArgumentsBuilder> configureArgs, CancellationToken cancellationToken)
-    {
         var stdout = new StringBuilder();
         var stderr = new StringBuilder();
         var jsonPipe = new JsonPipeTarget<Result>(SourceGenerationContext.Default.Result);
@@ -49,7 +24,20 @@ internal static partial class DotnetCli
             .WithArguments(args =>
             {
                 args.Add("restore");
-                configureArgs(args);
+                if (source != null)
+                {
+                    args.Add(source.FullName);
+                }
+
+                // !!! Requires a recent .NET SDK (see https://github.com/dotnet/msbuild/issues/3911)
+                // arguments.Add("--target:ResolvePackageAssets"); // may enable if the project is an exe in order to get RuntimeCopyLocalItems + NativeCopyLocalItems
+                args.Add($"--getProperty:{nameof(Property.ProjectAssetsFile)}");
+                args.Add($"--getProperty:{nameof(Property.TargetFramework)}");
+                args.Add($"--getProperty:{nameof(Property.TargetFrameworks)}");
+                args.Add($"--getItem:{nameof(Item.RuntimeCopyLocalItems)}");
+                args.Add($"--getItem:{nameof(Item.NativeCopyLocalItems)}");
+                // Workaround to get ProjectAssetsFile, see https://github.com/dotnet/sdk/issues/49426
+                args.Add("--getTargetResult:_LoadRestoreGraphEntryPoints");
             })
             .WithEnvironmentVariables(env => env
                 .Set("DOTNET_NOLOGO", "1")
@@ -71,7 +59,9 @@ internal static partial class DotnetCli
             throw new Exception($"Running \"{dotnet}\" in \"{dotnet.WorkingDirPath}\" failed with exit code {commandResult.ExitCode}.{Environment.NewLine}{message}");
         }
 
-        return jsonPipe.Result ?? throw new Exception($"Running \"{dotnet}\" in \"{dotnet.WorkingDirPath}\" returned a literal 'null' JSON payload");
+        var (properties, items) =  jsonPipe.Result ?? throw new Exception($"Running \"{dotnet}\" in \"{dotnet.WorkingDirPath}\" returned a literal 'null' JSON payload");
+
+        return new ProjectInfo(properties.GetProjectAssetsFile(), properties.GetTargetFrameworks(), items.GetNuGetPackageIds());
     }
 
     public sealed record ProjectInfo(FileInfo ProjectAssetsFile, IReadOnlyCollection<string> TargetFrameworks, IReadOnlyCollection<string> CopyLocalPackages);
