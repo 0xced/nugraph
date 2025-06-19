@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Builders;
-using NuGet.Frameworks;
 
 namespace nugraph;
 
@@ -17,20 +16,6 @@ namespace nugraph;
 /// </summary>
 internal static partial class DotnetCli
 {
-    public static async Task<IReadOnlyCollection<NuGetFramework>> GetSupportedTargetFrameworksAsync(FileInfo source, CancellationToken cancellationToken)
-    {
-        void ConfigureArgs(ArgumentsBuilder args)
-        {
-            args.Add(source.FullName);
-            args.Add($"--getItem:{nameof(Item.SupportedTargetFramework)}");
-        }
-
-        var (_, items) = await RestoreAsync(ConfigureArgs, cancellationToken);
-
-        var supportedTargetFrameworks = items.GetSupportedTargetFrameworks();
-        return supportedTargetFrameworks;
-    }
-
     public static async Task<ProjectInfo> RestoreAsync(FileSystemInfo? source, CancellationToken cancellationToken)
     {
         void ConfigureArgs(ArgumentsBuilder args)
@@ -120,7 +105,7 @@ internal static partial class DotnetCli
         }
     }
 
-    private sealed record Item(CopyLocalItem[]? RuntimeCopyLocalItems, CopyLocalItem[]? NativeCopyLocalItems, TargetFrameworkItem[]? SupportedTargetFramework)
+    private sealed record Item(CopyLocalItem[]? RuntimeCopyLocalItems, CopyLocalItem[]? NativeCopyLocalItems)
     {
         public HashSet<string> GetNuGetPackageIds()
         {
@@ -128,18 +113,7 @@ internal static partial class DotnetCli
             var nativeCopyLocalItems = NativeCopyLocalItems ?? throw new Exception($"{nameof(NativeCopyLocalItems)} is missing");
             return runtimeCopyLocalItems.Concat(nativeCopyLocalItems).Select(e => e.NuGetPackageId).OfType<string>().ToHashSet();
         }
-
-        public HashSet<NuGetFramework> GetSupportedTargetFrameworks()
-        {
-            var supportedTargetFrameworks = SupportedTargetFramework ?? throw new Exception($"{nameof(SupportedTargetFramework)} is missing");
-            return supportedTargetFrameworks
-                .Select(e => e.Identity == null ? null : NuGetFramework.Parse(e.Identity))
-                .OfType<NuGetFramework>()
-                .ToHashSet();
-        }
     }
 
     private sealed record CopyLocalItem(string? NuGetPackageId);
-
-    private sealed record TargetFrameworkItem(string? Identity);
 }

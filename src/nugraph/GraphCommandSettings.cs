@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Chisel;
+using Microsoft.Build.Locator;
 using NuGet.Common;
 using NuGet.Frameworks;
 using NuGet.Packaging.Core;
@@ -91,6 +92,10 @@ internal sealed class GraphCommandSettings : CommandSettings
     [Description("The NuGet root directory. Can be used to completely isolate nugraph from default NuGet operations.")]
     public string? NuGetRoot { get; init; }
 
+    [CommandOption("--sdk", IsHidden = true)]
+    [Description("Path to the .NET SDK directory. E.g. [b]/usr/local/share/dotnet/sdk/8.0.410[/]")]
+    public DirectoryInfo? Sdk { get; init; }
+
     [CommandOption("--include-ignored-packages", IsHidden = true)]
     [Description("Include ignored packages in the dependency graph. Used for debugging.")]
     [DefaultValue(false)]
@@ -111,6 +116,19 @@ internal sealed class GraphCommandSettings : CommandSettings
         if (!Enum.IsDefined(typeof(OnlineService), Service))
         {
             return ValidationResult.Error($"{Format} is not a supported format. Valid values are mmd, mermaid, dot, gv and graphviz.");
+        }
+
+        // Required for Microsoft.Build.* classes to work properly.
+        if (Sdk != null)
+        {
+            if (Sdk.Exists)
+                MSBuildLocator.RegisterMSBuildPath(Sdk.FullName);
+            else
+                return ValidationResult.Error($"The SDK directory ({Sdk}) must exist.");
+        }
+        else
+        {
+            MSBuildLocator.RegisterDefaults();
         }
 
         return base.Validate();

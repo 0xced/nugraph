@@ -12,7 +12,6 @@ using NuGet.Configuration;
 using NuGet.Frameworks;
 using NuGet.Packaging.Core;
 using NuGet.Protocol.Core.Types;
-using NuGet.Versioning;
 using static NuGet.Frameworks.FrameworkConstants.CommonFrameworks;
 
 namespace nugraph;
@@ -23,23 +22,19 @@ internal sealed class TemporaryProject : IDisposable
 
     private readonly DirectoryInfo _directory;
 
-    private TemporaryProject(PackageIdentity? package, NuGetFramework targetFramework)
+    private TemporaryProject(PackageIdentity package, NuGetFramework targetFramework)
     {
         _directory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "nugraph", Path.GetRandomFileName().Replace(".", "", StringComparison.OrdinalIgnoreCase)));
         _directory.Create();
 
         var project = new XElement("Project", new XAttribute("Sdk", "Microsoft.NET.Sdk"),
             new XElement("PropertyGroup",
-                new XElement("TargetFramework", targetFramework.GetShortFolderName())));
-
-        if (package != null)
-        {
-            project.Add(new XElement("ItemGroup",
+                new XElement("TargetFramework", targetFramework.GetShortFolderName())),
+            new XElement("ItemGroup",
                 new XElement("PackageReference", new XAttribute("Include", package.Id), new XAttribute("Version", package.Version?.ToString() ?? "*"))));
-        }
 
         File = new FileInfo(Path.Combine(_directory.FullName, "project.csproj"));
-        Package = package ?? new PackageIdentity("", new NuGetVersion(0, 0, 0));
+        Package = package;
         TargetFramework = targetFramework;
 
         var settings = new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true, Encoding = Utf8NoBom };
@@ -72,7 +67,7 @@ internal sealed class TemporaryProject : IDisposable
             return (identity, framework);
         }
 
-        var supportedTargetFrameworks = await GetSdkSupportedTargetFrameworksAsync(cancellationToken);
+        var supportedTargetFrameworks = await DotnetSdk.GetSupportedTargetFrameworksAsync(cancellationToken);
 
         var supportedTargetFramework = targetFrameworks.Intersect(supportedTargetFrameworks).Order(NuGetFrameworkVersionComparer.Instance).FirstOrDefault();
         if (supportedTargetFramework != null)
@@ -87,12 +82,6 @@ internal sealed class TemporaryProject : IDisposable
         }
 
         return (identity, NetStandard10);
-    }
-
-    private static async Task<IReadOnlyCollection<NuGetFramework>> GetSdkSupportedTargetFrameworksAsync(CancellationToken cancellationToken)
-    {
-        using var emptyProject = new TemporaryProject(package: null, targetFramework: NetStandard20);
-        return await DotnetCli.GetSupportedTargetFrameworksAsync(emptyProject.File, cancellationToken);
     }
 
     private static List<PackageSource> GetPackageSources(ISettings settings, ILogger logger)
