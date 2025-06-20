@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
     <Description>Converts mermaid code blocks to images in markdown files for nuget.org README compatibility. Required as long as https://github.com/NuGet/NuGetGallery/issues/8942 is open.</Description>
   </PropertyGroup>
 
@@ -17,14 +18,5 @@
     <Compile Include="..\..\src\nugraph\GraphService.cs" LinkBase="nugraph" />
     <Compile Include="..\..\src\nugraph\MemoryStreamExtensions.cs" LinkBase="nugraph" />
   </ItemGroup>
-
-  <Target Name="AddMinVerVersionAssemblyMetadata" AfterTargets="MinVer">
-    <ItemGroup>
-      <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
-        <_Parameter1>MinVerVersion</_Parameter1>
-        <_Parameter2>$(MinVerVersion)</_Parameter2>
-      </AssemblyAttribute>
-    </ItemGroup>
-  </Target>
 
 </Project>

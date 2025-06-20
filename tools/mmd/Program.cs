@@ -1,26 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using Markdig;
 using Markdig.Renderers.Roundtrip;
 using mmd;
 
-if (args.Length < 1)
+if (args.Length < 2)
 {
-    Console.Error.WriteLine($"Usage: {Path.GetFileName(Environment.GetCommandLineArgs()[0])} <markdown_input> [markdown_output]");
+    Console.Error.WriteLine($"Usage: {Path.GetFileName(Environment.GetCommandLineArgs()[0])} <markdown_input> <git_ref> [markdown_output]");
     return 64;
 }
 
 try
 {
     var input = Path.GetFullPath(args[0]);
-    var output = args.Length > 1 ? Path.GetFullPath(args[1]) : null;
+    var gitRef = args[1];
+    var output = args.Length > 2 ? Path.GetFullPath(args[2]) : null;
     var markdown = File.ReadAllText(input);
 
-    var version = typeof(Program).Assembly.GetCustomAttributes<AssemblyMetadataAttribute>().Single(e => e.Key == "MinVerVersion").Value;
-    var baseUri = new Uri($"https://raw.githubusercontent.com/0xced/nugraph/refs/tags/{version}/");
+    var baseUri = new Uri($"https://raw.githubusercontent.com/0xced/nugraph/{gitRef}/");
 
     using var writer = output != null ? new StreamWriter(new FileStream(output, FileMode.Create, FileAccess.Write)) : Console.Out;
     var renderer = new RoundtripRenderer(writer);
