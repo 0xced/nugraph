@@ -57,9 +57,11 @@
     <NoWarn>$(NoWarn);CA2007</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Label="Will eventually be fixed with proper exceptions">
-    <!-- CA2201 : Exception type System.Exception is not sufficiently specific -->
-    <NoWarn>$(NoWarn);CA2201</NoWarn>
+  <PropertyGroup Label="Exceptions rules that don't matter since they are only consumed internally">
+    <!-- CA1064 : Exceptions should be public -->
+    <NoWarn>$(NoWarn);CA1064</NoWarn>
+    <!-- CA1032 : Implement standard exception constructors -->
+    <NoWarn>$(NoWarn);CA1032</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Label="From Chisel source code which targets .NET Standard 2.0">

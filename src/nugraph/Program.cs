@@ -5,6 +5,7 @@ using System.Threading;
 using NuGet.Versioning;
 using Spectre.Console;
 using Spectre.Console.Cli;
+using Spectre.Console.Rendering;
 
 // ReSharper disable AccessToDisposedClosure
 
@@ -39,8 +40,8 @@ app.Configure(config =>
         {
             case OperationCanceledException when cancellationTokenSource.IsCancellationRequested:
                 return 130; // https://github.com/spectreconsole/spectre.console/issues/701#issuecomment-2342979700
-            case CommandAppException { Pretty: not null } commandAppException:
-                RedirectionFriendlyConsole.Error.Write(commandAppException.Pretty);
+            case Exception when ExceptionPrettifier.GetRenderable(exception) is IRenderable error:
+                RedirectionFriendlyConsole.Error.Write(error);
                 break;
             case CommandAppException commandAppException:
                 RedirectionFriendlyConsole.Error.WriteLine(commandAppException.Message, Color.Red);

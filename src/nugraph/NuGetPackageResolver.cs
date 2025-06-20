@@ -50,12 +50,7 @@ internal sealed class NuGetPackageResolver
             }
         }
 
-        if (packageSources.Count == 1)
-        {
-            throw new Exception($"Package {package} was not found in {packageSources[0]}");
-        }
-
-        throw new Exception($"Package {package} was not found. The following sources were searched {string.Join(", ", packageSources.Select(e => e.ToString()))}");
+        throw new PackageNotFoundException(package, packageSources);
     }
 
     private IList<PackageSource> GetPackageSources(PackageIdentity package)

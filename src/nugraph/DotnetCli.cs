@@ -54,12 +54,12 @@ internal static partial class DotnetCli
 
         if (!commandResult.IsSuccess)
         {
-            var message = stderr.Length > 0 ? stderr.ToString() : stdout.ToString();
-            if (message.Contains("MSB1001", StringComparison.OrdinalIgnoreCase))
+            var output = stderr.Length > 0 ? stderr.ToString() : stdout.ToString();
+            if (output.Contains("MSB1001", StringComparison.OrdinalIgnoreCase))
             {
-                throw new Exception("nugraph requires the .NET 8 SDK. Make sure that it's installed and that the global.json file (if any) is configured to use it.");
+                throw new RestoreException(exitCode: commandResult.ExitCode, error: "nugraph requires at least the .NET 8 SDK", recoverySuggestion: "Download the latest .NET SDK on https://get.dot.net");
             }
-            throw new Exception($"Running \"{dotnet}\" in \"{dotnet.WorkingDirPath}\" failed with exit code {commandResult.ExitCode}.{Environment.NewLine}{message}");
+            throw new RestoreException(exitCode: commandResult.ExitCode, workingDirectory: dotnet.WorkingDirPath, command: dotnet.ToString(), output: output);
         }
 
         var (properties, items) =  jsonPipe.Result ?? throw new InvalidDataException("Missing JSON payload");

@@ -221,8 +221,6 @@ internal sealed class GraphCommandSettings : CommandSettings
         return new PackageIdentity(packageId, version: null);
     }
 
-    [SuppressMessage("Design", "CA1032:Implement standard exception constructors", Justification = "Not needed")]
-    [SuppressMessage("Design", "CA1064:Exceptions should be public", Justification = "Not needed")]
     private sealed class InvalidNuGetVersionException(string packageName, string version) : Exception
     {
         public string PackageName { get; } = packageName;
