@@ -32,12 +32,16 @@ internal static partial class DotnetCli
                 args.Add(source.FullName);
 
                 // !!! Requires a recent .NET SDK (see https://github.com/dotnet/msbuild/issues/3911)
-                // arguments.Add("--target:ResolvePackageAssets"); // may enable if the project is an exe in order to get RuntimeCopyLocalItems + NativeCopyLocalItems
                 args.Add($"--getProperty:{nameof(Property.ProjectAssetsFile)}");
                 args.Add($"--getProperty:{nameof(Property.TargetFramework)}");
                 args.Add($"--getProperty:{nameof(Property.TargetFrameworks)}");
+#if false
+                // ResolvePackageAssets only works for non library projects.
+                // RuntimeCopyLocalItems + NativeCopyLocalItems can then be used to reduce the dependency graph to packages that have assets which are copied, thus ignoring development dependencies (packages with PrivateAssets="all")
+                args.Add("--target:ResolvePackageAssets");
                 args.Add($"--getItem:{nameof(Item.RuntimeCopyLocalItems)}");
                 args.Add($"--getItem:{nameof(Item.NativeCopyLocalItems)}");
+#endif
                 // Workaround to get ProjectAssetsFile, see https://github.com/dotnet/sdk/issues/49426
                 args.Add("--getTargetResult:_LoadRestoreGraphEntryPoints");
             })
@@ -62,7 +66,7 @@ internal static partial class DotnetCli
             throw new RestoreException(exitCode: commandResult.ExitCode, workingDirectory: dotnet.WorkingDirPath, command: dotnet.ToString(), output: output);
         }
 
-        var (properties, items) =  jsonPipe.Result ?? throw new InvalidDataException("Missing JSON payload");
+        var (properties, items) = jsonPipe.Result ?? throw new InvalidDataException("Missing JSON payload");
 
         if (string.IsNullOrEmpty(properties.ProjectAssetsFile) && allowRetry)
         {
@@ -70,7 +74,7 @@ internal static partial class DotnetCli
             return await RestoreAsync(source, allowRetry: false, cancellationToken);
         }
 
-        return new ProjectInfo(properties.GetProjectAssetsFile(), properties.GetTargetFrameworks(), items.GetNuGetPackageIds());
+        return new ProjectInfo(properties.GetProjectAssetsFile(), properties.GetTargetFrameworks(), items?.GetNuGetPackageIds() ?? []);
     }
 
     public sealed record ProjectInfo(FileInfo ProjectAssetsFile, IReadOnlyCollection<string> TargetFrameworks, IReadOnlyCollection<string> CopyLocalPackages);
@@ -78,7 +82,7 @@ internal static partial class DotnetCli
     [JsonSerializable(typeof(Result))]
     private sealed partial class SourceGenerationContext : JsonSerializerContext;
 
-    private sealed record Result(Property Properties, Item Items);
+    private sealed record Result(Property Properties, Item? Items);
 
     private sealed record Property(string? ProjectAssetsFile, string? TargetFramework, string? TargetFrameworks)
     {
