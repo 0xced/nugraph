@@ -59,7 +59,7 @@ internal sealed class TemporaryProject : IDisposable
 
         if (framework != null)
         {
-            if (targetFrameworks.All(f => !DefaultCompatibilityProvider.Instance.IsCompatible(framework, f)))
+            if (targetFrameworks.Count > 0 && targetFrameworks.All(f => !DefaultCompatibilityProvider.Instance.IsCompatible(framework, f)))
             {
                 var tfms = string.Join(", ", targetFrameworks.Select(e => e.GetShortFolderName()));
                 logger.LogWarning($"The specified framework ({framework.GetShortFolderName()}) is not compatible with the supported frameworks of {identity} ({tfms})");
