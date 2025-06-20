@@ -17,6 +17,11 @@ internal static partial class DotnetCli
 {
     public static async Task<ProjectInfo> RestoreAsync(FileSystemInfo source, CancellationToken cancellationToken)
     {
+        return await RestoreAsync(source, allowRetry: true, cancellationToken);
+    }
+
+    private static async Task<ProjectInfo> RestoreAsync(FileSystemInfo source, bool allowRetry, CancellationToken cancellationToken)
+    {
         var stdout = new StringBuilder();
         var stderr = new StringBuilder();
         var jsonPipe = new JsonPipeTarget<Result>(SourceGenerationContext.Default.Result);
@@ -58,6 +63,12 @@ internal static partial class DotnetCli
         }
 
         var (properties, items) =  jsonPipe.Result ?? throw new Exception($"Running \"{dotnet}\" in \"{dotnet.WorkingDirPath}\" returned a literal 'null' JSON payload");
+
+        if (string.IsNullOrEmpty(properties.ProjectAssetsFile) && allowRetry)
+        {
+            // If the project was never restored, ProjectAssetsFile may return an empty string. Trying a second time should work.
+            return await RestoreAsync(source, allowRetry: false, cancellationToken);
+        }
 
         return new ProjectInfo(properties.GetProjectAssetsFile(), properties.GetTargetFrameworks(), items.GetNuGetPackageIds());
     }
