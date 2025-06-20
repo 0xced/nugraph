@@ -5,7 +5,6 @@ using System.Threading;
 using NuGet.Versioning;
 using Spectre.Console;
 using Spectre.Console.Cli;
-using Spectre.Console.Rendering;
 
 // ReSharper disable AccessToDisposedClosure
 
@@ -40,14 +39,17 @@ app.Configure(config =>
         {
             case OperationCanceledException when cancellationTokenSource.IsCancellationRequested:
                 return 130; // https://github.com/spectreconsole/spectre.console/issues/701#issuecomment-2342979700
-            case Exception when ExceptionPrettifier.GetRenderable(exception) is IRenderable error:
+            case Exception when ExceptionPrettifier.GetRenderable(exception) is {} error:
                 RedirectionFriendlyConsole.Error.Write(error);
                 break;
             case CommandAppException commandAppException:
                 RedirectionFriendlyConsole.Error.WriteLine(commandAppException.Message, Color.Red);
                 break;
             default:
-                RedirectionFriendlyConsole.Error.WriteException(exception, ExceptionFormats.ShortenPaths | ExceptionFormats.ShortenTypes);
+                RedirectionFriendlyConsole.Error.WriteLine("An unexpected error has occurred.", new Style(Color.Red, decoration: Decoration.Bold));
+                RedirectionFriendlyConsole.Error.WriteLine("Please file a bug report on https://github.com/0xced/nugraph/issues/new and include the stack trace below along with instructions to reproduce this issue.");
+                RedirectionFriendlyConsole.Error.Write(new Rule());
+                RedirectionFriendlyConsole.Error.WriteException(exception, ExceptionFormats.ShortenTypes);
                 break;
         }
 
