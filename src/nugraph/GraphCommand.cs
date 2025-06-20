@@ -32,7 +32,7 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
     protected override async Task<int> ExecuteAsync(CommandContext commandContext, GraphCommandSettings settings, CancellationToken cancellationToken)
     {
         var source = settings.Source;
-        var graphUrl = await console.Status().StartAsync($"Generating dependency graph for {source}", async context =>
+        var graphUrl = await console.Status().StartAsync($"Generating dependency graph for {source}".EscapeMarkup(), async context =>
         {
             var graph = await source.Match(
                 file => ComputeDependencyGraphAsync(file, settings, cancellationToken),
@@ -84,7 +84,7 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
         {
             settings.Title = $"Dependency graph of {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})";
         }
-        context.Status = $"Generating dependency graph for {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})";
+        context.Status = $"Generating dependency graph for {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})".EscapeMarkup();
         return await ComputeDependencyGraphAsync(project.File, settings, cancellationToken);
     }
 
