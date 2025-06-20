@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Microsoft.Build.Locator;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -42,13 +43,13 @@ internal sealed class TemporaryProject : IDisposable
         project.Save(xmlWriter);
     }
 
-    public static async Task<TemporaryProject> CreateAsync(PackageIdentity package, NuGetFramework? targetFramework, ISettings nugetSettings, ILogger logger, CancellationToken cancellationToken)
+    public static async Task<TemporaryProject> CreateAsync(PackageIdentity package, NuGetFramework? targetFramework, DirectoryInfo? sdk, ISettings nugetSettings, ILogger logger, CancellationToken cancellationToken)
     {
-        var (identity, resolvedTargetFramework) = await ResolveAsync(package, targetFramework, nugetSettings, logger, cancellationToken);
+        var (identity, resolvedTargetFramework) = await ResolveAsync(package, targetFramework, sdk, nugetSettings, logger, cancellationToken);
         return new TemporaryProject(identity, resolvedTargetFramework);
     }
 
-    private static async Task<(PackageIdentity Identity, NuGetFramework Framework)> ResolveAsync(PackageIdentity package, NuGetFramework? framework, ISettings nugetSettings, ILogger logger, CancellationToken cancellationToken)
+    private static async Task<(PackageIdentity Identity, NuGetFramework Framework)> ResolveAsync(PackageIdentity package, NuGetFramework? framework, DirectoryInfo? sdk, ISettings nugetSettings, ILogger logger, CancellationToken cancellationToken)
     {
         using var sourceCacheContext = new SourceCacheContext();
         var packageSources = GetPackageSources(nugetSettings, logger);
@@ -65,6 +66,16 @@ internal sealed class TemporaryProject : IDisposable
             }
 
             return (identity, framework);
+        }
+
+        // Required for Microsoft.Build.* classes to work properly.
+        if (sdk != null)
+        {
+            MSBuildLocator.RegisterMSBuildPath(sdk.FullName);
+        }
+        else
+        {
+            MSBuildLocator.RegisterDefaults();
         }
 
         var supportedTargetFrameworks = await DotnetSdk.GetSupportedTargetFrameworksAsync(cancellationToken);

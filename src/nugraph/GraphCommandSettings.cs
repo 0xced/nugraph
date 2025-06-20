@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Chisel;
-using Microsoft.Build.Locator;
 using NuGet.Common;
 using NuGet.Frameworks;
 using NuGet.Packaging.Core;
@@ -26,7 +25,7 @@ internal sealed class GraphCommandSettings : CommandSettings
                  "optionally with a specific version, e.g. [b]Newtonsoft.Json/13.0.3[/].")]
     public string? SourceInput { get; init; }
 
-    public FileOrPackage Source { get; private set; } = (FileSystemInfo?)null;
+    public FileOrPackage Source { get; private set; } = new PackageIdentity("", new NuGetVersion(0, 0, 0));
 
     [CommandOption("-o|--output <OUTPUT>")]
     [Description("The path to the dependency graph output file. If not specified, the dependency graph URL is written on the standard output and an online service is opened in the default browser.")]
@@ -118,17 +117,9 @@ internal sealed class GraphCommandSettings : CommandSettings
             return ValidationResult.Error($"{Format} is not a supported format. Valid values are mmd, mermaid, dot, gv and graphviz.");
         }
 
-        // Required for Microsoft.Build.* classes to work properly.
-        if (Sdk != null)
+        if (Sdk is { Exists: false })
         {
-            if (Sdk.Exists)
-                MSBuildLocator.RegisterMSBuildPath(Sdk.FullName);
-            else
-                return ValidationResult.Error($"The SDK directory ({Sdk}) must exist.");
-        }
-        else
-        {
-            MSBuildLocator.RegisterDefaults();
+            return ValidationResult.Error($"The SDK directory ({Sdk}) must exist.");
         }
 
         return base.Validate();
@@ -197,7 +188,7 @@ internal sealed class GraphCommandSettings : CommandSettings
     private FileOrPackage GetSource()
     {
         if (SourceInput == null)
-            return (FileSystemInfo?)null;
+            return new DirectoryInfo(Environment.CurrentDirectory);
 
         var file = new FileInfo(SourceInput);
         if (file.Exists)

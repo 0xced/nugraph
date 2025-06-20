@@ -19,9 +19,9 @@ using Spectre.Console.Cli;
 namespace nugraph;
 
 [GenerateOneOf]
-internal sealed partial class FileOrPackage : OneOfBase<FileSystemInfo?, PackageIdentity>
+internal sealed partial class FileOrPackage : OneOfBase<FileSystemInfo, PackageIdentity>
 {
-    public override string ToString() => Match(file => file?.FullName ?? Environment.CurrentDirectory, package => package.ToString());
+    public override string ToString() => Match(file => file.FullName, package => package.ToString());
 }
 
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Instantiated by Spectre.Console.Cli through reflection")]
@@ -62,9 +62,9 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
         return 0;
     }
 
-    private static async Task<DependencyGraph> ComputeDependencyGraphAsync(FileSystemInfo? source, GraphCommandSettings settings, CancellationToken cancellationToken)
+    private static async Task<DependencyGraph> ComputeDependencyGraphAsync(FileSystemInfo source, GraphCommandSettings settings, CancellationToken cancellationToken)
     {
-        var name = source == null ? Path.GetFileNameWithoutExtension(Environment.CurrentDirectory) : Path.GetFileNameWithoutExtension(source.Name);
+        var name = Path.GetFileNameWithoutExtension(source.Name);
         if (settings.Title == GraphCommandSettings.DefaultTitle)
         {
             settings.Title = $"Dependency graph of {name}";
@@ -79,7 +79,7 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
 
     private static async Task<DependencyGraph> ComputeDependencyGraphAsync(PackageIdentity package, GraphCommandSettings settings, ISettings nugetSettings, ILogger logger, StatusContext context, CancellationToken cancellationToken)
     {
-        using var project = await TemporaryProject.CreateAsync(package, settings.Framework, nugetSettings, logger, cancellationToken);
+        using var project = await TemporaryProject.CreateAsync(package, settings.Framework, settings.Sdk, nugetSettings, logger, cancellationToken);
         if (settings.Title == GraphCommandSettings.DefaultTitle)
         {
             settings.Title = $"Dependency graph of {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})";

@@ -15,7 +15,7 @@ namespace nugraph;
 /// </summary>
 internal static partial class DotnetCli
 {
-    public static async Task<ProjectInfo> RestoreAsync(FileSystemInfo? source, CancellationToken cancellationToken)
+    public static async Task<ProjectInfo> RestoreAsync(FileSystemInfo source, CancellationToken cancellationToken)
     {
         var stdout = new StringBuilder();
         var stderr = new StringBuilder();
@@ -24,10 +24,7 @@ internal static partial class DotnetCli
             .WithArguments(args =>
             {
                 args.Add("restore");
-                if (source != null)
-                {
-                    args.Add(source.FullName);
-                }
+                args.Add(source.FullName);
 
                 // !!! Requires a recent .NET SDK (see https://github.com/dotnet/msbuild/issues/3911)
                 // arguments.Add("--target:ResolvePackageAssets"); // may enable if the project is an exe in order to get RuntimeCopyLocalItems + NativeCopyLocalItems
@@ -39,6 +36,7 @@ internal static partial class DotnetCli
                 // Workaround to get ProjectAssetsFile, see https://github.com/dotnet/sdk/issues/49426
                 args.Add("--getTargetResult:_LoadRestoreGraphEntryPoints");
             })
+            .WithWorkingDirectory(Path.GetDirectoryName(typeof(Program).Assembly.Location) ?? Path.GetTempPath())
             .WithEnvironmentVariables(env => env
                 .Set("DOTNET_NOLOGO", "1")
                 .Set("DOTNET_CLI_UI_LANGUAGE", "en")
