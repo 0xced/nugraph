@@ -62,7 +62,7 @@ internal static partial class DotnetCli
             throw new Exception($"Running \"{dotnet}\" in \"{dotnet.WorkingDirPath}\" failed with exit code {commandResult.ExitCode}.{Environment.NewLine}{message}");
         }
 
-        var (properties, items) =  jsonPipe.Result ?? throw new Exception($"Running \"{dotnet}\" in \"{dotnet.WorkingDirPath}\" returned a literal 'null' JSON payload");
+        var (properties, items) =  jsonPipe.Result ?? throw new InvalidDataException("Missing JSON payload");
 
         if (string.IsNullOrEmpty(properties.ProjectAssetsFile) && allowRetry)
         {
@@ -90,17 +90,17 @@ internal static partial class DotnetCli
                 return targetFrameworks;
             }
 
-            if (TargetFramework != null)
+            if (!string.IsNullOrEmpty(TargetFramework))
             {
                 return [TargetFramework];
             }
 
-            throw new Exception("Either TargetFrameworks or TargetFramework is missing");
+            throw new InvalidDataException($"Either {nameof(TargetFrameworks)} (plural) or {nameof(TargetFramework)} (singular) is missing");
         }
 
         public FileInfo GetProjectAssetsFile()
         {
-            return new FileInfo(ProjectAssetsFile ?? throw new Exception("ProjectAssetsFile is missing"));
+            return new FileInfo(ProjectAssetsFile ?? throw new InvalidDataException($"{nameof(ProjectAssetsFile)} is missing"));
         }
     }
 
@@ -108,8 +108,8 @@ internal static partial class DotnetCli
     {
         public HashSet<string> GetNuGetPackageIds()
         {
-            var runtimeCopyLocalItems = RuntimeCopyLocalItems ?? throw new Exception($"{nameof(RuntimeCopyLocalItems)} is missing");
-            var nativeCopyLocalItems = NativeCopyLocalItems ?? throw new Exception($"{nameof(NativeCopyLocalItems)} is missing");
+            var runtimeCopyLocalItems = RuntimeCopyLocalItems ?? throw new InvalidDataException($"{nameof(RuntimeCopyLocalItems)} is missing");
+            var nativeCopyLocalItems = NativeCopyLocalItems ?? throw new InvalidDataException($"{nameof(NativeCopyLocalItems)} is missing");
             return runtimeCopyLocalItems.Concat(nativeCopyLocalItems).Select(e => e.NuGetPackageId).OfType<string>().ToHashSet();
         }
     }
