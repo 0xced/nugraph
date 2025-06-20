@@ -21,7 +21,7 @@ Console.CancelKeyPress += (_, eventArgs) =>
 app.Configure(config =>
 {
     config.AddExample("spectre.console/src/Spectre.Console.Cli/Spectre.Console.Cli.csproj", "--include-version");
-    config.AddExample("Serilog.Sinks.MSSqlServer", "--ignore", "Microsoft.Data.SqlClient");
+    config.AddExample("Serilog.Sinks.MSSqlServer", "--ignore", "Microsoft.Data.SqlClient", "--ignore", "\"System.*\"");
     config.AddExample("Newtonsoft.Json/12.0.3", "--framework", "netstandard1.0");
     config.AddExample("Azure.Core", "--direction", "TopToBottom", "--output", "Azure.Core.gv");
     config.AddExample("Polly", "--format", "dot", "--title", "\"\"");
@@ -30,6 +30,7 @@ app.Configure(config =>
 #endif
     var assembly = typeof(Program).Assembly;
     var version = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? assembly.GetName().Version?.ToString() ?? "N/A";
+    config.SetApplicationName(OperatingSystem.IsWindows() ? "nugraph.exe" : "nugraph");
     config.SetApplicationVersion(SemanticVersion.TryParse(version, out var semanticVersion) ? semanticVersion.ToNormalizedString() : version);
     config.ConfigureConsole(RedirectionFriendlyConsole.Out);
     config.Settings.Registrar.RegisterInstance(cancellationTokenSource.Token);

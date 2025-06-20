@@ -60,12 +60,12 @@ internal sealed class GraphCommandSettings : CommandSettings
     public string Title { get; set; } = "";
 
     [CommandOption("-s|--include-version")]
-    [Description("Include package versions in the dependency graph. E.g. [b]Serilog/3.1.1[/] instead of [b]Serilog[/]")]
+    [Description("Include package versions in the dependency graph. E.g. [b]Serilog/4.3.0[/] instead of [b]Serilog[/]")]
     [DefaultValue(false)]
     public bool GraphIncludeVersions { get; init; }
 
-    [CommandOption("-i|--ignore")]
-    [Description("Packages to ignore in the dependency graph. May be used multiple times.")]
+    [CommandOption("-i|--ignore <PACKAGE>")]
+    [Description("Packages to ignore in the dependency graph. Supports * wildcards. May be used multiple times.")]
     public string[] GraphIgnore { get; init; } = [];
 
     [CommandOption("--no-links")]
