@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using Markdig;
 using Markdig.Renderers.Roundtrip;
 using mmd;
@@ -17,11 +19,13 @@ try
     var output = args.Length > 1 ? Path.GetFullPath(args[1]) : null;
     var markdown = File.ReadAllText(input);
 
+    var version = typeof(Program).Assembly.GetCustomAttributes<AssemblyMetadataAttribute>().Single(e => e.Key == "MinVerVersion").Value;
+
     using var writer = output != null ? new StreamWriter(new FileStream(output, FileMode.Create, FileAccess.Write)) : Console.Out;
     var renderer = new RoundtripRenderer(writer);
     var titleMap = new Dictionary<string, Uri>
     {
-        ["Dependency graph of Microsoft.Extensions.Logging.Console 9.0.6 (net8.0)"] = new("https://raw.githubusercontent.com/0xced/nugraph/fab28a88a9edd87ef58126c1b53ff8cd38708bb3/resources/Microsoft.Extensions.Logging.Console.svg"),
+        ["Dependency graph of Microsoft.Extensions.Logging.Console 9.0.6 (net8.0)"] = new($"https://raw.githubusercontent.com/0xced/nugraph/refs/tags/{version}/resources/Microsoft.Extensions.Logging.Console.svg"),
     };
     var pipeline = new MarkdownPipelineBuilder().EnableTrackTrivia().Use(new MermaidImageExtension(titleMap)).Build();
     Markdown.Convert(markdown, renderer, pipeline);

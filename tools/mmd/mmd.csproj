@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.41.2" />
+    <PackageReference Include="MinVer" Version="6.0.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Bcl.Memory" Version="9.0.6" />
   </ItemGroup>
 
@@ -16,5 +17,14 @@
     <Compile Include="..\..\src\nugraph\GraphService.cs" LinkBase="nugraph" />
     <Compile Include="..\..\src\nugraph\MemoryStreamExtensions.cs" LinkBase="nugraph" />
   </ItemGroup>
+
+  <Target Name="AddMinVerVersionAssemblyMetadata" AfterTargets="MinVer">
+    <ItemGroup>
+      <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+        <_Parameter1>MinVerVersion</_Parameter1>
+        <_Parameter2>$(MinVerVersion)</_Parameter2>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
 
 </Project>
