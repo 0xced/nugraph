@@ -20,14 +20,15 @@ try
     var markdown = File.ReadAllText(input);
 
     var version = typeof(Program).Assembly.GetCustomAttributes<AssemblyMetadataAttribute>().Single(e => e.Key == "MinVerVersion").Value;
+    var baseUri = new Uri($"https://raw.githubusercontent.com/0xced/nugraph/refs/tags/{version}/");
 
     using var writer = output != null ? new StreamWriter(new FileStream(output, FileMode.Create, FileAccess.Write)) : Console.Out;
     var renderer = new RoundtripRenderer(writer);
     var titleMap = new Dictionary<string, Uri>
     {
-        ["Dependency graph of Microsoft.Extensions.Logging.Console 9.0.6 (net8.0)"] = new($"https://raw.githubusercontent.com/0xced/nugraph/refs/tags/{version}/resources/Microsoft.Extensions.Logging.Console.svg"),
+        ["Dependency graph of Microsoft.Extensions.Logging.Console 9.0.6 (net8.0)"] = new(baseUri, "resources/Microsoft.Extensions.Logging.Console.svg"),
     };
-    var pipeline = new MarkdownPipelineBuilder().EnableTrackTrivia().Use(new MermaidImageExtension(titleMap)).Build();
+    var pipeline = new MarkdownPipelineBuilder().EnableTrackTrivia().Use(new MermaidImageExtension(baseUri, titleMap)).Build();
     Markdown.Convert(markdown, renderer, pipeline);
 
     if (output != null)
