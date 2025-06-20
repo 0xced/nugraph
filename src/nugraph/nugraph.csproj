@@ -8,27 +8,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <PropertyGroup Label="To investigate if it makes sense for a CLI app">
-    <!-- CA2007: Consider calling ConfigureAwait on the awaited task -->
-    <NoWarn>$(NoWarn);CA2007</NoWarn>
-  </PropertyGroup>
-
-  <PropertyGroup Label="Will eventually be fixed with proper exceptions">
-    <!-- CA2201 : Exception type System.Exception is not sufficiently specific -->
-    <NoWarn>$(NoWarn);CA2201</NoWarn>
-  </PropertyGroup>
-
-  <PropertyGroup Label="From Chisel source code which targets .NET Standard 2.0">
-    <!-- CA1307 : 'string.IndexOf(char)' has a method overload that takes a 'StringComparison' parameter -->
-    <NoWarn>$(NoWarn);CA1307</NoWarn>
-    <!-- CA1310 : The behavior of 'string.StartsWith(string)' could vary based on the current user's locale settings -->
-    <NoWarn>$(NoWarn);CA1310</NoWarn>
-    <!-- CA1866 : Use 'string.StartsWith(char)' instead of 'string.StartsWith(string)' when you have a string with a single char -->
-    <NoWarn>$(NoWarn);CA1866</NoWarn>
-    <!-- CA1867 : Use 'string.EndsWith(char)' instead of 'string.EndsWith(string)' when you have a string with a single char -->
-    <NoWarn>$(NoWarn);CA1867</NoWarn>
-  </PropertyGroup>
-
   <PropertyGroup Label="Packaging">
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>nugraph</ToolCommandName>
@@ -72,5 +51,26 @@
     <Compile Remove="..\Chisel\src\Chisel\Chisel.cs" />
     <Compile Remove="..\Chisel\src\Chisel\SdkAssemblyResolver.cs" />
   </ItemGroup>
+
+  <PropertyGroup Label="To investigate if it makes sense for a CLI app">
+    <!-- CA2007: Consider calling ConfigureAwait on the awaited task -->
+    <NoWarn>$(NoWarn);CA2007</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Will eventually be fixed with proper exceptions">
+    <!-- CA2201 : Exception type System.Exception is not sufficiently specific -->
+    <NoWarn>$(NoWarn);CA2201</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Label="From Chisel source code which targets .NET Standard 2.0">
+    <!-- CA1307 : 'string.IndexOf(char)' has a method overload that takes a 'StringComparison' parameter -->
+    <NoWarn>$(NoWarn);CA1307</NoWarn>
+    <!-- CA1310 : The behavior of 'string.StartsWith(string)' could vary based on the current user's locale settings -->
+    <NoWarn>$(NoWarn);CA1310</NoWarn>
+    <!-- CA1866 : Use 'string.StartsWith(char)' instead of 'string.StartsWith(string)' when you have a string with a single char -->
+    <NoWarn>$(NoWarn);CA1866</NoWarn>
+    <!-- CA1867 : Use 'string.EndsWith(char)' instead of 'string.EndsWith(string)' when you have a string with a single char -->
+    <NoWarn>$(NoWarn);CA1867</NoWarn>
+  </PropertyGroup>
 
 </Project>
