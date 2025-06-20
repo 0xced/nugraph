@@ -63,6 +63,19 @@ internal static partial class DotnetCli
             {
                 throw new RestoreException(exitCode: commandResult.ExitCode, error: "nugraph requires at least the .NET 8 SDK", recoverySuggestion: "Download the latest .NET SDK on https://get.dot.net");
             }
+
+            const string runOnProject = "Please run nugraph in a directory that contains a single project file or pass an explicit project file as the first argument.";
+            if (output.Contains("MSB1003", StringComparison.OrdinalIgnoreCase))
+            {
+                // MSB1003: Specify a project or solution file. The current working directory does not contain a project or solution file.
+                throw new RestoreException(exitCode: commandResult.ExitCode, error: "The current working directory does not contain a project file.", recoverySuggestion: runOnProject);
+            }
+
+            if (output.Contains("MSB1063", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new RestoreException(exitCode: commandResult.ExitCode, error: "Solution files are not supported.", recoverySuggestion: runOnProject);
+            }
+
             throw new RestoreException(exitCode: commandResult.ExitCode, workingDirectory: dotnet.WorkingDirPath, command: dotnet.ToString(), output: output);
         }
 

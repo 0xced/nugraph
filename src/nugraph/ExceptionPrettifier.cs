@@ -23,11 +23,11 @@ public static class ExceptionPrettifier
                 new Text(ex.Output, Color.Grey)
             ),
             RestoreException { Error: not null, RecoverySuggestion: not null } ex => new Rows(
-                new Text(ex.Error, Color.Red),
+                new Text(ex.Error, new Style(Color.Red, decoration: Decoration.Bold)),
                 new Text(ex.RecoverySuggestion)
             ),
             PackageNotFoundException ex => new Text(ex.Message, Color.Red),
-            _ => null
+            _ => null,
         };
     }
 }
