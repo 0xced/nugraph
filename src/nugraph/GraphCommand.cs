@@ -21,7 +21,7 @@ namespace nugraph;
 [GenerateOneOf]
 internal sealed partial class FileOrPackage : OneOfBase<FileSystemInfo, PackageIdentity>
 {
-    public override string ToString() => Match(file => file.FullName, package => package.ToString());
+    public override string ToString() => Match(file => file.FullName, package => package.HasVersion ? $"{package.Id} {package.Version}" : package.Id);
 }
 
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Instantiated by Spectre.Console.Cli through reflection")]
