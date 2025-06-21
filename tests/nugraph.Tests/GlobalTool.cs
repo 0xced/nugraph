@@ -86,7 +86,7 @@ public sealed partial class GlobalTool : IAsyncLifetime
 
     private async Task InstallAsync()
     {
-        var installed = await RunDotnetAsync(_workingDirectory, ["tool", "list", "--global", "nugraph"], allowNonZeroExitCode: true);
+        var installed = await RunDotnetAsync(_workingDirectory, ["tool", "list", "--global", "nugraph"], allowNonZeroExitCode: false);
         var match = VersionRegex().Match(installed);
         if (match.Success)
         {
