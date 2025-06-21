@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
+    <DeterministicSourcePaths>false</DeterministicSourcePaths>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(ContinuousIntegrationBuild) == 'true'">
+    <TestingPlatformCommandLineArguments>--report-trx --report-trx-filename TestResults-$(TargetFramework).trx --results-directory $([MSBuild]::NormalizePath('$(MSBuildProjectDirectory)', '..', '..'))</TestingPlatformCommandLineArguments>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AwesomeAssertions" Version="9.0.0" />
+    <PackageReference Include="CliWrap" Version="3.9.0" />
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="1.7.2" />
+    <PackageReference Include="xunit.v3" Version="2.0.3" />
+  </ItemGroup>
+
+</Project>
