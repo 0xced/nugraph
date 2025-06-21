@@ -1,12 +1,15 @@
 using System;
+using System.Collections.Generic;
 using Markdig.Renderers.Roundtrip;
 using Markdig.Renderers.Roundtrip.Inlines;
 using Markdig.Syntax.Inlines;
 
 namespace mmd;
 
-internal class FullUrlLinkInlineRenderer(Uri baseUri) : LinkInlineRenderer
+internal class AbsoluteUrlLinkInlineRenderer(Uri baseUri) : LinkInlineRenderer
 {
+    public List<string> Replacements { get; } = [];
+
     protected override void Write(RoundtripRenderer renderer, LinkInline link)
     {
         if (link.IsImage)
@@ -42,8 +45,9 @@ internal class FullUrlLinkInlineRenderer(Uri baseUri) : LinkInlineRenderer
                 }
                 if (Uri.TryCreate(link.UnescapedUrl.ToString(), UriKind.Relative, out var relative))
                 {
-                    var uri = new Uri(baseUri, relative);
-                    renderer.Write(uri.ToString());
+                    var uri = new Uri(baseUri, relative).AbsoluteUri;
+                    renderer.Write(uri);
+                    Replacements.Add(uri);
                 }
                 else
                 {

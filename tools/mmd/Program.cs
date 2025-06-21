@@ -26,12 +26,24 @@ try
     {
         ["Dependency graph of Microsoft.Extensions.Logging.Console 9.0.6 (net8.0)"] = new(baseUri, "resources/Microsoft.Extensions.Logging.Console.svg"),
     };
-    var pipeline = new MarkdownPipelineBuilder().EnableTrackTrivia().Use(new MermaidImageExtension(baseUri, titleMap)).Build();
+    var extension = new NuGetReadmeExtension(baseUri, titleMap);
+    var pipeline = new MarkdownPipelineBuilder().EnableTrackTrivia().Use(extension).Build();
     Markdown.Convert(markdown, renderer, pipeline);
 
     if (output != null)
     {
-        Console.WriteLine($"Replaced mermaid code blocks with images in {new Uri(output)}");
+        Console.Error.WriteLine($"Fixed {new Uri(output)}");
+    }
+
+    Console.Error.WriteLine($"Replaced {extension.CodeBlockReplacements.Count} mermaid code blocks with image links");
+    foreach (var replacement in extension.CodeBlockReplacements)
+    {
+        Console.Error.WriteLine($"  * {replacement}");
+    }
+    Console.Error.WriteLine($"Replaced {extension.AbsoluteUrlReplacements.Count} relative URLs with absolute URLs");
+    foreach (var replacement in extension.AbsoluteUrlReplacements)
+    {
+        Console.Error.WriteLine($"  * {replacement}");
     }
 
     return 0;

@@ -10,16 +10,22 @@ namespace mmd;
 
 internal partial class MermaidImageCodeBlockRenderer(IReadOnlyDictionary<string, Uri> titleMap) : CodeBlockRenderer
 {
+    private int _n;
+
+    public List<string> Replacements { get; } = [];
+
     protected override void Write(RoundtripRenderer renderer, CodeBlock codeBlock)
     {
         if (codeBlock is FencedCodeBlock fencedCodeBlock && fencedCodeBlock.Info?.Equals("mermaid", StringComparison.OrdinalIgnoreCase) == true)
         {
+            _n++;
             renderer.RenderLinesBefore(codeBlock);
             renderer.Write(codeBlock.TriviaBefore);
 
             var text = fencedCodeBlock.Lines.ToString();
             var titleMatch = TitleRegex().Match(text);
             var title = titleMatch.Success ? titleMatch.Groups[1].Value : "";
+            Replacements.Add(title == "" ? $"Mermaid diagram #{_n}" : title);
             if (!titleMap.TryGetValue(title, out var url))
             {
                 // Requires [Remove the allowlist for allowed image domains in READMEs](https://github.com/NuGet/NuGetGallery/issues/10198) to be resolved first in order to use mermaid.ink images
