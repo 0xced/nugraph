@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       checks: write
-    name: 🛠 Build and pack
+    name: 🛠 Build, test and pack
     steps:
       - name: 🧑‍💻 Checkout git repository
         uses: actions/checkout@v4
@@ -41,8 +41,22 @@ jobs:
         run: dotnet build --no-restore
       - name: 📜 Fix README for nuget.org
         run: dotnet run --project tools/mmd/mmd.csproj -- README.md ${{ github.sha }} README.md
-      - name: 📦 Create NuGet package
-        run: dotnet pack --no-build --output .
+      - name: 🧪 Run tests
+        # The .nupkg file is created as part of integration tests
+        run: dotnet test --no-build
+      - name: 📤 Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: TestResults.trx
+          path: "*.trx"
+      - name: 📊 Test Report
+        uses: dorny/test-reporter@v2
+        if: always()
+        with:
+          name: 🚦 Test Results
+          path: '*.trx'
+          reporter: dotnet-trx
       - name: 📤 Upload NuGet package artifact
         uses: actions/upload-artifact@v4
         with:
