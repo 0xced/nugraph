@@ -51,7 +51,7 @@ jobs:
           name: TestResults.trx
           path: "*.trx"
       - name: 📊 Test Report
-        uses: dorny/test-reporter@v2
+        uses: 0xced/test-reporter@4128d36b9238297063f2ac18b871b325d5fd22a7
         if: always()
         with:
           name: 🚦 Test Results
