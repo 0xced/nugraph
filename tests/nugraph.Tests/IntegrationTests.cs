@@ -1,42 +1,40 @@
-using System;
 using System.Threading.Tasks;
 using AwesomeAssertions;
 using AwesomeAssertions.Execution;
-using Xunit;
 
 namespace nugraph.Tests;
 
-public sealed class IntegrationTests(GlobalTool nugraph) : IClassFixture<GlobalTool>, IDisposable
+[ClassDataSource<GlobalTool>(Shared = SharedType.PerTestSession)]
+public sealed class IntegrationTests(GlobalTool nugraph)
 {
-    private readonly AssertionScope _scope = new();
-
-    public void Dispose() => _scope.Dispose();
-
-    [Fact]
+    [Test]
     public async Task Version()
     {
         var (exitCode, stdOut, stdErr) = await nugraph.RunAsync("--version");
 
+        using var _ = new AssertionScope();
         exitCode.Should().Be(0);
         stdErr.Should().BeEmpty();
         stdOut.Should().ContainSingle().Which.Should().Be(nugraph.Version);
     }
 
-    [Fact]
+    [Test]
     public async Task Help()
     {
         var (exitCode, stdOut, stdErr) = await nugraph.RunAsync("--help");
 
+        using var _ = new AssertionScope();
         exitCode.Should().Be(0);
         stdErr.Should().BeEmpty();
         stdOut.Should().NotBeEmpty();
     }
 
-    [Fact]
+    [Test]
     public async Task Package_Serilog()
     {
         var (exitCode, stdOut, stdErr) = await nugraph.RunAsync("Serilog", "--log", "Warning", "--no-browser");
 
+        using var _ = new AssertionScope();
         exitCode.Should().Be(0);
         stdErr.Should().BeEmpty();
         stdOut.Should().HaveCount(3);
@@ -45,11 +43,12 @@ public sealed class IntegrationTests(GlobalTool nugraph) : IClassFixture<GlobalT
         stdOut[2].Should().StartWith("https://mermaid.live/view#pako:");
     }
 
-    [Fact]
+    [Test]
     public async Task Package_Serilog_430_net60()
     {
         var (exitCode, stdOut, stdErr) = await nugraph.RunAsync("Serilog/4.3.0", "--framework", "net6.0", "--log", "Warning", "--no-browser");
 
+        using var _ = new AssertionScope();
         exitCode.Should().Be(0);
         stdErr.Should().BeEmpty();
         stdOut.Should().HaveCount(3);
@@ -58,11 +57,12 @@ public sealed class IntegrationTests(GlobalTool nugraph) : IClassFixture<GlobalT
         stdOut[2].Should().Be("https://mermaid.live/view#pako:eNpcUcFuhCAU_BXiZpM2UaG7m03KeZNeempvjRcWnkpEsPiMuzH-e1Vc05YLw8C8efMYIukURDxKkiSzqNEAJxdowCqw8k4KL5qSuJx8gtfGFeSUHlNGnizgOWXPmV10md3vyRtY8AJBkeudlIhNyyktNJbdNZWupuwmQVHbLSVnTaj9_jFjaUTbXiAn3jkkLXpXQdJrhSU_Nbdf9wpy0RkkuTaGi-9O1MJrC3GQ8B1jr-z8EktnnOe747Jmg7X_YVjBOG62W7bZ-z-3-s20ltVGZx1jh8MjZd_36RQMMHW-oI2QlSigpetjuswsKFbhn2kGKrNRHNXga6HV9B9DYLGEGgLkYXs0tBzGSdMI--VcHXH0HYw_AAAA__8DAOVTn9I");
     }
 
-    [Fact]
+    [Test]
     public async Task Package_DockerRunner_MermaidSvg()
     {
         var (exitCode, stdOut, stdErr) = await nugraph.RunAsync("DockerRunner", "--format", "mmd.svg", "--log", "Warning", "--no-browser");
 
+        using var _ = new AssertionScope();
         exitCode.Should().Be(0);
         stdErr.Should().BeEmpty();
         stdOut.Should().HaveCount(3);
@@ -71,11 +71,12 @@ public sealed class IntegrationTests(GlobalTool nugraph) : IClassFixture<GlobalT
         stdOut[2].Should().Be("https://mermaid.ink/svg/pako:eNqUlW-PmkAQxr_KhsslbaIL_rlLyrv2NE2Ta9Oc3puLb9ZlkI2wS3eHqiF-9y6gLQpSjjcCM88z82MGzB2uAnB8ZzgcriQKjMEnM0hBBiD5gWw0SyOiQjJTfAv6JZMSNBlRj3rDNSCjY_JBAhpkMmA6GFPv40qWXit5f0--gk1nCAFZH0iEmBrfdTcCo2xNuUpcb88hcGVWlik0Vb3nl-Kcx8yYGYREK4XEoFZbGO5EgJE_Tfe1eAAhy2IkoYhjn_3KWMK0kDCoJP6d533yHkcDrmKl_btJeRQF6kx5Xr86HollyDxvMiffBdfKqBDpFx7Tz-Yg-TeJoEPGwaxkZ_ify-JgEBK6jDSwQMgNXTKzNXS-R5BGKGmdfsyXi9NzpM9irZk-5HnLzfbmbOKT0kB_xgxDpRNr-N-ajfYsPYoE6JNKUhGDXoD-LSwHfZWGhfB3KpfrUMynNXAaTBETfHsZKwqPx-ed2O121K4BIFV646aMb9kGjFtXuPWtq9Qnk5u7WYXPrXVP6qrX7uRezXdauA9FnxcY3SVr-U2gxvBv4zRT3wnTMLCDGd1EaZarZZ9BWpb8Yqna4leAbSm9wFqErv2M0ckFUJt9LevcaL_X6Lr3nqpeOP283Cl9uCLs2URNeAXd8Zlp5-0QvAf1tk1JOW2j7Chd06ykM3AS0AkTgf2LzKu7GEEC1alf_Zzxyouj1aRMvimVOD7qDI5_AAAA__8DAKzpnW0");
     }
 
-    [Fact]
+    [Test]
     public async Task Package_DockerRunner_GraphvizSvg()
     {
         var (exitCode, stdOut, stdErr) = await nugraph.RunAsync("DockerRunner", "--format", "dot.svg", "--log", "Warning", "--no-browser");
 
+        using var _ = new AssertionScope();
         exitCode.Should().Be(0);
         stdErr.Should().BeEmpty();
         stdOut.Should().HaveCount(3);

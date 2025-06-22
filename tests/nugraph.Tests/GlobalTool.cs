@@ -8,11 +8,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Exceptions;
-using Xunit;
+using TUnit.Core.Interfaces;
 
 namespace nugraph.Tests;
 
-public sealed partial class GlobalTool : IAsyncLifetime
+public sealed partial class GlobalTool : IAsyncInitializer, IAsyncDisposable
 {
     private static readonly bool IsContinuousIntegrationBuild = Environment.GetEnvironmentVariable("ContinuousIntegrationBuild") == "true";
 
@@ -42,7 +42,7 @@ public sealed partial class GlobalTool : IAsyncLifetime
         return (result.ExitCode, stdOut, stdErr);
     }
 
-    async ValueTask IAsyncLifetime.InitializeAsync()
+    async Task IAsyncInitializer.InitializeAsync()
     {
         await PackAsync();
         await InstallAsync();
@@ -116,15 +116,15 @@ public sealed partial class GlobalTool : IAsyncLifetime
             .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
             {
                 outBuilder.AppendLine(line);
-                TestContext.Current.SendDiagnosticMessage($"==> out: {line}");
+                TestContext.Current?.OutputWriter.WriteLine($"==> out: {line}");
             }))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
             {
                 errBuilder.AppendLine(line);
-                TestContext.Current.SendDiagnosticMessage($"==> err: {line}");
+                TestContext.Current?.OutputWriter.WriteLine($"==> err: {line}");
             }));
 
-        TestContext.Current.SendDiagnosticMessage($"📁 {_workingDirectory.FullName} 🛠️ {command}");
+        TestContext.Current?.OutputWriter.WriteLine($"📁 {_workingDirectory.FullName} 🛠️ {command}");
 
         var result = await command.ExecuteAsync();
         if (result.ExitCode != 0 && !allowNonZeroExitCode)
