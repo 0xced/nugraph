@@ -12,7 +12,11 @@ env:
 
 jobs:
   package:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
     permissions:
       checks: write
     name: 🛠 Build, test and pack
@@ -22,6 +26,11 @@ jobs:
         with:
           fetch-depth: 0
           submodules: true
+      - name: 🏎 Optimize Windows runner
+        if: matrix.os == 'windows-latest'
+        run: |
+          echo "DOTNET_INSTALL_DIR=D:\dotnet" >> $env:GITHUB_ENV
+          echo "NUGET_PACKAGES=D:\nuget" >> $env:GITHUB_ENV
       - name: 🧑‍🔧 Install .NET SDK
         uses: actions/setup-dotnet@v4
         with:
@@ -33,10 +42,10 @@ jobs:
       - name: 💾 Retrieve cached NuGet packages
         uses: actions/cache@v4
         with:
-          path: ~/.nuget/packages
-          key: nuget-${{ hashFiles('**/packages.lock.json') }}
+          path: ${{ env.NUGET_PACKAGES || '~/.nuget/packages' }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
-            nuget-
+            ${{ runner.os }}-nuget-
       - name: ⚙️ Restore NuGet packages
         run: dotnet restore
       - name: 🏗 Build solution
@@ -52,13 +61,13 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: TestResults.trx
+          name: TestResults-${{ runner.os }}.trx
           path: "*.trx"
       - name: 📤 Upload nugraph diagnostics
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: Diagnostics
+          name: Diagnostics (${{ runner.os }})
           path: "**/*.diagnostics.txt"
       - name: 📊 Test Report
         uses: dorny/test-reporter@v2
@@ -68,17 +77,18 @@ jobs:
           path: '*.trx'
           reporter: dotnet-trx
       - name: 📤 Upload NuGet package artifact
+        if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v4
         with:
           name: NuGet package
           path: "*.nupkg"
       - name: 📝 Retrieve release notes from tag
-        if: startsWith(github.ref, 'refs/tags/')
+        if: matrix.os == 'ubuntu-latest' && startsWith(github.ref, 'refs/tags/')
         run: |
           git fetch --tags --force
           git tag --list ${{ github.ref_name }} --format='%(contents)' > ReleaseNotes.md
       - name: 📤 Upload release notes
-        if: startsWith(github.ref, 'refs/tags/')
+        if: matrix.os == 'ubuntu-latest' && startsWith(github.ref, 'refs/tags/')
         uses: actions/upload-artifact@v4
         with:
           name: Release Notes
