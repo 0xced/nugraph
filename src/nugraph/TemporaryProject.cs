@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using Microsoft.Build.Locator;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -68,16 +67,7 @@ internal sealed class TemporaryProject : IDisposable
             return (identity, framework);
         }
 
-        // Required for Microsoft.Build.* classes to work properly.
-        if (sdk != null)
-        {
-            MSBuildLocator.RegisterMSBuildPath(sdk.FullName);
-        }
-        else
-        {
-            MSBuildLocator.RegisterDefaults();
-        }
-
+        var sdkPath = DotnetSdk.Register(sdk);
         var supportedTargetFrameworks = await DotnetSdk.GetSupportedTargetFrameworksAsync(cancellationToken);
 
         var supportedTargetFramework = targetFrameworks.Intersect(supportedTargetFrameworks).Order(NuGetFrameworkVersionComparer.Instance).FirstOrDefault();

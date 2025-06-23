@@ -27,11 +27,11 @@ internal sealed partial class FileOrPackage : OneOfBase<FileSystemInfo, PackageI
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Instantiated by Spectre.Console.Cli through reflection")]
 [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Instantiated by Spectre.Console.Cli through reflection")]
 [Description("Generates dependency graphs for .NET projects and NuGet packages.")]
-internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cancellationToken) : CancelableCommand<GraphCommandSettings>(cancellationToken)
+internal sealed class GraphCommand(IAnsiConsole console, DirectoryInfo currentWorkingDirectory, TextWriter stdOut, CancellationToken cancellationToken) : CancelableCommand<GraphCommandSettings>(cancellationToken)
 {
     protected override async Task<int> ExecuteAsync(CommandContext commandContext, GraphCommandSettings settings, CancellationToken cancellationToken)
     {
-        var source = settings.Source;
+        var source = settings.Source ?? currentWorkingDirectory;
         var graphUrl = await console.Status().StartAsync($"Generating dependency graph for {source}".EscapeMarkup(), async context =>
         {
             var graph = await source.Match(
@@ -44,11 +44,9 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
         if (graphUrl != null)
         {
             var url = graphUrl.ToString();
-#pragma warning disable Spectre1000
             // Using "console.WriteLine(url)" (lowercase c) would insert newlines at the physical console length, making the written URL neither copyable nor clickable
             // At that point the status has terminated so it's fine not using the IAnsiConsole methods
-            Console.WriteLine(url);
-#pragma warning restore Spectre1000
+            await stdOut.WriteLineAsync(url);
             if (!settings.NoBrowser)
             {
                 Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
