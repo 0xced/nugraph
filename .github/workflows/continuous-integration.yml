@@ -44,6 +44,8 @@ jobs:
       - name: 📜 Fix README for nuget.org
         run: dotnet run --project tools/mmd/mmd.csproj -- README.md ${{ github.sha }} README.md
       - name: 🧪 Run tests
+        env:
+          DISABLE_GITHUB_REPORTER: true
         # The .nupkg file is created as part of integration tests
         run: dotnet test --no-build
       - name: 📤 Upload test results
