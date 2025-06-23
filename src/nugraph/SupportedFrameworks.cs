@@ -17,7 +17,7 @@ public partial class SupportedFrameworks
 
     private SupportedFrameworks()
     {
-        _file = new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache), "nugraph", "supportedFrameworks.cache"));
+        _file = new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "nugraph", "supportedFrameworks.cache"));
         _file.Directory?.Create();
     }
 
