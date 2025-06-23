@@ -23,11 +23,22 @@ public static class DotnetSdk
                 return sdk.FullName;
             }
 
-            var instance = MSBuildLocator.RegisterDefaults();
-            return instance.MSBuildPath;
+            var instance = GetSdkInstance(matchCurrentRuntime: true) ?? GetSdkInstance(matchCurrentRuntime: false);
+            if (instance != null)
+            {
+                MSBuildLocator.RegisterInstance(instance);
+                return instance.MSBuildPath;
+            }
         }
 
         return null;
+    }
+
+    private static VisualStudioInstance? GetSdkInstance(bool matchCurrentRuntime)
+    {
+        var options = new VisualStudioInstanceQueryOptions { DiscoveryTypes = DiscoveryType.DotNetSdk, AllowAllRuntimeVersions = !matchCurrentRuntime };
+        var instance = MSBuildLocator.QueryVisualStudioInstances(options).OrderByDescending(e => e.Version).FirstOrDefault();
+        return instance;
     }
 
     public static async Task<IReadOnlyCollection<NuGetFramework>> GetSupportedTargetFrameworksAsync(CancellationToken cancellationToken)
