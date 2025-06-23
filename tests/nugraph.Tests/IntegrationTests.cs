@@ -1,16 +1,17 @@
 using System.Threading.Tasks;
 using AwesomeAssertions;
 using AwesomeAssertions.Execution;
+using static nugraph.Tests.RepositoryDirectories;
 
 namespace nugraph.Tests;
 
-[ClassDataSource<GlobalTool>(Shared = SharedType.PerTestSession)]
-public sealed class IntegrationTests(GlobalTool nugraph)
+[ClassDataSource<NugraphGlobalTool>(Shared = SharedType.PerTestSession)]
+public sealed class IntegrationTests(NugraphGlobalTool nugraph)
 {
     [Test]
     public async Task Version()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync("--version");
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["--version"]);
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(0);
@@ -21,7 +22,7 @@ public sealed class IntegrationTests(GlobalTool nugraph)
     [Test]
     public async Task Help()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync("--help");
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["--help"]);
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(0);
@@ -32,7 +33,7 @@ public sealed class IntegrationTests(GlobalTool nugraph)
     [Test]
     public async Task Package_Serilog()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync("Serilog", "--log", "Warning", "--no-browser");
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["Serilog", "--log", "Warning", "--no-browser"]);
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(0);
@@ -46,7 +47,7 @@ public sealed class IntegrationTests(GlobalTool nugraph)
     [Test]
     public async Task Package_Serilog_430_net60()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync("Serilog/4.3.0", "--framework", "net6.0", "--log", "Warning", "--no-browser");
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["Serilog/4.3.0", "--framework", "net6.0", "--log", "Warning", "--no-browser"]);
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(0);
@@ -60,7 +61,7 @@ public sealed class IntegrationTests(GlobalTool nugraph)
     [Test]
     public async Task Package_DockerRunner_MermaidSvg()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync("DockerRunner", "--format", "mmd.svg", "--log", "Warning", "--no-browser");
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["DockerRunner", "--format", "mmd.svg", "--log", "Warning", "--no-browser"]);
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(0);
@@ -74,7 +75,7 @@ public sealed class IntegrationTests(GlobalTool nugraph)
     [Test]
     public async Task Package_DockerRunner_GraphvizSvg()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync("DockerRunner", "--format", "dot.svg", "--log", "Warning", "--no-browser");
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["DockerRunner", "--format", "dot.svg", "--log", "Warning", "--no-browser"]);
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(0);
@@ -83,5 +84,43 @@ public sealed class IntegrationTests(GlobalTool nugraph)
         stdOut[0].Should().Be("Generating dependency graph for DockerRunner");
         stdOut[1].Should().Be("Generating dependency graph for DockerRunner 1.0.0-beta.2 (netstandard2.0)");
         stdOut[2].Should().Be("https://kroki.io/graphviz/svg/eNqtU1Fr2zAQfs-vONSXDRzJadPBBhlsbRmFbowmfQp7OEtnW8SWPElZYkb_-2Sn7UKTpSnML_adT9_33XenE_hChhwGUpC1UIbQ-A9CFDqUy4xLW4t0LUkJsywcNuVgoPTm4_cAwKFZKO0mN7cxqDCjasIuqSGjyMgW-kKwOVxauSB3uzSRCUY85ekwo4D8FN4YCj6gUejUKU_fskFEMlYRzCG3JhisCSbAplRYgrvrBDwaP_TkdM5iUGLT_c_sOgahrbog11VFKunf0lbWxRz-XGKNThtK4DHHTtL0ffpuFHE6qr_ps_5h8KMTw7bFMxh-BPZVS2e9zQP_LCv-ybdGXptALkdJnnVnDlf0INPWB6r5rHSESpuCz9AvPL9aBzJeW7MB-nY1mz7Yw2905tC1zzXEkgvriH-vMOTW1ZuDL8Nvq4jdBV0Tv7B1oytyU3K_dJTK74zHnNgeI-ZP5pe0xsKaBOLgV1qFMubGCUTmfMIeF2q1WvG4QxS4dYVoUC6wIC-2McX2ZnTuv2zk_DiWgyjivKPd4du19fVsOxixxdET197Z_h9b90CLeL342QP1kWM_tuPj4MSYnz9XcGg_X0f-b6Sed9zx3g_-ALipqjY");
+    }
+
+    [Test]
+    public async Task Package_DoesNotExist()
+    {
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["DoesNotExist", "--log", "Warning", "--no-browser"]);
+
+        using var _ = new AssertionScope();
+        exitCode.Should().Be(66);
+        stdOut.Should().ContainSingle().Which.Should().Be("Generating dependency graph for DoesNotExist");
+        stdErr.Should().ContainSingle().Which.Should().Be("Package DoesNotExist was not found in nuget.org [https://api.nuget.org/v3/index.json]");
+
+    }
+
+    [Test]
+    public async Task Package_SolutionFile()
+    {
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["--log", "Warning", "--no-browser"], workingDirectory: GetPath());
+
+        using var _ = new AssertionScope();
+        exitCode.Should().Be(65);
+        stdOut.Should().ContainSingle().Which.Should().Be("Generating dependency graph for nugraph");
+        stdErr.Should().HaveCount(2);
+        stdErr[0].Should().Be("Solution files are not supported.");
+        stdErr[1].Should().Be("Please run nugraph in a directory that contains a single project file or pass an explicit project file as the first argument.");
+    }
+
+    [Test]
+    public async Task Package_NoProject()
+    {
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["--log", "Warning", "--no-browser"], workingDirectory: GetPath("resources"));
+
+        using var _ = new AssertionScope();
+        exitCode.Should().Be(65);
+        stdOut.Should().ContainSingle().Which.Should().Be("Generating dependency graph for resources");
+        stdErr.Should().HaveCount(2);
+        stdErr[0].Should().Be("The current working directory does not contain a project file.");
+        stdErr[1].Should().Be("Please run nugraph in a directory that contains a single project file or pass an explicit project file as the first argument.");
     }
 }

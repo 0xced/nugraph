@@ -1,25 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Exceptions;
 using TUnit.Core.Interfaces;
+using static nugraph.Tests.RepositoryDirectories;
 
 namespace nugraph.Tests;
 
-public sealed partial class GlobalTool : IAsyncInitializer, IAsyncDisposable
+public sealed partial class NugraphGlobalTool : IAsyncInitializer, IAsyncDisposable
 {
     private static readonly bool IsContinuousIntegrationBuild = Environment.GetEnvironmentVariable("ContinuousIntegrationBuild") == "true";
 
     private readonly DirectoryInfo _workingDirectory;
     private string? _previousVersion;
 
-    public GlobalTool()
+    public NugraphGlobalTool()
     {
         _workingDirectory = GetDirectory("tests", "GlobalTool");
         _workingDirectory.Create();
@@ -27,13 +26,14 @@ public sealed partial class GlobalTool : IAsyncInitializer, IAsyncDisposable
 
     public string Version { get; private set; } = "N/A";
 
-    public async Task<(int ExitCode, IReadOnlyList<string> StdOut, IReadOnlyList<string> StdErr)> RunAsync(params string[] arguments)
+    public async Task<(int ExitCode, IReadOnlyList<string> StdOut, IReadOnlyList<string> StdErr)> RunAsync(string[] arguments, string? workingDirectory = null)
     {
         var stdOut = new List<string>();
         var stdErr = new List<string>();
         var command = Cli.Wrap("nugraph")
             .WithValidation(CommandResultValidation.None)
             .WithArguments(arguments)
+            .WithWorkingDirectory(workingDirectory ?? Environment.CurrentDirectory)
             .WithStandardOutputPipe(PipeTarget.ToDelegate(stdOut.Add))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(stdErr.Add));
 
@@ -62,7 +62,7 @@ public sealed partial class GlobalTool : IAsyncInitializer, IAsyncDisposable
             // so move it to the root of the repository for the "Upload NuGet package artifact" step to pick it.
             var packageName = $"nugraph.{Version}.nupkg";
             var packageFile = _workingDirectory.File(packageName);
-            packageFile.MoveTo(GetFullPath(packageName), overwrite: false);
+            packageFile.MoveTo(GetPath(packageName), overwrite: false);
         }
 
         _workingDirectory.Delete(recursive: true);
@@ -134,14 +134,6 @@ public sealed partial class GlobalTool : IAsyncInitializer, IAsyncDisposable
 
         return outBuilder.ToString();
     }
-
-    private static DirectoryInfo GetDirectory(params string[] paths) => new(GetFullPath(paths));
-
-    private static FileInfo GetFile(params string[] paths) => new(GetFullPath(paths));
-
-    private static string GetFullPath(params string[] paths) => Path.GetFullPath(Path.Combine(new[] { GetThisDirectory(), "..", ".." }.Concat(paths).ToArray()));
-
-    private static string GetThisDirectory([CallerFilePath] string path = "") => Path.GetDirectoryName(path)!;
 
     [GeneratedRegex(@"nugraph\s+(.*?)\s+nugraph")]
     private static partial Regex VersionRegex();

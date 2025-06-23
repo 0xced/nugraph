@@ -40,8 +40,12 @@ app.Configure(config =>
         {
             case OperationCanceledException when cancellationTokenSource.IsCancellationRequested:
                 return 130; // https://github.com/spectreconsole/spectre.console/issues/701#issuecomment-2342979700
-            case Exception when ExceptionPrettifier.GetRenderable(exception) is {} error:
-                RedirectionFriendlyConsole.Error.Write(error);
+            case Exception when ExceptionTransformer.GetError(exception) is {} error:
+                RedirectionFriendlyConsole.Error.Write(error.Pretty);
+                if (error.ExitCode.HasValue)
+                {
+                    return error.ExitCode.Value;
+                }
                 break;
             case CommandAppException commandAppException:
                 RedirectionFriendlyConsole.Error.WriteLine(commandAppException.Message, Color.Red);
