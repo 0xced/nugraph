@@ -34,10 +34,14 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
         if (settings.Diagnose)
         {
 #pragma warning disable Spectre1000
-            var errorOut = RedirectionFriendlyConsole.Error.Profile.Out;
-            Console.WriteLine($"RedirectionFriendlyConsole.Error.Profile.Out.Width = {errorOut.Width}");
-            Console.WriteLine($"RedirectionFriendlyConsole.Error.Profile.Out.Height = {errorOut.Height}");
-            Console.WriteLine($"RedirectionFriendlyConsole.Error.Profile.Out.IsTerminal = {errorOut.IsTerminal}");
+            var profile = RedirectionFriendlyConsole.Error.Profile;
+            Console.WriteLine($"profile.Capabilities.Ansi = {profile.Capabilities.Ansi}");
+            Console.WriteLine($"profile.Capabilities.Legacy = {profile.Capabilities.Legacy}");
+            Console.WriteLine($"profile.Capabilities.Interactive = {profile.Capabilities.Interactive}");
+            Console.WriteLine($"profile.Out.Width = {profile.Out.Width}");
+            Console.WriteLine($"profile.Out.Height = {profile.Out.Height}");
+            Console.WriteLine($"profile.Out.IsTerminal = {profile.Out.IsTerminal}");
+            Console.WriteLine();
             Console.WriteLine($"Console.IsInputRedirected = {Console.IsInputRedirected}");
             Console.WriteLine($"Console.IsOutputRedirected = {Console.IsOutputRedirected}");
             Console.WriteLine($"Console.IsErrorRedirected = {Console.IsErrorRedirected}");
