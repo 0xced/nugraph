@@ -114,7 +114,49 @@ public abstract class NugraphTests(Nugraph nugraph)
     }
 
     [Test]
-    public async Task Package_SolutionFile()
+    public async Task Project_nugraph_WorkingDirectory()
+    {
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["-m", "gv", "--log", "Warning", "--no-browser"], workingDirectory: RepositoryDirectories.GetPath("src", "nugraph"));
+
+        using var _ = new AssertionScope();
+        exitCode.Should().Be(0);
+        stdErr.Should().BeEmpty();
+        stdOut.Should().Match("""
+                              Generating dependency graph for nugraph
+                              https://edotor.net/#deflate:*
+                              """);
+    }
+
+    [Test]
+    public async Task Project_nugraph_ExplicitDirectory()
+    {
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync([RepositoryDirectories.GetPath("src", "nugraph"), "-m", "graphviz", "--log", "Warning", "--no-browser"]);
+
+        using var _ = new AssertionScope();
+        exitCode.Should().Be(0);
+        stdErr.Should().BeEmpty();
+        stdOut.Should().Match("""
+                              Generating dependency graph for nugraph
+                              https://edotor.net/#deflate:*
+                              """);
+    }
+
+    [Test]
+    public async Task Project_nugraph_ProjectFile()
+    {
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync([RepositoryDirectories.GetPath("src", "nugraph", "nugraph.csproj"), "-m", "dot", "--log", "Warning", "--no-browser"]);
+
+        using var _ = new AssertionScope();
+        exitCode.Should().Be(0);
+        stdErr.Should().BeEmpty();
+        stdOut.Should().Match("""
+                              Generating dependency graph for nugraph.csproj
+                              https://edotor.net/#deflate:*
+                              """);
+    }
+
+    [Test]
+    public async Task Project_SolutionFile()
     {
         var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["--log", "Warning", "--no-browser"], workingDirectory: RepositoryDirectories.GetPath());
 
@@ -128,7 +170,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     }
 
     [Test]
-    public async Task Package_NoProject()
+    public async Task Project_NoProject()
     {
         var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["--log", "Warning", "--no-browser"], workingDirectory: RepositoryDirectories.GetPath("resources"));
 
