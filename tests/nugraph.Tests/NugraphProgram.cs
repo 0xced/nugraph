@@ -1,7 +1,9 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using NuGet.Common;
 using NuGet.Versioning;
 using Spectre.Console.Testing;
 
@@ -15,7 +17,7 @@ public sealed class NugraphProgram : Nugraph
         Version = SemanticVersion.Parse(version).ToNormalizedString();
     }
 
-    public override async Task<(int ExitCode, string StdOut, string StdErr)> RunAsync(string[] arguments, string? workingDirectory = null)
+    public override async Task<(int ExitCode, string StdOut, string StdErr)> RunAsync(string[] arguments, string? workingDirectory = null, LogLevel logLevel = LogLevel.Warning, bool noBrowser = true)
     {
         using var consoleOut = new TestConsole();
         consoleOut.Profile.Width = 256;
@@ -23,7 +25,8 @@ public sealed class NugraphProgram : Nugraph
         consoleErr.Profile.Width = 256;
         await using var stdOut = new StringWriter();
         var program = new Program(new DirectoryInfo(workingDirectory ?? Environment.CurrentDirectory), consoleOut, consoleErr, stdOut);
-        var exitCode = await program.RunAsync(arguments);
+        var args = arguments.Append("--log").Append(logLevel.ToString()).Append("--no-browser").Append(noBrowser.ToString()).ToArray();
+        var exitCode = await program.RunAsync(args);
         return (exitCode, GetOutput(consoleOut, stdOut), GetOutput(consoleErr, null));
     }
 

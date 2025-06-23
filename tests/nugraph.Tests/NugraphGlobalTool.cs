@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Exceptions;
+using NuGet.Common;
 using TUnit.Core.Interfaces;
 using static nugraph.Tests.RepositoryDirectories;
 
@@ -27,13 +28,24 @@ public sealed partial class NugraphGlobalTool : Nugraph, IAsyncInitializer, IAsy
 
     public override string Version => _version ?? "N/A";
 
-    public override async Task<(int ExitCode, string StdOut, string StdErr)> RunAsync(string[] arguments, string? workingDirectory = null)
+    public override async Task<(int ExitCode, string StdOut, string StdErr)> RunAsync(string[] arguments, string? workingDirectory = null, LogLevel logLevel = LogLevel.Warning, bool noBrowser = true)
     {
         var stdOut = new StringWriter { NewLine = "\n" };
         var stdErr = new StringWriter { NewLine = "\n" };
         var command = Cli.Wrap("nugraph")
             .WithValidation(CommandResultValidation.None)
-            .WithArguments(arguments)
+            .WithArguments(args =>
+            {
+                foreach (var argument in arguments)
+                {
+                    args.Add(argument);
+                }
+                args.Add("--log").Add(logLevel.ToString());
+                if (noBrowser)
+                {
+                    args.Add("--no-browser");
+                }
+            })
             .WithWorkingDirectory(workingDirectory ?? Environment.CurrentDirectory)
             .WithStandardOutputPipe(PipeTarget.ToDelegate(stdOut.WriteLine))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(stdErr.WriteLine));

@@ -45,7 +45,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     [Test]
     public async Task Package_Serilog()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["Serilog", "--log", "Warning", "--no-browser"]);
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["Serilog"]);
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(0);
@@ -60,7 +60,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     [Test]
     public async Task Package_Serilog_430_net60()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["Serilog/4.3.0", "--framework", "net6.0", "--log", "Warning", "--no-browser"]);
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["Serilog/4.3.0", "--framework", "net6.0"]);
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(0);
@@ -75,7 +75,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     [Test]
     public async Task Package_DockerRunner_MermaidSvg()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["DockerRunner", "--format", "mmd.svg", "--log", "Warning", "--no-browser"]);
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["DockerRunner", "--format", "mmd.svg"]);
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(0);
@@ -90,7 +90,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     [Test]
     public async Task Package_DockerRunner_GraphvizSvg()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["DockerRunner", "--format", "dot.svg", "--log", "Warning", "--no-browser"]);
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["DockerRunner", "--format", "dot.svg"]);
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(0);
@@ -105,7 +105,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     [Test]
     public async Task Package_DoesNotExist()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["DoesNotExist", "--log", "Warning", "--no-browser"]);
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["DoesNotExist"]);
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(66);
@@ -116,7 +116,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     [Test]
     public async Task Project_nugraph_WorkingDirectory()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["-m", "gv", "--log", "Warning", "--no-browser"], workingDirectory: RepositoryDirectories.GetPath("src", "nugraph"));
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["-m", "gv"], workingDirectory: RepositoryDirectories.GetPath("src", "nugraph"));
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(0);
@@ -130,7 +130,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     [Test]
     public async Task Project_nugraph_ExplicitDirectory()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync([RepositoryDirectories.GetPath("src", "nugraph"), "-m", "graphviz", "--log", "Warning", "--no-browser"]);
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync([RepositoryDirectories.GetPath("src", "nugraph"), "-m", "graphviz"]);
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(0);
@@ -144,7 +144,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     [Test]
     public async Task Project_nugraph_ProjectFile()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync([RepositoryDirectories.GetPath("src", "nugraph", "nugraph.csproj"), "-m", "dot", "--log", "Warning", "--no-browser"]);
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync([RepositoryDirectories.GetPath("src", "nugraph", "nugraph.csproj"), "-m", "dot"]);
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(0);
@@ -158,7 +158,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     [Test]
     public async Task Project_SolutionFile()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["--log", "Warning", "--no-browser"], workingDirectory: RepositoryDirectories.GetPath());
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync([], workingDirectory: RepositoryDirectories.GetPath());
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(65);
@@ -172,7 +172,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     [Test]
     public async Task Project_NoProject()
     {
-        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["--log", "Warning", "--no-browser"], workingDirectory: RepositoryDirectories.GetPath("resources"));
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync([], workingDirectory: RepositoryDirectories.GetPath("resources"));
 
         using var _ = new AssertionScope();
         exitCode.Should().Be(65);
