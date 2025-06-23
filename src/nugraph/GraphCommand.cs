@@ -54,14 +54,14 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
         }
 
         var source = settings.Source;
-        var graphUrl = await console.Status().StartAsync($"Generating dependency graph for {source}".EscapeMarkup(), async context =>
-        {
+        // var graphUrl = await console.Status().StartAsync($"Generating dependency graph for {source}".EscapeMarkup(), async context =>
+        // {
             var graph = await source.Match(
                 file => ComputeDependencyGraphAsync(file, settings, cancellationToken),
-                package => ComputeDependencyGraphAsync(package, settings, Settings.LoadDefaultSettings(settings.NuGetRoot), new SpectreLogger(console, settings.LogLevel), context, cancellationToken)
+                package => ComputeDependencyGraphAsync(package, settings, Settings.LoadDefaultSettings(settings.NuGetRoot), new SpectreLogger(console, settings.LogLevel), /*context,*/ cancellationToken)
             );
-            return await WriteGraphAsync(graph, settings);
-        });
+            var graphUrl = await WriteGraphAsync(graph, settings);
+        // });
 
         if (graphUrl != null)
         {
@@ -99,14 +99,14 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
         return new DependencyGraph(packages, roots, ignores: settings.GraphIgnore);
     }
 
-    private static async Task<DependencyGraph> ComputeDependencyGraphAsync(PackageIdentity package, GraphCommandSettings settings, ISettings nugetSettings, ILogger logger, StatusContext context, CancellationToken cancellationToken)
+    private static async Task<DependencyGraph> ComputeDependencyGraphAsync(PackageIdentity package, GraphCommandSettings settings, ISettings nugetSettings, ILogger logger, CancellationToken cancellationToken)
     {
         using var project = await TemporaryProject.CreateAsync(package, settings.Framework, settings.Sdk, nugetSettings, logger, cancellationToken);
         if (settings.Title == GraphCommandSettings.DefaultTitle)
         {
             settings.Title = $"Dependency graph of {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})";
         }
-        context.Status = $"Generating dependency graph for {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})".EscapeMarkup();
+        // context.Status = $"Generating dependency graph for {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})".EscapeMarkup();
         return await ComputeDependencyGraphAsync(project.File, settings, cancellationToken);
     }
 
