@@ -25,7 +25,7 @@ internal sealed class GraphCommandSettings : CommandSettings
                  "optionally with a specific version, e.g. [b]Newtonsoft.Json/13.0.3[/].")]
     public string? SourceInput { get; init; }
 
-    public FileOrPackage Source { get; private set; } = new PackageIdentity("", new NuGetVersion(0, 0, 0));
+    public FileOrPackage? Source { get; private set; }
 
     [CommandOption("-o|--output <OUTPUT>")]
     [Description("The path to the dependency graph output file. If not specified, the dependency graph URL is written on the standard output and an online service is opened in the default browser.")]
@@ -185,10 +185,10 @@ internal sealed class GraphCommandSettings : CommandSettings
         return (OnlineService)(-1);
     }
 
-    private FileOrPackage GetSource()
+    private FileOrPackage? GetSource()
     {
         if (SourceInput == null)
-            return new DirectoryInfo(Environment.CurrentDirectory);
+            return null;
 
         var file = new FileInfo(SourceInput);
         if (file.Exists)

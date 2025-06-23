@@ -11,11 +11,12 @@ using static nugraph.Tests.RepositoryDirectories;
 
 namespace nugraph.Tests;
 
-public sealed partial class NugraphGlobalTool : IAsyncInitializer, IAsyncDisposable
+public sealed partial class NugraphGlobalTool : Nugraph, IAsyncInitializer, IAsyncDisposable
 {
     private static readonly bool IsContinuousIntegrationBuild = Environment.GetEnvironmentVariable("ContinuousIntegrationBuild") == "true";
 
     private readonly DirectoryInfo _workingDirectory;
+    private string? _version;
     private string? _previousVersion;
 
     public NugraphGlobalTool()
@@ -24,9 +25,9 @@ public sealed partial class NugraphGlobalTool : IAsyncInitializer, IAsyncDisposa
         _workingDirectory.Create();
     }
 
-    public string Version { get; private set; } = "N/A";
+    public override string Version => _version ?? "N/A";
 
-    public async Task<(int ExitCode, IReadOnlyList<string> StdOut, IReadOnlyList<string> StdErr)> RunAsync(string[] arguments, string? workingDirectory = null)
+    public override async Task<(int ExitCode, IReadOnlyList<string> StdOut, IReadOnlyList<string> StdErr)> RunAsync(string[] arguments, string? workingDirectory = null)
     {
         var stdOut = new List<string>();
         var stdErr = new List<string>();
@@ -81,7 +82,7 @@ public sealed partial class NugraphGlobalTool : IAsyncInitializer, IAsyncDisposa
             packArgs.Add("--no-build");
         }
         var packageVersion = await RunDotnetAsync(packArgs.ToArray());
-        Version = packageVersion.TrimEnd();
+        _version = packageVersion.TrimEnd();
     }
 
     private async Task InstallAsync()
