@@ -17,6 +17,7 @@ public static class RedirectionFriendlyConsole
         {
             Out = output,
             Ansi = output.IsTerminal ? AnsiSupport.Detect : AnsiSupport.No,
+            Enrichment = { UseDefaultEnrichers = false },
         };
         return AnsiConsole.Create(settings);
     }
