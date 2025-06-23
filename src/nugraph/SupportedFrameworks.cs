@@ -32,7 +32,7 @@ public partial class SupportedFrameworks
         var cache = await ReadSupportedFrameworksCacheAsync(cancellationToken);
         cache[sdkPath] = supportedFrameworks;
 
-        await using var stream = _file.OpenWrite();
+        await using var stream = _file.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite);
         stream.SetLength(0);
         await JsonSerializer.SerializeAsync(stream, cache, FileCacheSerializerContext.Default.DictionaryStringHashSetNuGetFramework, cancellationToken);
 
@@ -46,7 +46,7 @@ public partial class SupportedFrameworks
             return [];
         }
 
-        await using var stream = _file.OpenRead();
+        await using var stream = _file.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         try
         {
             var cache = await JsonSerializer.DeserializeAsync(stream, FileCacheSerializerContext.Default.DictionaryStringHashSetNuGetFramework, cancellationToken: cancellationToken);
