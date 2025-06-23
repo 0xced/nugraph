@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -28,6 +28,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\continuous-integration.yml = .github\workflows\continuous-integration.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Console.Cli", "..\spectre.console\src\Spectre.Console.Cli\Spectre.Console.Cli.csproj", "{53155C68-8E32-4A4E-9A54-8B4B9FE69FD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Console", "..\spectre.console\src\Spectre.Console\Spectre.Console.csproj", "{144FF5D6-2BB1-4CC3-BEC1-D798899076BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,14 @@ Global
 		{2CB009CE-FCFA-4494-B1E4-51EE82E628AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CB009CE-FCFA-4494-B1E4-51EE82E628AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CB009CE-FCFA-4494-B1E4-51EE82E628AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53155C68-8E32-4A4E-9A54-8B4B9FE69FD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53155C68-8E32-4A4E-9A54-8B4B9FE69FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53155C68-8E32-4A4E-9A54-8B4B9FE69FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53155C68-8E32-4A4E-9A54-8B4B9FE69FD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{144FF5D6-2BB1-4CC3-BEC1-D798899076BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{144FF5D6-2BB1-4CC3-BEC1-D798899076BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{144FF5D6-2BB1-4CC3-BEC1-D798899076BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{144FF5D6-2BB1-4CC3-BEC1-D798899076BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{848D0747-9760-4867-B48C-92C89CB64BC4} = {4371CFB1-11A3-4951-BBB6-077D72024122}

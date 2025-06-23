@@ -62,6 +62,10 @@
     <Compile Remove="..\Chisel\src\Chisel\SdkAssemblyResolver.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\spectre.console\src\Spectre.Console.Cli\Spectre.Console.Cli.csproj" />
+  </ItemGroup>
+
   <PropertyGroup Label="To investigate if it makes sense for a CLI app">
     <!-- CA2007: Consider calling ConfigureAwait on the awaited task -->
     <NoWarn>$(NoWarn);CA2007</NoWarn>

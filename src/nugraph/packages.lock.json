@@ -73,15 +73,6 @@
         "resolved": "1.0.0",
         "contentHash": "TojbwWASRf3PMUsotXa8MQ9SNwEwWZZ5bAYf1eLv+jiDsxaD/n7TKTi3da6z4+m8uZHri2i+BVRuLj5w+6j64Q=="
       },
-      "Spectre.Console.Cli": {
-        "type": "Direct",
-        "requested": "[0.50.1-preview.0.20, )",
-        "resolved": "0.50.1-preview.0.20",
-        "contentHash": "IRdZVc2HjfdyVGcwrqic0narldN9nwnmInGOeVR/P8bhj7inZYki6b15E64bqiFlr7jMbxXL+gSzA4PVe75G2A==",
-        "dependencies": {
-          "Spectre.Console": "0.50.1-preview.0.20"
-        }
-      },
       "Microsoft.Build.Framework": {
         "type": "Transitive",
         "resolved": "17.11.31",
@@ -164,11 +155,6 @@
         "resolved": "6.14.0",
         "contentHash": "4v4blkhCv8mpKtfx+z0G/X0daVCzdIaHSC51GkUspugi5JIMn2Bo8xm5PdZYF0U68gOBfz/+aPWMnpRd85Jbow=="
       },
-      "Spectre.Console": {
-        "type": "Transitive",
-        "resolved": "0.50.1-preview.0.20",
-        "contentHash": "/kXc1by+ULOe75x2twmZjJ0NNGW3a0XOpXCxdbkbOP5H6YnF7N2fLwB9IcvXvHTDVBKpABPMxZiqVl0xWDOL+w=="
-      },
       "System.Collections.Immutable": {
         "type": "Transitive",
         "resolved": "8.0.0",
@@ -222,6 +208,15 @@
         "type": "Transitive",
         "resolved": "8.0.0",
         "contentHash": "+TUFINV2q2ifyXauQXRwy4CiBhqvDEDZeVJU7qfxya4aRYOKzVBpN+4acx25VcPB9ywUN6C0n8drWl110PhZEg=="
+      },
+      "spectre.console": {
+        "type": "Project"
+      },
+      "spectre.console.cli": {
+        "type": "Project",
+        "dependencies": {
+          "Spectre.Console": "[1.0.0, )"
+        }
       }
     }
   }
