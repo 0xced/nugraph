@@ -57,7 +57,7 @@ jobs:
         if: always()
         with:
           name: Diagnostics
-          path: "*.diagnostics.txt"
+          path: "**/*.diagnostics.txt"
       - name: 📊 Test Report
         uses: dorny/test-reporter@v2
         if: always()
