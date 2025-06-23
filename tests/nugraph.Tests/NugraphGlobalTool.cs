@@ -27,20 +27,20 @@ public sealed partial class NugraphGlobalTool : Nugraph, IAsyncInitializer, IAsy
 
     public override string Version => _version ?? "N/A";
 
-    public override async Task<(int ExitCode, IReadOnlyList<string> StdOut, IReadOnlyList<string> StdErr)> RunAsync(string[] arguments, string? workingDirectory = null)
+    public override async Task<(int ExitCode, string StdOut, string StdErr)> RunAsync(string[] arguments, string? workingDirectory = null)
     {
-        var stdOut = new List<string>();
-        var stdErr = new List<string>();
+        var stdOut = new StringWriter { NewLine = "\n" };
+        var stdErr = new StringWriter { NewLine = "\n" };
         var command = Cli.Wrap("nugraph")
             .WithValidation(CommandResultValidation.None)
             .WithArguments(arguments)
             .WithWorkingDirectory(workingDirectory ?? Environment.CurrentDirectory)
-            .WithStandardOutputPipe(PipeTarget.ToDelegate(stdOut.Add))
-            .WithStandardErrorPipe(PipeTarget.ToDelegate(stdErr.Add));
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(stdOut.WriteLine))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(stdErr.WriteLine));
 
         var result = await command.ExecuteAsync();
 
-        return (result.ExitCode, stdOut, stdErr);
+        return (result.ExitCode, stdOut.ToString().TrimEnd(), stdErr.ToString().TrimEnd());
     }
 
     async Task IAsyncInitializer.InitializeAsync()
