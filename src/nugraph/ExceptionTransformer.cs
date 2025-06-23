@@ -28,7 +28,7 @@ public static class ExceptionTransformer
                 new Text(ex.RecoverySuggestion)
             )),
             // EX_NOINPUT -- An input file (not a system file) did not exist or was not readable. This could also include errors like “No message” to a mailer (if it cared to catch it).
-            PackageNotFoundException ex => (66, new Text(ex.Message, Color.Red)),
+            PackageNotFoundException ex => (66, new Text(ex.Message, Color.Fuchsia)),
             _ => null,
         };
     }
