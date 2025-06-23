@@ -31,6 +31,24 @@ internal sealed class GraphCommand(IAnsiConsole console, CancellationToken cance
 {
     protected override async Task<int> ExecuteAsync(CommandContext commandContext, GraphCommandSettings settings, CancellationToken cancellationToken)
     {
+        if (settings.Diagnose)
+        {
+#pragma warning disable Spectre1000
+            var errorOut = RedirectionFriendlyConsole.Error.Profile.Out;
+            Console.WriteLine($"RedirectionFriendlyConsole.Error.Profile.Out.Width = {errorOut.Width}");
+            Console.WriteLine($"RedirectionFriendlyConsole.Error.Profile.Out.Height = {errorOut.Height}");
+            Console.WriteLine($"RedirectionFriendlyConsole.Error.Profile.Out.IsTerminal = {errorOut.IsTerminal}");
+            Console.WriteLine($"Console.IsInputRedirected = {Console.IsInputRedirected}");
+            Console.WriteLine($"Console.IsOutputRedirected = {Console.IsOutputRedirected}");
+            Console.WriteLine($"Console.IsErrorRedirected = {Console.IsErrorRedirected}");
+            if (Environment.TickCount > 0)
+            {
+                throw new InvalidOperationException("Fake exception");
+            }
+#pragma warning restore Spectre1000
+            return 0;
+        }
+
         var source = settings.Source;
         var graphUrl = await console.Status().StartAsync($"Generating dependency graph for {source}".EscapeMarkup(), async context =>
         {

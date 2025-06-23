@@ -9,6 +9,17 @@ namespace nugraph.Tests;
 public sealed class IntegrationTests(NugraphGlobalTool nugraph)
 {
     [Test]
+    public async Task Diagnose()
+    {
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["--diagnose"]);
+
+        using var _ = new AssertionScope();
+        exitCode.Should().Be(-1);
+        stdOut.Should().HaveCount(0);
+        stdErr.Should().HaveCount(0);
+    }
+
+    [Test]
     public async Task Version()
     {
         var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["--version"]);
