@@ -4,9 +4,11 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Chisel;
+using CliWrap;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -31,6 +33,18 @@ internal sealed class GraphCommand(IAnsiConsole console, DirectoryInfo currentWo
 {
     protected override async Task<int> ExecuteAsync(CommandContext commandContext, GraphCommandSettings settings, CancellationToken cancellationToken)
     {
+        if (settings.Diagnose)
+        {
+            await stdOut.WriteLineAsync("nugraph:");
+            await stdOut.WriteLineAsync($" Version: {typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "N/A"}");
+            await stdOut.WriteLineAsync($" Runtime: {Environment.Version}");
+            await stdOut.WriteLineAsync($" SDK:     {DotnetSdk.Register(settings.Sdk)}");
+            await stdOut.WriteLineAsync();
+            var dotnetInfo = Cli.Wrap("dotnet").WithArguments("--info").WithStandardOutputPipe(PipeTarget.ToDelegate(stdOut.WriteLine));
+            var result = await dotnetInfo.ExecuteAsync(cancellationToken);
+            return result.ExitCode;
+        }
+
         var source = settings.Source ?? currentWorkingDirectory;
         var graphUrl = await console.Status().StartAsync($"Generating dependency graph for {source}".EscapeMarkup(), async context =>
         {

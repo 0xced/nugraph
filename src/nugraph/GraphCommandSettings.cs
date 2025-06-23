@@ -100,6 +100,11 @@ internal sealed class GraphCommandSettings : CommandSettings
     [DefaultValue(false)]
     public bool GraphWriteIgnoredPackages { get; init; }
 
+    [CommandOption("--diagnose", IsHidden = true)]
+    [Description("Prints diagnostics information.")]
+    [DefaultValue(false)]
+    public bool Diagnose { get; init; }
+
     public override ValidationResult Validate()
     {
         try

@@ -1,11 +1,26 @@
+using System.IO;
 using System.Threading.Tasks;
 using AwesomeAssertions;
 using AwesomeAssertions.Execution;
+using static nugraph.Tests.RepositoryDirectories;
 
 namespace nugraph.Tests;
 
 public abstract class NugraphTests(Nugraph nugraph)
 {
+    [Test]
+    public async Task Diagnose()
+    {
+        var (exitCode, stdOut, stdErr) = await nugraph.RunAsync(["--diagnose"]);
+
+        await File.WriteAllTextAsync(GetFile($"{nugraph.GetType().Name}.diagnostics.txt").FullName, stdOut);
+
+        using var _ = new AssertionScope();
+        exitCode.Should().Be(0);
+        stdErr.Should().BeEmpty();
+        stdOut.Should().NotBeEmpty();
+    }
+
     [Test]
     public async Task Version()
     {
