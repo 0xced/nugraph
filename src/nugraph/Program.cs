@@ -59,7 +59,9 @@ public class Program(DirectoryInfo currentWorkingDirectory, IAnsiConsole console
                     case OperationCanceledException when cancellationTokenSource.IsCancellationRequested:
                         return 130; // https://github.com/spectreconsole/spectre.console/issues/701#issuecomment-2342979700
                     case Exception when ExceptionTransformer.GetError(exception) is { } error:
+                        stdOut.WriteLine($"BEFORE {(consoleErr.Profile.Out.Writer == Console.Out ? "❌" : "✅")}");
                         consoleErr.Write(error.Pretty);
+                        stdOut.WriteLine($"AFTER {(consoleErr.Profile.Out.Writer == Console.Error ? "✅" : "❌")}");
                         if (error.ExitCode.HasValue)
                         {
                             return error.ExitCode.Value;
