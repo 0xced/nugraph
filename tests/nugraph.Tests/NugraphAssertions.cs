@@ -1,5 +1,10 @@
 using System;
+using System.Buffers.Text;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Text.Json;
 using AwesomeAssertions;
 using AwesomeAssertions.Execution;
 using AwesomeAssertions.Primitives;
@@ -53,7 +58,45 @@ public class NugraphAssertions(NugraphResult instance, AssertionChain chain) :
 
                 return failures.Length == 0;
             })
-            .FailWith(string.Join(Environment.NewLine, failures));
+            .FailWith(string.Join(Environment.NewLine, failures.Select(e => e.Replace("{", "{{").Replace("}", "}}"))));
+
+        return new AndConstraint<NugraphAssertions>(this);
+    }
+
+    [CustomAssertion]
+    public AndConstraint<NugraphAssertions> UrlHasDiagram(string expectedDiagram, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        string[] failures = [];
+
+        _chain
+            .Given(() => Subject)
+            .ForCondition(result =>
+            {
+                var url = new Uri(result.StdOut.Split('\n').Last());
+                var urlPart = url.Fragment.Length > 0 ? url.Fragment : url.Segments.Last();
+                var colonIndex = urlPart.IndexOf(':');
+                var data = Base64Url.DecodeFromChars(urlPart.AsSpan(Range.StartAt(colonIndex + 1)));
+                using var memoryStream = new MemoryStream(data);
+                using var zlibStream = new ZLibStream(memoryStream, CompressionMode.Decompress, leaveOpen: true);
+                string? diagram;
+                if (url.Host is "mermaid.live" or "mermaid.ink")
+                {
+                    using var json = JsonDocument.Parse(zlibStream);
+                    diagram = json.RootElement.GetProperty("code").GetString()?.TrimEnd();
+                }
+                else
+                {
+                    using var reader = new StreamReader(zlibStream, leaveOpen: true);
+                    diagram = reader.ReadToEnd().TrimEnd();
+                }
+
+                using var scope = new AssertionScope();
+                diagram.Should().BeEquivalentTo(expectedDiagram, opt => opt.IgnoringNewlineStyle(), because, becauseArgs);
+                failures = scope.Discard();
+
+                return failures.Length == 0;
+            })
+            .FailWith(string.Join(Environment.NewLine, failures.Select(e => e.Replace("{", "{{").Replace("}", "}}"))));
 
         return new AndConstraint<NugraphAssertions>(this);
     }
@@ -89,7 +132,7 @@ public class NugraphAssertions(NugraphResult instance, AssertionChain chain) :
 
                 return failures.Length == 0;
             })
-            .FailWith(string.Join(Environment.NewLine, failures));
+            .FailWith(string.Join(Environment.NewLine, failures.Select(e => e.Replace("{", "{{").Replace("}", "}}"))));
 
         return new AndConstraint<NugraphAssertions>(this);
     }
