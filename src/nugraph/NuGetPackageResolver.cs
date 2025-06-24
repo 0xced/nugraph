@@ -69,7 +69,7 @@ internal sealed class NuGetPackageResolver
     {
         _logger.LogDebug($"Retrieving DependencyInfoResource for {sourceRepository}");
         var dependencyInfoResource = await sourceRepository.GetResourceAsync<DependencyInfoResource>(cancellationToken);
-        _logger.LogDebug($"Resolving {package.Id}");
+        _logger.LogDebug($"Resolving {package.Id} with {dependencyInfoResource}");
         var packageInfos = await dependencyInfoResource.ResolvePackages(package.Id, sourceCacheContext, _logger, cancellationToken);
 
         if (package.HasVersion)

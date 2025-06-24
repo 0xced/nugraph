@@ -1,5 +1,8 @@
 using System.IO;
 using System.Threading.Tasks;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using NuGet.Common;
 
 namespace nugraph.Tests;
 
@@ -100,9 +103,16 @@ public abstract class NugraphTests(Nugraph nugraph)
     [Test]
     public async Task Package_DoesNotExist()
     {
-        var result = await nugraph.RunAsync(["DoesNotExist"]);
+        var result = await nugraph.RunAsync(["DoesNotExist"], logLevel: LogLevel.Debug);
 
-        result.Should().Fail(66, "Package DoesNotExist was not found in nuget.org [https://api.nuget.org/v3/index.json]");
+        using (new AssertionScope())
+        {
+            result.Should().Fail(66, "Package DoesNotExist was not found in nuget.org [https://api.nuget.org/v3/index.json]");
+            result.StdOut.Should().ContainAll(
+                "Retrieving DependencyInfoResource for nuget.org",
+                "Resolving DoesNotExist with NuGet.Protocol.DependencyInfoResourceV3",
+                "Generating dependency graph for DoesNotExist");
+        }
     }
 
     [Test]
