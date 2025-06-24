@@ -35,14 +35,7 @@ internal sealed class GraphCommand(IAnsiConsole console, DirectoryInfo currentWo
     {
         if (settings.Diagnose)
         {
-            await stdOut.WriteLineAsync("nugraph:");
-            await stdOut.WriteLineAsync($" Version: {typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "N/A"}");
-            await stdOut.WriteLineAsync($" Runtime: {Environment.Version}");
-            await stdOut.WriteLineAsync($" SDK:     {DotnetSdk.Register(settings.Sdk)}");
-            await stdOut.WriteLineAsync();
-            var dotnetInfo = Cli.Wrap("dotnet").WithArguments("--info").WithStandardOutputPipe(PipeTarget.ToDelegate(stdOut.WriteLine));
-            var result = await dotnetInfo.ExecuteAsync(cancellationToken);
-            return result.ExitCode;
+            return await DiagnoseAsync(settings.Sdk, cancellationToken);
         }
 
         var source = settings.Source ?? currentWorkingDirectory;
@@ -72,6 +65,33 @@ internal sealed class GraphCommand(IAnsiConsole console, DirectoryInfo currentWo
         }
 
         return 0;
+    }
+
+    private async Task<int> DiagnoseAsync(DirectoryInfo? sdk, CancellationToken cancellationToken)
+    {
+        await stdOut.WriteLineAsync("nugraph:");
+        await stdOut.WriteLineAsync($" Version:  {typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "N/A"}");
+        await stdOut.WriteLineAsync($" Runtime:  {Environment.Version}");
+        await stdOut.WriteLineAsync($" SDK:      {DotnetSdk.Register(sdk)}");
+        await stdOut.WriteLineAsync();
+
+        await stdOut.WriteLineAsync("attributes:");
+        foreach (var attribute in typeof(Program).Assembly.GetCustomAttributesData().OrderBy(a => a.AttributeType.Name))
+        {
+            await stdOut.WriteLineAsync($" {attribute}");
+        }
+        await stdOut.WriteLineAsync();
+
+        await stdOut.WriteLineAsync("assemblies:");
+        foreach (var assembly in typeof(Program).Assembly.LoadReferencedAssemblies().OrderBy(a => a.GetName().Name))
+        {
+            await stdOut.WriteLineAsync($" {assembly}: {assembly.Location}");
+        }
+        await stdOut.WriteLineAsync();
+
+        var dotnetInfo = Cli.Wrap("dotnet").WithArguments("--info").WithStandardOutputPipe(PipeTarget.ToDelegate(stdOut.WriteLine));
+        var result = await dotnetInfo.ExecuteAsync(cancellationToken);
+        return result.ExitCode;
     }
 
     private static async Task<DependencyGraph> ComputeDependencyGraphAsync(FileSystemInfo source, GraphCommandSettings settings, CancellationToken cancellationToken)
