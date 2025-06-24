@@ -28,7 +28,7 @@ public sealed partial class NugraphGlobalTool : Nugraph, IAsyncInitializer, IAsy
 
     public override string Version => _version ?? "N/A";
 
-    public override async Task<(int ExitCode, string StdOut, string StdErr)> RunAsync(string[] arguments, string? workingDirectory = null, LogLevel logLevel = LogLevel.Warning, bool noBrowser = true)
+    public override async Task<NugraphResult> RunAsync(string[] arguments, string? workingDirectory = null, LogLevel logLevel = LogLevel.Warning, bool noBrowser = true)
     {
         var stdOut = new StringWriter { NewLine = "\n" };
         var stdErr = new StringWriter { NewLine = "\n" };
@@ -52,7 +52,7 @@ public sealed partial class NugraphGlobalTool : Nugraph, IAsyncInitializer, IAsy
 
         var result = await command.ExecuteAsync();
 
-        return (result.ExitCode, stdOut.ToString().TrimEnd(), stdErr.ToString().TrimEnd());
+        return new NugraphResult(result.ExitCode, stdOut.ToString().TrimEnd(), stdErr.ToString().TrimEnd());
     }
 
     async Task IAsyncInitializer.InitializeAsync()
