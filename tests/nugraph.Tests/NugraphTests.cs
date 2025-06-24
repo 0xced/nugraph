@@ -107,7 +107,7 @@ public abstract class NugraphTests(Nugraph nugraph)
 
         using (new AssertionScope())
         {
-            result.Should().Fail(66, "Package DoesNotExist was not found in nuget.org [https://api.nuget.org/v3/index.json]");
+            result.Should().Fail(66, "Package DoesNotExist was not found*nuget.org [https://api.nuget.org/v3/index.json]*");
             result.StdOut.Should().ContainAll(
                 "Retrieving DependencyInfoResource for nuget.org",
                 "Resolving DoesNotExist with NuGet.Protocol.DependencyInfoResourceV3",

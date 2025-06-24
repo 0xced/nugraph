@@ -67,6 +67,12 @@ internal sealed class NuGetPackageResolver
 
     private async Task<RemoteSourceDependencyInfo?> GetRemoteSourceDependencyInfoAsync(PackageIdentity package, SourceCacheContext sourceCacheContext, SourceRepository sourceRepository, CancellationToken cancellationToken)
     {
+        if (sourceRepository.PackageSource.IsLocal)
+        {
+            _logger.LogDebug($"Skipping {sourceRepository.PackageSource}");
+            return null;
+        }
+
         _logger.LogDebug($"Retrieving DependencyInfoResource for {sourceRepository}");
         var dependencyInfoResource = await sourceRepository.GetResourceAsync<DependencyInfoResource>(cancellationToken);
         _logger.LogDebug($"Resolving {package.Id} with {dependencyInfoResource}");
