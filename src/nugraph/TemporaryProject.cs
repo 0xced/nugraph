@@ -68,7 +68,8 @@ internal sealed class TemporaryProject : IDisposable
         }
 
         var sdkPath = DotnetSdk.Register(sdk);
-        var supportedTargetFrameworks = await DotnetSdk.GetSupportedTargetFrameworksAsync(cancellationToken);
+        logger.LogDebug($"Using .NET SDK at {sdkPath}");
+        var supportedTargetFrameworks = DotnetSdk.GetSupportedTargetFrameworks();
 
         var supportedTargetFramework = targetFrameworks.Intersect(supportedTargetFrameworks).Order(NuGetFrameworkVersionComparer.Instance).FirstOrDefault();
         if (supportedTargetFramework != null)
