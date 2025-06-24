@@ -22,6 +22,7 @@ try
 
     using var writer = output != null ? new StreamWriter(new FileStream(output, FileMode.Create, FileAccess.Write)) : Console.Out;
     var renderer = new RoundtripRenderer(writer);
+    // titleMap can be removed altogether once https://github.com/NuGet/NuGetGallery/issues/10198 is resolved
     var titleMap = new Dictionary<string, Uri>
     {
         ["Dependency graph of Microsoft.Extensions.Logging.Console 9.0.6 (net8.0)"] = new(baseUri, "resources/Microsoft.Extensions.Logging.Console.svg"),
