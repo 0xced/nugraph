@@ -29,6 +29,7 @@ jobs:
       - name: 🏎 Optimize Windows runner
         if: matrix.os == 'windows-latest'
         run: |
+          chcp 65001
           echo "DOTNET_INSTALL_DIR=D:\dotnet" >> $env:GITHUB_ENV
           echo "NUGET_PACKAGES=D:\nuget" >> $env:GITHUB_ENV
       - name: 🧑‍🔧 Install .NET SDK
