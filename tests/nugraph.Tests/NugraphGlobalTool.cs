@@ -30,9 +30,12 @@ public sealed partial class NugraphGlobalTool : Nugraph, IAsyncInitializer, IAsy
 
     public override async Task<NugraphResult> RunAsync(string[] arguments, string? workingDirectory = null, LogLevel logLevel = LogLevel.Warning, bool noBrowser = true)
     {
+        // https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools#install-a-global-tool
         var stdOut = new StringWriter { NewLine = "\n" };
         var stdErr = new StringWriter { NewLine = "\n" };
-        var command = Cli.Wrap("nugraph")
+        var toolsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".dotnet", "tools");
+        var nugraph = Path.Combine(toolsDirectory, OperatingSystem.IsWindows() ? "nugraph.exe" : "nugraph");
+        var command = Cli.Wrap(nugraph)
             .WithValidation(CommandResultValidation.None)
             .WithArguments(args =>
             {
@@ -46,7 +49,7 @@ public sealed partial class NugraphGlobalTool : Nugraph, IAsyncInitializer, IAsy
                     args.Add("--no-browser");
                 }
             })
-            .WithWorkingDirectory(workingDirectory ?? Environment.CurrentDirectory)
+            .WithWorkingDirectory(workingDirectory ?? toolsDirectory)
             .WithStandardOutputPipe(PipeTarget.ToDelegate(stdOut.WriteLine))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(stdErr.WriteLine));
 
