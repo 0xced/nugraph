@@ -112,6 +112,7 @@ public abstract class NugraphTests(Nugraph nugraph)
                 "Retrieving DependencyInfoResource for nuget.org",
                 "Resolving DoesNotExist with NuGet.Protocol.DependencyInfoResourceV3",
                 "Generating dependency graph for DoesNotExist");
+            result.StdOut.Should().BeEmpty();
         }
     }
 

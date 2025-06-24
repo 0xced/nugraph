@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Espresso3389.HttpStream;
@@ -69,7 +70,9 @@ internal sealed class NuGetPackageResolver
     {
         _logger.LogDebug($"Retrieving DependencyInfoResource for {sourceRepository}");
         var dependencyInfoResource = await sourceRepository.GetResourceAsync<DependencyInfoResource>(cancellationToken);
-        _logger.LogDebug($"Resolving {package.Id} with {dependencyInfoResource}");
+        var type = dependencyInfoResource.GetType();
+        var method = type.GetMethod("ResolvePackages", BindingFlags.Public | BindingFlags.Instance, [ typeof(string), typeof(SourceCacheContext), typeof(ILogger), typeof(CancellationToken) ]);
+        _logger.LogDebug($"Resolving {package.Id} with {dependencyInfoResource.GetType().FullName} (MetadataToken = 0x{method?.MetadataToken:X8}, MethodImplementationFlags = {method?.GetMethodImplementationFlags()}, Attributes = {method?.Attributes})");
         var packageInfos = await dependencyInfoResource.ResolvePackages(package.Id, sourceCacheContext, _logger, cancellationToken);
 
         if (package.HasVersion)
