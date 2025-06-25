@@ -21,7 +21,7 @@ internal sealed class GraphCommandSettings : CommandSettings
     public const string DefaultTitle = "Dependency graph of [SOURCE]";
 
     [CommandArgument(0, "[SOURCE]")]
-    [Description("The source of the graph. Can be either a directory containing a .NET project, a .NET project file (csproj) or the name of a NuGet package, " +
+    [Description("The source of the graph. Can be either a directory containing a .NET project, a .NET project file (csproj/fsproj/vbproj) or the name of a NuGet package, " +
                  "optionally with a specific version, e.g. [b]Newtonsoft.Json/13.0.3[/].")]
     public string? SourceInput { get; init; }
 
