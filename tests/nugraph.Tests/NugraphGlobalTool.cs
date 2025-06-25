@@ -28,7 +28,7 @@ public sealed partial class NugraphGlobalTool : Nugraph, IAsyncInitializer, IAsy
 
     public override string Version => _version ?? "N/A";
 
-    public override async Task<NugraphResult> RunAsync(string[] arguments, string? workingDirectory = null, LogLevel logLevel = LogLevel.Warning, bool noBrowser = true)
+    public override async Task<NugraphResult> RunAsync(string[] arguments, string? workingDirectory = null, LogLevel logLevel = LogLevel.Warning, UrlAction action = UrlAction.print)
     {
         // https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools#install-a-global-tool
         var stdOut = new StringWriter { NewLine = "\n" };
@@ -44,10 +44,7 @@ public sealed partial class NugraphGlobalTool : Nugraph, IAsyncInitializer, IAsy
                     args.Add(argument);
                 }
                 args.Add("--log").Add(logLevel.ToString());
-                if (noBrowser)
-                {
-                    args.Add("--no-browser");
-                }
+                args.Add("--url").Add(action.ToString());
             })
             .WithWorkingDirectory(workingDirectory ?? toolsDirectory)
             .WithStandardOutputPipe(PipeTarget.ToDelegate(stdOut.WriteLine))

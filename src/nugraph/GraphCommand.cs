@@ -51,12 +51,16 @@ internal sealed class GraphCommand(IAnsiConsole console, DirectoryInfo currentWo
         if (graphUrl != null)
         {
             var url = graphUrl.ToString();
-            // Using "console.WriteLine(url)" (lowercase c) would insert newlines at the physical console length, making the written URL neither copyable nor clickable
-            // At that point the status has terminated so it's fine not using the IAnsiConsole methods
-            await stdOut.WriteLineAsync(url);
-            if (!settings.NoBrowser)
+            if (settings.UrlAction.HasFlag(UrlAction.print))
+            {
+                // Using "console.WriteLine(url)" (lowercase c) would insert newlines at the physical console length, making the written URL neither copyable nor clickable
+                // At that point the status has terminated so it's fine not using the IAnsiConsole methods
+                await stdOut.WriteLineAsync(url);
+            }
+            if (settings.UrlAction.HasFlag(UrlAction.open))
             {
                 Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+                console.WriteLine($"The {source} dependency graph has been opened in the default browser");
             }
         }
         else if (settings.OutputFile != null)

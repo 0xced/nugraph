@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased][Unreleased]
 
 * Fixed an issue where a project reference (blue) could be wrongly identified as package reference (green)
+* Removed the `--no-browser` option, replaced with the `-u|--url` option
 
 ## [0.3.0][0.3.0] - 2025-06-24
 

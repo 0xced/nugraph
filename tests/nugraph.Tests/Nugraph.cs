@@ -5,7 +5,7 @@ namespace nugraph.Tests;
 
 public abstract class Nugraph
 {
-    public abstract Task<NugraphResult> RunAsync(string[] arguments, string? workingDirectory = null, LogLevel logLevel = LogLevel.Warning, bool noBrowser = true);
+    public abstract Task<NugraphResult> RunAsync(string[] arguments, string? workingDirectory = null, LogLevel logLevel = LogLevel.Warning, UrlAction action = UrlAction.print);
 
     public abstract string Version { get; }
 }

@@ -17,7 +17,7 @@ public sealed class NugraphProgram : Nugraph
         Version = SemanticVersion.Parse(version).ToNormalizedString();
     }
 
-    public override async Task<NugraphResult> RunAsync(string[] arguments, string? workingDirectory = null, LogLevel logLevel = LogLevel.Warning, bool noBrowser = true)
+    public override async Task<NugraphResult> RunAsync(string[] arguments, string? workingDirectory = null, LogLevel logLevel = LogLevel.Warning, UrlAction action = UrlAction.print)
     {
         using var consoleOut = new TestConsole();
         consoleOut.Profile.Width = 256;
@@ -25,7 +25,7 @@ public sealed class NugraphProgram : Nugraph
         consoleErr.Profile.Width = 256;
         await using var stdOut = new StringWriter();
         var program = new Program(new DirectoryInfo(workingDirectory ?? Environment.CurrentDirectory), consoleOut, consoleErr, stdOut);
-        var args = arguments.Append("--log").Append(logLevel.ToString()).Append("--no-browser").Append(noBrowser.ToString()).ToArray();
+        var args = arguments.Append("--log").Append(logLevel.ToString()).Append("--url").Append(action.ToString()).ToArray();
         var exitCode = await program.RunAsync(args);
         return new NugraphResult(exitCode, GetOutput(consoleOut, stdOut), GetOutput(consoleErr, null));
     }
