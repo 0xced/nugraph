@@ -43,7 +43,8 @@ internal sealed class GraphCommandSettings : CommandSettings
     [CommandOption("-m|--format <FORMAT>")]
     [Description($"The format to use when the [b]--output[/] option is not specified.\n" +
                  $"Use [b]mmd[/] or [b]mermaid[/] for Mermaid Live Editor https://mermaid.live\n" +
-                 $"Use [b]dot[/], [b]gv[/] or [b]graphviz[/] for Edotor https://edotor.net")]
+                 $"Use [b]dot[/], [b]gv[/] or [b]graphviz[/] for Edotor https://edotor.net\n" +
+                 "See https://github.com/0xced/nugraph/#output for even more supported formats.")]
     [DefaultValue("mermaid")]
     public string Format { get; init; } = "";
 
