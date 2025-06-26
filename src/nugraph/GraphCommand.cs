@@ -75,10 +75,13 @@ internal sealed class GraphCommand(ProgramEnvironment environment, CancellationT
 
     private static async Task<int> DiagnoseAsync(TextWriter stdOut, DirectoryInfo? sdk, CancellationToken cancellationToken)
     {
+        var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        var userProfileReplacement = OperatingSystem.IsWindows() ? "%UserProfile%" : "~";
+
         await stdOut.WriteLineAsync("nugraph:");
         await stdOut.WriteLineAsync($" Version:  {typeof(Program).Assembly.GetVersion()}");
         await stdOut.WriteLineAsync($" Runtime:  {Environment.Version}");
-        await stdOut.WriteLineAsync($" SDK:      {DotnetSdk.Register(sdk)}");
+        await stdOut.WriteLineAsync($" SDK:      {DotnetSdk.Register(sdk)?.Replace(userProfile, userProfileReplacement)}");
         await stdOut.WriteLineAsync();
 
         await stdOut.WriteLineAsync("attributes:");
@@ -91,11 +94,11 @@ internal sealed class GraphCommand(ProgramEnvironment environment, CancellationT
         await stdOut.WriteLineAsync("assemblies:");
         foreach (var assembly in typeof(Program).Assembly.LoadReferencedAssemblies().OrderBy(a => a.GetName().Name))
         {
-            await stdOut.WriteLineAsync($" {assembly}: {assembly.Location}");
+            await stdOut.WriteLineAsync($" {assembly}: {assembly.Location.Replace(userProfile, userProfileReplacement)}");
         }
         await stdOut.WriteLineAsync();
 
-        var dotnetInfo = Cli.Wrap("dotnet").WithArguments("--info").WithStandardOutputPipe(PipeTarget.ToDelegate(stdOut.WriteLine));
+        var dotnetInfo = Cli.Wrap("dotnet").WithArguments("--info").WithStandardOutputPipe(PipeTarget.ToDelegate(line => stdOut.WriteLine(line.Replace(userProfile, userProfileReplacement))));
         var result = await dotnetInfo.ExecuteAsync(cancellationToken);
         return result.ExitCode;
     }

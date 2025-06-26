@@ -1,5 +1,8 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
 using NuGet.Common;
 
 namespace nugraph.Tests;
@@ -19,7 +22,11 @@ public abstract class NugraphTests(Nugraph nugraph)
 
         await File.WriteAllTextAsync($"{nugraph.GetType().Name}.diagnostics.txt", result.StdOut);
 
-        result.Should().Match(stdOutPattern: "nugraph:*");
+        using (new AssertionScope())
+        {
+            result.Should().Match(stdOutPattern: "nugraph:*");
+            result.StdOut.Should().NotContain(Path.DirectorySeparatorChar + Environment.UserName + Path.DirectorySeparatorChar);
+        }
     }
 
     [Test]
