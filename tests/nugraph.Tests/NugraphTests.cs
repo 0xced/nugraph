@@ -4,6 +4,12 @@ using NuGet.Common;
 
 namespace nugraph.Tests;
 
+[InheritsTests, ClassDataSource<NugraphGlobalTool>(Shared = SharedType.PerTestSession)]
+public sealed class NugraphTestsGlobalTool(NugraphGlobalTool nugraph) : NugraphTests(nugraph);
+
+[InheritsTests, ClassDataSource<NugraphProgram>(Shared = SharedType.PerTestSession)]
+public sealed class NugraphTestsProgram(NugraphProgram nugraph) : NugraphTests(nugraph);
+
 public abstract class NugraphTests(Nugraph nugraph)
 {
     [Test]
