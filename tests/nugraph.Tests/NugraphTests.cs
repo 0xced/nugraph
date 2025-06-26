@@ -29,7 +29,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync(["--help"]);
 
-        result.Should().Match(stdOutPattern: "*nugraph*[SOURCE]*");
+        result.Should().Match(stdOutPattern: "*USAGE:*nugraph*[SOURCE]*");
     }
 
     [Test]
@@ -167,6 +167,18 @@ public abstract class NugraphTests(Nugraph nugraph)
                                                  Generating dependency graph for resources
                                                  The current working directory does not contain a project file.
                                                  Please run nugraph in a directory that contains a single project file or pass an explicit project file as the first argument.
+                                                 """);
+    }
+
+    [Test]
+    public async Task BadUrlOption()
+    {
+        var result = await nugraph.RunAsync(["--url", "bad"]);
+
+        result.Should().Match(64, stdErrPattern: """
+                                                 Failed to convert 'bad' to UrlAction. Valid values are 'none', 'open', 'print'
+                                                 DESCRIPTION:*
+                                                 *USAGE:*nugraph*[SOURCE]*
                                                  """);
     }
 }

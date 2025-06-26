@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -23,7 +23,7 @@ public class Program(ProgramEnvironment environment)
         return await program.RunAsync(args);
     }
 
-    public async Task<int> RunAsync(string[] args)
+    public async Task<int> RunAsync(params string[] args)
     {
         var app = new CommandApp<GraphCommand>();
         using var cancellationTokenSource = new CancellationTokenSource();
@@ -81,7 +81,7 @@ public class Program(ProgramEnvironment environment)
 
                 if (exception is CommandAppException)
                 {
-                    app.Run(["--help"]);
+                    new Program(environment with { ConsoleOut = environment.ConsoleErr }).RunAsync("--help").GetAwaiter().GetResult();
                     return 64; // EX_USAGE -- The command was used incorrectly, e.g., with the wrong number of arguments, a bad flag, a bad syntax in a parameter, or whatever.
                 }
 
