@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 * Fixed an issue where a project reference (blue) could be wrongly identified as package reference (green)
 * Removed the `--no-browser` option, replaced with the `-u|--url` option
+* Logs and status are now written to stderr. Only actual content is written to stdout, i.e.
+  * The graph URL when `--url print` is used
+  * The output of the `--help` and `--version` options
 
 ## [0.3.0][0.3.0] - 2025-06-24
 

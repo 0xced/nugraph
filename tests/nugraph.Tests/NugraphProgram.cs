@@ -24,7 +24,7 @@ public sealed class NugraphProgram : Nugraph
         using var consoleErr = new TestConsole();
         consoleErr.Profile.Width = 256;
         await using var stdOut = new StringWriter();
-        var program = new Program(new DirectoryInfo(workingDirectory ?? Environment.CurrentDirectory), consoleOut, consoleErr, stdOut);
+        var program = new Program(new ProgramEnvironment(new DirectoryInfo(workingDirectory ?? Environment.CurrentDirectory), consoleOut, consoleErr, stdOut));
         var args = arguments.Append("--log").Append(logLevel.ToString()).Append("--url").Append(action.ToString()).ToArray();
         var exitCode = await program.RunAsync(args);
         return new NugraphResult(exitCode, GetOutput(consoleOut, stdOut), GetOutput(consoleErr, null));

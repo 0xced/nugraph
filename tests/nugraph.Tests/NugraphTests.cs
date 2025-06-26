@@ -1,7 +1,5 @@
 using System.IO;
 using System.Threading.Tasks;
-using AwesomeAssertions;
-using AwesomeAssertions.Execution;
 using NuGet.Common;
 
 namespace nugraph.Tests;
@@ -15,7 +13,7 @@ public abstract class NugraphTests(Nugraph nugraph)
 
         await File.WriteAllTextAsync($"{nugraph.GetType().Name}.diagnostics.txt", result.StdOut);
 
-        result.Should().Succeed("nugraph:*");
+        result.Should().Match(stdOutPattern: "nugraph:*");
     }
 
     [Test]
@@ -23,7 +21,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync(["--version"]);
 
-        result.Should().Succeed(nugraph.Version);
+        result.Should().Match(stdOutPattern: nugraph.Version);
     }
 
     [Test]
@@ -31,7 +29,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync(["--help"]);
 
-        result.Should().Succeed("*nugraph*[SOURCE]*");
+        result.Should().Match(stdOutPattern: "*nugraph*[SOURCE]*");
     }
 
     [Test]
@@ -39,10 +37,9 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync(["Serilog"]);
 
-        result.Should().Succeed("""
+        result.Should().Match(stdOutPattern:"https://mermaid.live/view#pako:*", stdErrPattern: """
                                 Generating dependency graph for Serilog
                                 Generating dependency graph for Serilog *
-                                https://mermaid.live/view#pako:*
                                 """);
     }
 
@@ -51,10 +48,9 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync(["Serilog/4.3.0", "--framework", "net6.0"]);
 
-        result.Should().Succeed("""
+        result.Should().Match(stdOutPattern: "https://mermaid.live/view#pako:*", stdErrPattern: """
                                 Generating dependency graph for Serilog 4.3.0
                                 Generating dependency graph for Serilog 4.3.0 (net6.0)
-                                https://mermaid.live/view#pako:*
                                 """)
             .And.UrlHasDiagram("""
                                ---
@@ -81,10 +77,9 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync(["DockerRunner", "--format", "mmd.svg"]);
 
-        result.Should().Succeed("""
+        result.Should().Match(stdOutPattern:"https://mermaid.ink/svg/pako:*", stdErrPattern: """
                                 Generating dependency graph for DockerRunner
                                 Generating dependency graph for DockerRunner 1.0.0-beta.2 (netstandard2.0)
-                                https://mermaid.ink/svg/pako:*
                                 """);
     }
 
@@ -93,10 +88,9 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync(["DockerRunner", "--format", "dot.svg"]);
 
-        result.Should().Succeed("""
+        result.Should().Match(stdOutPattern:"https://kroki.io/graphviz/svg/*", stdErrPattern: """
                                 Generating dependency graph for DockerRunner
                                 Generating dependency graph for DockerRunner 1.0.0-beta.2 (netstandard2.0)
-                                https://kroki.io/graphviz/svg/*
                                 """);
     }
 
@@ -105,14 +99,11 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync(["DoesNotExist"], logLevel: LogLevel.Debug);
 
-        using (new AssertionScope())
-        {
-            result.Should().Fail(66, "Package DoesNotExist was not found*nuget.org [https://api.nuget.org/v3/index.json]*");
-            result.StdOut.Should().ContainAll(
-                "Retrieving DependencyInfoResource for nuget.org",
-                "Resolving DoesNotExist with NuGet.Protocol.DependencyInfoResourceV3",
-                "Generating dependency graph for DoesNotExist");
-        }
+        result.Should().Match(66, stdErrPattern: """
+                                                 *Retrieving DependencyInfoResource for nuget.org*
+                                                 *Resolving DoesNotExist with NuGet.Protocol.DependencyInfoResourceV3*
+                                                 *Package DoesNotExist was not found*nuget.org [https://api.nuget.org/v3/index.json]*
+                                                 """);
     }
 
     [Test]
@@ -120,10 +111,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync(["-m", "gv"], workingDirectory: RepositoryDirectories.GetPath("src", "nugraph"));
 
-        result.Should().Succeed("""
-                                Generating dependency graph for nugraph
-                                https://edotor.net/#deflate:*
-                                """);
+        result.Should().Match(stdOutPattern: "https://edotor.net/#deflate:*", stdErrPattern: "Generating dependency graph for nugraph");
     }
 
     [Test]
@@ -131,10 +119,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync([RepositoryDirectories.GetPath("src", "nugraph"), "-m", "graphviz"]);
 
-        result.Should().Succeed("""
-                                Generating dependency graph for nugraph
-                                https://edotor.net/#deflate:*
-                                """);
+        result.Should().Match(stdOutPattern: "https://edotor.net/#deflate:*", stdErrPattern: "Generating dependency graph for nugraph");
     }
 
     [Test]
@@ -142,10 +127,7 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync([RepositoryDirectories.GetPath("tools", "mmd", "mmd.csproj"), "-m", "dot"]);
 
-        result.Should().Succeed("""
-                                Generating dependency graph for mmd.csproj
-                                https://edotor.net/#deflate:*
-                                """)
+        result.Should().Match(stdOutPattern: "https://edotor.net/#deflate:*", stdErrPattern: "Generating dependency graph for mmd.csproj")
             .And.UrlHasDiagram("""
                                # Generated by https://github.com/0xced/nugraph
                                
@@ -169,10 +151,11 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync([], workingDirectory: RepositoryDirectories.GetPath());
 
-        result.Should().Fail(65, """
-                                 Solution files are not supported.
-                                 Please run nugraph in a directory that contains a single project file or pass an explicit project file as the first argument.
-                                 """);
+        result.Should().Match(65, stdErrPattern: """
+                                                 Generating dependency graph for nugraph
+                                                 Solution files are not supported.
+                                                 Please run nugraph in a directory that contains a single project file or pass an explicit project file as the first argument.
+                                                 """);
     }
 
     [Test]
@@ -180,9 +163,10 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync([], workingDirectory: RepositoryDirectories.GetPath("resources"));
 
-        result.Should().Fail(65, """
-                                 The current working directory does not contain a project file.
-                                 Please run nugraph in a directory that contains a single project file or pass an explicit project file as the first argument.
-                                 """);
+        result.Should().Match(65, stdErrPattern: """
+                                                 Generating dependency graph for resources
+                                                 The current working directory does not contain a project file.
+                                                 Please run nugraph in a directory that contains a single project file or pass an explicit project file as the first argument.
+                                                 """);
     }
 }

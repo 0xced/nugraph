@@ -29,16 +29,19 @@ internal sealed partial class FileOrPackage : OneOfBase<FileSystemInfo, PackageI
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Instantiated by Spectre.Console.Cli through reflection")]
 [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Instantiated by Spectre.Console.Cli through reflection")]
 [Description("Generates dependency graphs for .NET projects and NuGet packages.")]
-internal sealed class GraphCommand(IAnsiConsole console, DirectoryInfo currentWorkingDirectory, TextWriter stdOut, CancellationToken cancellationToken) : CancelableCommand<GraphCommandSettings>(cancellationToken)
+internal sealed class GraphCommand(ProgramEnvironment environment, CancellationToken cancellationToken) : CancelableCommand<GraphCommandSettings>(cancellationToken)
 {
     protected override async Task<int> ExecuteAsync(CommandContext commandContext, GraphCommandSettings settings, CancellationToken cancellationToken)
     {
+        var stdOut = environment.StdOut;
+        var console = environment.ConsoleErr;
+
         if (settings.Diagnose)
         {
-            return await DiagnoseAsync(settings.Sdk, cancellationToken);
+            return await DiagnoseAsync(stdOut, settings.Sdk, cancellationToken);
         }
 
-        var source = settings.Source ?? currentWorkingDirectory;
+        var source = settings.Source ?? environment.CurrentWorkingDirectory;
         var graphUrl = await console.Status().StartAsync($"Generating dependency graph for {source}".EscapeMarkup(), async context =>
         {
             var graph = await source.Match(
@@ -71,7 +74,7 @@ internal sealed class GraphCommand(IAnsiConsole console, DirectoryInfo currentWo
         return 0;
     }
 
-    private async Task<int> DiagnoseAsync(DirectoryInfo? sdk, CancellationToken cancellationToken)
+    private static async Task<int> DiagnoseAsync(TextWriter stdOut, DirectoryInfo? sdk, CancellationToken cancellationToken)
     {
         await stdOut.WriteLineAsync("nugraph:");
         await stdOut.WriteLineAsync($" Version:  {typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "N/A"}");

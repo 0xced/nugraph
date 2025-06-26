@@ -9,9 +9,11 @@ using Spectre.Console.Cli;
 
 namespace nugraph;
 
-public class Program(DirectoryInfo currentWorkingDirectory, IAnsiConsole consoleOut, IAnsiConsole consoleErr, TextWriter stdOut)
+public record ProgramEnvironment(DirectoryInfo CurrentWorkingDirectory, IAnsiConsole ConsoleOut, IAnsiConsole ConsoleErr, TextWriter StdOut);
+
+public class Program(ProgramEnvironment environment)
 {
-    public Program() : this(new DirectoryInfo(Environment.CurrentDirectory), RedirectionFriendlyConsole.Out, RedirectionFriendlyConsole.Error, Console.Out)
+    public Program() : this(new ProgramEnvironment(new DirectoryInfo(Environment.CurrentDirectory), RedirectionFriendlyConsole.Out, RedirectionFriendlyConsole.Error, Console.Out))
     {
     }
 
@@ -48,12 +50,12 @@ public class Program(DirectoryInfo currentWorkingDirectory, IAnsiConsole console
             var version = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? assembly.GetName().Version?.ToString() ?? "N/A";
             config.SetApplicationName(OperatingSystem.IsWindows() ? "nugraph.exe" : "nugraph");
             config.SetApplicationVersion(SemanticVersion.TryParse(version, out var semanticVersion) ? semanticVersion.ToNormalizedString() : version);
-            config.ConfigureConsole(consoleOut);
-            config.Settings.Registrar.RegisterInstance(currentWorkingDirectory);
-            config.Settings.Registrar.RegisterInstance(stdOut);
+            config.ConfigureConsole(environment.ConsoleOut);
+            config.Settings.Registrar.RegisterInstance(environment);
             config.Settings.Registrar.RegisterInstance(cancellationTokenSource.Token);
             config.SetExceptionHandler((exception, _) =>
             {
+                var consoleErr = environment.ConsoleErr;
                 switch (exception)
                 {
                     case OperationCanceledException when cancellationTokenSource.IsCancellationRequested:
