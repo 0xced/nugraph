@@ -26,7 +26,7 @@ public sealed partial class NugraphGlobalTool : Nugraph, IAsyncInitializer, IAsy
         _workingDirectory.Create();
     }
 
-    public override string Version => _version ?? "N/A";
+    public override string Version => _version ?? throw new InvalidOperationException("The version is only available after InitializeAsync has completed.");
 
     public override async Task<NugraphResult> RunAsync(string[] arguments, string? workingDirectory = null, LogLevel logLevel = LogLevel.Warning, UrlAction action = UrlAction.print)
     {

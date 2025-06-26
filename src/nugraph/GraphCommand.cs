@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Chisel;
@@ -77,7 +76,7 @@ internal sealed class GraphCommand(ProgramEnvironment environment, CancellationT
     private static async Task<int> DiagnoseAsync(TextWriter stdOut, DirectoryInfo? sdk, CancellationToken cancellationToken)
     {
         await stdOut.WriteLineAsync("nugraph:");
-        await stdOut.WriteLineAsync($" Version:  {typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "N/A"}");
+        await stdOut.WriteLineAsync($" Version:  {typeof(Program).Assembly.GetVersion()}");
         await stdOut.WriteLineAsync($" Runtime:  {Environment.Version}");
         await stdOut.WriteLineAsync($" SDK:      {DotnetSdk.Register(sdk)}");
         await stdOut.WriteLineAsync();

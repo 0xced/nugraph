@@ -1,9 +1,7 @@
-using System;
+﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using NuGet.Versioning;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
@@ -46,10 +44,8 @@ public class Program(ProgramEnvironment environment)
 #if DEBUG
             config.ValidateExamples();
 #endif
-            var assembly = typeof(Program).Assembly;
-            var version = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? assembly.GetName().Version?.ToString() ?? "N/A";
             config.SetApplicationName(OperatingSystem.IsWindows() ? "nugraph.exe" : "nugraph");
-            config.SetApplicationVersion(SemanticVersion.TryParse(version, out var semanticVersion) ? semanticVersion.ToNormalizedString() : version);
+            config.SetApplicationVersion(typeof(Program).Assembly.GetVersion());
             config.ConfigureConsole(environment.ConsoleOut);
             config.Settings.Registrar.RegisterInstance(environment);
             config.Settings.Registrar.RegisterInstance(cancellationTokenSource.Token);

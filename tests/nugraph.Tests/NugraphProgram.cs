@@ -1,10 +1,8 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using NuGet.Common;
-using NuGet.Versioning;
 using Spectre.Console.Testing;
 
 namespace nugraph.Tests;
@@ -13,8 +11,7 @@ public sealed class NugraphProgram : Nugraph
 {
     public NugraphProgram()
     {
-        var version = typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
-        Version = SemanticVersion.Parse(version).ToNormalizedString();
+        Version = typeof(Program).Assembly.GetVersion();
     }
 
     public override async Task<NugraphResult> RunAsync(string[] arguments, string? workingDirectory = null, LogLevel logLevel = LogLevel.Warning, UrlAction action = UrlAction.print)
