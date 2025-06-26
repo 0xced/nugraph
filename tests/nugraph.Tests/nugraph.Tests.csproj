@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="*.DotSettings" Visible="false" />
   </ItemGroup>
 
   <ItemGroup>

@@ -10,7 +10,7 @@ public static class RepositoryDirectories
 
     public static FileInfo GetFile(params string[] paths) => new(GetPath(paths));
 
-    public static string GetPath(params string[] paths) => Path.GetFullPath(Path.Combine(new[] { GetThisDirectory(), "..", ".." }.Concat(paths).ToArray()));
+    public static string GetPath(params string[] paths) => Path.GetFullPath(Path.Combine(new[] { GetThisDirectory(), "..", "..", ".." }.Concat(paths).ToArray()));
 
     private static string GetThisDirectory([CallerFilePath] string path = "") => Path.GetDirectoryName(path)!;
 }
