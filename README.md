@@ -1,6 +1,12 @@
 nugraph is a [.NET tool](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools) for creating visual dependency graph of NuGet packages.
 
-A picture is worth a thousand words, so here's the dependency graph produced by running `nugraph Microsoft.Extensions.Logging.Console`
+[![NuGet](https://img.shields.io/nuget/v/nugraph.svg?label=NuGet&logo=NuGet)](https://www.nuget.org/packages/nugraph) [![Continuous Integration](https://img.shields.io/github/actions/workflow/status/0xced/nugraph/continuous-integration.yml?branch=main&label=Continuous%20Integration&logo=GitHub)](https://github.com/0xced/nugraph/actions/workflows/continuous-integration.yml)
+
+A picture is worth a thousand words, so here's the dependency graph produced by running
+
+```shell
+nugraph Microsoft.Extensions.Logging.Console
+```
 
 ```mermaid
 ---
@@ -83,7 +89,7 @@ click System.Text.Json "https://www.nuget.org/packages/System.Text.Json/9.0.6" "
 
 ## Installation
 
-```sh
+```shell
 dotnet tool install --global nugraph
 ```
 
