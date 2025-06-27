@@ -15,6 +15,8 @@ Before:
 graph LR
 classDef default fill:aquamarine,stroke:#009061,color:#333333
 MyPrivatePackage --> Serilog
+click MyPrivatePackage "https://www.nuget.org/packages/MyPrivatePackage/1.0.0" "MyPrivatePackage 1.0.0"
+click Serilog "https://www.nuget.org/packages/Serilog/4.3.0" "Serilog 4.3.0"
 ```
 
 After:
@@ -25,6 +27,7 @@ classDef default fill:aquamarine,stroke:#009061,color:#333333
 classDef private fill:moccasin,stroke:#AF8844
 MyPrivatePackage --> Serilog
 class MyPrivatePackage private
+click Serilog "https://www.nuget.org/packages/Serilog/4.3.0" "Serilog 4.3.0"
 ```
 
 ## [0.4.0][0.4.0] - 2025-06-26
