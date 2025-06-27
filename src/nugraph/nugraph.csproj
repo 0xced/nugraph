@@ -17,11 +17,11 @@
   <PropertyGroup Label="Packaging Metadata">
     <Authors>Cédric Luthi</Authors>
     <Copyright>Copyright © Cédric Luthi</Copyright>
-    <Description>Create dependency graphs of NuGet packages</Description>
+    <Description>Command-line tool for creating visual dependency graphs of NuGet packages and .NET projects</Description>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>nuget dependency graph mermaid graphviz</PackageTags>
+    <PackageTags>nuget project package dependency dependencies graph mermaid graphviz cli</PackageTags>
     <PackageProjectUrl>https://github.com/0xced/nugraph</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/0xced/nugraph/blob/main/CHANGELOG.md</PackageReleaseNotes>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>

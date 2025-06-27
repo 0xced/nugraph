@@ -1,4 +1,4 @@
-nugraph is a [.NET tool](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools) for creating visual dependency graph of NuGet packages.
+nugraph is a [.NET tool](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools) for creating visual dependency graphs of NuGet packages and .NET projects.
 
 [![NuGet](https://img.shields.io/nuget/v/nugraph.svg?label=NuGet&logo=NuGet)](https://www.nuget.org/packages/nugraph) [![Continuous Integration](https://img.shields.io/github/actions/workflow/status/0xced/nugraph/continuous-integration.yml?branch=main&label=Continuous%20Integration&logo=GitHub)](https://github.com/0xced/nugraph/actions/workflows/continuous-integration.yml)
 
