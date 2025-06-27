@@ -43,9 +43,10 @@ internal sealed class GraphCommand(ProgramEnvironment environment, CancellationT
         var source = settings.Source ?? environment.CurrentWorkingDirectory;
         var graphUrl = await console.Status().StartAsync($"Generating dependency graph for {source}".EscapeMarkup(), async context =>
         {
+            var logger = new SpectreLogger(console, settings.LogLevel);
             var graph = await source.Match(
-                file => ComputeDependencyGraphAsync(file, settings, cancellationToken),
-                package => ComputeDependencyGraphAsync(package, settings, Settings.LoadDefaultSettings(settings.NuGetRoot), new SpectreLogger(console, settings.LogLevel), context, cancellationToken)
+                file => ComputeDependencyGraphAsync(file, settings, logger, cancellationToken),
+                package => ComputeDependencyGraphAsync(package, settings, Settings.LoadDefaultSettings(settings.NuGetRoot), logger, context, cancellationToken)
             );
             return await WriteGraphAsync(graph, settings);
         });
@@ -103,7 +104,7 @@ internal sealed class GraphCommand(ProgramEnvironment environment, CancellationT
         return result.ExitCode;
     }
 
-    private static async Task<DependencyGraph> ComputeDependencyGraphAsync(FileSystemInfo source, GraphCommandSettings settings, CancellationToken cancellationToken)
+    private static async Task<DependencyGraph> ComputeDependencyGraphAsync(FileSystemInfo source, GraphCommandSettings settings, ILogger logger, CancellationToken cancellationToken)
     {
         var name = Path.GetFileNameWithoutExtension(source.Name);
         if (settings.Title == GraphCommandSettings.DefaultTitle)
@@ -115,7 +116,12 @@ internal sealed class GraphCommand(ProgramEnvironment environment, CancellationT
         var lockFile = new LockFileFormat().Read(projectInfo.ProjectAssetsFile.FullName);
         Predicate<Package> filter = projectInfo.CopyLocalPackages.Count > 0 ? package => projectInfo.CopyLocalPackages.Contains(package.Name) : _ => true;
         var (packages, roots) = lockFile.ReadPackages(targetFramework.GetShortFolderName(), settings.RuntimeIdentifier, filter);
-        return new DependencyGraph(packages, roots, ignores: settings.GraphIgnore);
+        var dependencyGraph = new DependencyGraph(packages, roots, ignores: settings.GraphIgnore);
+        if (!settings.NoLinks)
+        {
+            await dependencyGraph.AddLinksAsync(logger, cancellationToken);
+        }
+        return dependencyGraph;
     }
 
     private static async Task<DependencyGraph> ComputeDependencyGraphAsync(PackageIdentity package, GraphCommandSettings settings, ISettings nugetSettings, ILogger logger, StatusContext context, CancellationToken cancellationToken)
@@ -126,7 +132,7 @@ internal sealed class GraphCommand(ProgramEnvironment environment, CancellationT
             settings.Title = $"Dependency graph of {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})";
         }
         context.Status = $"Generating dependency graph for {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})".EscapeMarkup();
-        return await ComputeDependencyGraphAsync(project.File, settings, cancellationToken);
+        return await ComputeDependencyGraphAsync(project.File, settings, logger, cancellationToken);
     }
 
     private static async Task<Uri?> WriteGraphAsync(DependencyGraph graph, GraphCommandSettings settings)
@@ -143,7 +149,6 @@ internal sealed class GraphCommand(ProgramEnvironment environment, CancellationT
             {
                 Direction = settings.GraphDirection,
                 Title = settings.Title,
-                IncludeLinks = !settings.NoLinks,
                 IncludeVersions = settings.GraphIncludeVersions,
                 WriteIgnoredPackages = settings.GraphWriteIgnoredPackages,
             };
