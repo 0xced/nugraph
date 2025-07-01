@@ -12,30 +12,43 @@ using NuGet.Configuration;
 using NuGet.Frameworks;
 using NuGet.Packaging.Core;
 using NuGet.Protocol.Core.Types;
+using NuGet.Versioning;
 using static NuGet.Frameworks.FrameworkConstants.CommonFrameworks;
 
 namespace nugraph;
 
-internal sealed class TemporaryProject : IDisposable
+public sealed class TemporaryProject : IDisposable
 {
     private static readonly Encoding Utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
 
     private readonly DirectoryInfo _directory;
 
-    private TemporaryProject(PackageIdentity package, NuGetFramework targetFramework)
+    public TemporaryProject() : this(package: null, targetFramework: null)
+    {
+    }
+
+    private TemporaryProject(PackageIdentity? package, NuGetFramework? targetFramework)
     {
         _directory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "nugraph", Path.GetRandomFileName().Replace(".", "", StringComparison.OrdinalIgnoreCase)));
         _directory.Create();
 
-        var project = new XElement("Project", new XAttribute("Sdk", "Microsoft.NET.Sdk"),
-            new XElement("PropertyGroup",
-                new XElement("TargetFramework", targetFramework.GetShortFolderName())),
-            new XElement("ItemGroup",
+        var project = new XElement("Project", new XAttribute("Sdk", "Microsoft.NET.Sdk"));
+
+        if (targetFramework != null)
+        {
+            project.Add(new XElement("PropertyGroup",
+                new XElement("TargetFramework", targetFramework.GetShortFolderName())));
+        }
+
+        if (package != null)
+        {
+            project.Add(new XElement("ItemGroup",
                 new XElement("PackageReference", new XAttribute("Include", package.Id), new XAttribute("Version", package.Version?.ToString() ?? "*"))));
+        }
 
         File = new FileInfo(Path.Combine(_directory.FullName, "project.csproj"));
-        Package = package;
-        TargetFramework = targetFramework;
+        Package = package ?? new PackageIdentity("", new NuGetVersion(0, 0, 0));
+        TargetFramework = targetFramework ?? NuGetFramework.UnsupportedFramework;
 
         var settings = new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true, Encoding = Utf8NoBom };
         using var xmlWriter = XmlWriter.Create(File.FullName, settings);
@@ -44,6 +57,8 @@ internal sealed class TemporaryProject : IDisposable
 
     public static async Task<TemporaryProject> CreateAsync(PackageIdentity package, NuGetFramework? targetFramework, DirectoryInfo? sdk, ISettings nugetSettings, ILogger logger, CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(logger, nameof(logger));
+
         var (identity, resolvedTargetFramework) = await ResolveAsync(package, targetFramework, sdk, nugetSettings, logger, cancellationToken);
         return new TemporaryProject(identity, resolvedTargetFramework);
     }

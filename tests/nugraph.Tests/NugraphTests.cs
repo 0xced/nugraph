@@ -57,6 +57,28 @@ public abstract class NugraphTests(Nugraph nugraph)
     }
 
     [Test]
+    public async Task Package_Serilog_WorkingDirectoryUsingArcadeSdk()
+    {
+        using var project = new TemporaryProject();
+        var workingDirectory = project.File.Directory!.FullName;
+        // lang=xml
+        const string directoryBuildProps =
+            """
+            <Project>
+              <Import Project="Sdk.props" Sdk="Microsoft.DotNet.Arcade.Sdk" />
+            </Project>
+            """;
+        await File.WriteAllTextAsync(Path.Combine(workingDirectory, "Directory.Build.props"), directoryBuildProps);
+
+        var result = await nugraph.RunAsync(["Serilog"], workingDirectory: workingDirectory);
+
+        result.Should().Match(stdOutPattern:"https://mermaid.live/view#pako:*", stdErrPattern: """
+                                Generating dependency graph for Serilog
+                                Generating dependency graph for Serilog *
+                                """);
+    }
+
+    [Test]
     public async Task Package_Serilog_430_net60()
     {
         var result = await nugraph.RunAsync(["Serilog/4.3.0", "--framework", "net6.0"]);

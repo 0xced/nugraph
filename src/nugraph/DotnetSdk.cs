@@ -31,7 +31,12 @@ public static class DotnetSdk
     public static IReadOnlyCollection<NuGetFramework> GetSupportedTargetFrameworks()
     {
         using var xmlReader = new XElement("Project", new XAttribute("Sdk", "Microsoft.NET.Sdk")).CreateReader();
-        var project = new Project(xmlReader);
+        var globalProperties = new Dictionary<string, string>
+        {
+            ["ImportDirectoryBuildProps"] = "false",
+            ["ImportDirectoryBuildTargets"] = "false",
+        };
+        var project = new Project(xmlReader, globalProperties, toolsVersion: null);
 
         var supportedTargetFrameworks = project.Items
             .Where(e => e.ItemType == "SupportedTargetFramework")

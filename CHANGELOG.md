@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased][Unreleased]
+
+* Fixed a bug where `nugraph` could fail with `InvalidProjectFileException` if run from a directory containing a `Directory.Build.props` file.
+
 ## [0.5.0][0.5.0] - 2025-06-27
 
 * Links to nuget.org are now added only for packages which are actually available on the NuGet Gallery. Previously, a non-working link to nuget.org would be added for packages coming from private NuGet feeds.
