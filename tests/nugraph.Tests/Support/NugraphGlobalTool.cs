@@ -99,7 +99,7 @@ public sealed partial class NugraphGlobalTool : Nugraph, IAsyncInitializer, IAsy
 
     private async Task InstallAsync()
     {
-        var installed = await RunDotnetAsync(["tool", "list", "--global", "nugraph"], allowNonZeroExitCode: true);
+        var installed = await RunDotnetAsync(["tool", "list", "--global", "nugraph"], allowNonZeroExitCode: false);
         var match = VersionRegex().Match(installed);
         if (match.Success)
         {
