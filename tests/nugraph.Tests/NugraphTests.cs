@@ -25,7 +25,7 @@ public abstract class NugraphTests(Nugraph nugraph)
         using (new AssertionScope())
         {
             result.Should().Match(stdOutPattern: "nugraph:*");
-            result.StdOut.Should().NotContain(Path.DirectorySeparatorChar + Environment.UserName + Path.DirectorySeparatorChar);
+            result.StdOut.Should().NotContain(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
         }
     }
 
