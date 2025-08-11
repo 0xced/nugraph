@@ -16,9 +16,9 @@
       },
       "Microsoft.Bcl.Memory": {
         "type": "Direct",
-        "requested": "[9.0.6, )",
-        "resolved": "9.0.6",
-        "contentHash": "jd2uTwzSNgnOz8vS7CTgh9dzdb+LPcZym36JSrHsQ/28M9tJyjcRJen8hfgsBpZshzXb0r2rmSzWY/qytG/h4A=="
+        "requested": "[9.0.8, )",
+        "resolved": "9.0.8",
+        "contentHash": "bLdZdTqWn6wnxCOwdptNO6xYfVclxbBQhPm9pCEFUrVstQaH9eIuuKuOlCx1lrczYWVhCwih9bJwPD4JNUfQcw=="
       },
       "Microsoft.Build": {
         "type": "Direct",

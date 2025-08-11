@@ -17,10 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AwesomeAssertions" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="1.7.3" />
+    <PackageReference Include="AwesomeAssertions" Version="9.1.0" />
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="1.8.1" />
     <PackageReference Include="Spectre.Console.Testing" Version="0.50.1-preview.0.20" />
-    <PackageReference Include="TUnit.Engine" Version="0.25.21" />
+    <PackageReference Include="TUnit.Engine" Version="0.53.0" />
   </ItemGroup>
 
   <ItemGroup>

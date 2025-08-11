@@ -45,7 +45,7 @@
   <ItemGroup>
     <PackageReference Include="CliWrap" Version="3.9.0" />
     <PackageReference Include="Espresso3389.HttpStream" Version="2.0.68" />
-    <PackageReference Include="Microsoft.Bcl.Memory" Version="9.0.6" />
+    <PackageReference Include="Microsoft.Bcl.Memory" Version="9.0.8" />
     <PackageReference Include="Microsoft.Build" Version="17.11.31" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.Build.Locator" Version="1.9.1" />
     <PackageReference Include="MinVer" Version="6.0.0" PrivateAssets="all" />
