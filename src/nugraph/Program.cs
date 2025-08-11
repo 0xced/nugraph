@@ -38,7 +38,7 @@ public class Program(ProgramEnvironment environment)
         {
             config.AddExample("spectre.console/src/Spectre.Console.Cli/Spectre.Console.Cli.csproj", "--include-version");
             config.AddExample("Serilog.Sinks.MSSqlServer", "--ignore", "Microsoft.Data.SqlClient", "--ignore", "\"System.*\"");
-            config.AddExample("Newtonsoft.Json/12.0.3", "--framework", "netstandard1.0");
+            config.AddExample("Newtonsoft.Json@12.0.3", "--framework", "netstandard1.0");
             config.AddExample("Azure.Core", "--direction", "TopToBottom", "--output", "Azure.Core.gv");
             config.AddExample("Polly", "--format", "dot", "--title", "\"\"");
 #if DEBUG

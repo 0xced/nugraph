@@ -7,6 +7,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased][Unreleased]
 
 * Fixed a bug where `nugraph` could fail with `InvalidProjectFileException` if run from a directory containing a `Directory.Build.props` file.
+* Use `@` instead of `/` for separating package name and version. 
+
+Before:
+
+```shell
+nugraph Newtonsoft.Json/12.0.3
+```
+
+After:
+
+```shell
+nugraph Newtonsoft.Json@12.0.3
+```
 
 ## [0.5.0][0.5.0] - 2025-06-27
 

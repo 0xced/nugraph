@@ -32,7 +32,7 @@ internal sealed class GraphCommandSettings : CommandSettings
     [CommandArgument(0, "[SOURCE]")]
     [Description("The source of the graph\n" +
                  "Can be either\n" +
-                 "  * the name of a NuGet package, optionally with a specific version, e.g. [b]Newtonsoft.Json/13.0.3[/]\n" +
+                 "  * the name of a NuGet package, optionally with a specific version, e.g. [b]Newtonsoft.Json@13.0.3[/]\n" +
                  "  * a .NET project file (csproj/fsproj/vbproj)\n" +
                  "  * a directory containing a single .NET project\n")]
     public string? SourceInput { get; init; }
@@ -233,7 +233,7 @@ internal sealed class GraphCommandSettings : CommandSettings
 
     private static PackageIdentity GetPackageIdentity(string packageId)
     {
-        var parts = packageId.Split('/');
+        var parts = packageId.Split('@');
         if (parts.Length == 2)
         {
             if (NuGetVersion.TryParse(parts[1], out var version))

@@ -104,7 +104,7 @@ dotnet tool install --global nugraph
 
 Run `nugraph <NuGetPackageName>` to generate the dependency graph of a NuGet package. For example, run `nugraph Serilog.Sinks.File` to generate the dependency graph of the [Serilog.Sinks.File](https://www.nuget.org/packages/Serilog.Sinks.File) package.
 
-A specific version can be explicitly requested by appending **/version** to the package name, for example `nugraph Serilog.Sinks.File/4.1.0`. When no version is specified, the latest version available on NuGet is chosen. 
+A specific version can be explicitly requested by appending **@version** to the package name, for example `nugraph Serilog.Sinks.File@4.1.0`. When no version is specified, the latest version available on NuGet is chosen. 
 
 Many packages support multiple target frameworks and sometimes the dependencies varies across different target frameworks. A target framework is guessed automatically, but it can be overriden with the `-f` or `--framework` option.
 
