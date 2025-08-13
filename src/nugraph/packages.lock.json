@@ -22,7 +22,7 @@
       },
       "Microsoft.Build": {
         "type": "Direct",
-        "requested": "[17.11.31, )",
+        "requested": "[17.11.31, 17.12.6)",
         "resolved": "17.11.31",
         "contentHash": "fmiBmvRbROfWFurUsyPVcLEvarxjCed84e3GWG6p/K5Sqhko6iUQw7rtlKJlDTjR4rSOM7uu59GEAf+0nHlrIw==",
         "dependencies": {
