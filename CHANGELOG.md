@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased][Unreleased]
 
+* Fixed graph generation for packages on authenticated NuGet feeds.
 * Fixed a bug where `nugraph` could fail with `InvalidProjectFileException` if run from a directory containing a `Directory.Build.props` file.
 * Use `@` instead of `/` for separating package name and version. 
 
