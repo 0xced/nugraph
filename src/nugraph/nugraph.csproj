@@ -45,7 +45,7 @@
   <ItemGroup>
     <PackageReference Include="CliWrap" Version="3.9.0" />
     <PackageReference Include="Espresso3389.HttpStream" Version="2.0.68" />
-    <PackageReference Include="Microsoft.Bcl.Memory" Version="9.0.8" />
+    <PackageReference Include="Microsoft.Bcl.Memory" Version="9.0.9" />
     <!-- 17.11.31 is the latest version that supports .NET 8, starting with version 17.12.6, only .NET 9 is supported -->
     <PackageReference Include="Microsoft.Build" Version="[17.11.31,17.12.6)" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.Build.Locator" Version="1.9.1" />
@@ -54,7 +54,7 @@
     <PackageReference Include="OneOf" Version="3.0.271" />
     <PackageReference Include="OneOf.SourceGenerator" Version="3.0.271" PrivateAssets="all" />
     <PackageReference Include="Spectre.Console.Analyzer" Version="1.0.0" PrivateAssets="all" />
-    <PackageReference Include="Spectre.Console.Cli" Version="0.50.1-preview.0.20" />
+    <PackageReference Include="Spectre.Console.Cli" Version="0.51.1" />
   </ItemGroup>
 
   <ItemGroup>

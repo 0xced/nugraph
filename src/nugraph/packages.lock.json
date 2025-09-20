@@ -16,9 +16,9 @@
       },
       "Microsoft.Bcl.Memory": {
         "type": "Direct",
-        "requested": "[9.0.8, )",
-        "resolved": "9.0.8",
-        "contentHash": "bLdZdTqWn6wnxCOwdptNO6xYfVclxbBQhPm9pCEFUrVstQaH9eIuuKuOlCx1lrczYWVhCwih9bJwPD4JNUfQcw=="
+        "requested": "[9.0.9, )",
+        "resolved": "9.0.9",
+        "contentHash": "ofRgCJjZATx7Eb1EpvQRZ0lBIz9uQDjSpeWq+Y7ckP14nx5sRjRb5UJMpCKogof7LV1b2Yq5eLqfhO/Rnttobw=="
       },
       "Microsoft.Build": {
         "type": "Direct",
@@ -75,11 +75,11 @@
       },
       "Spectre.Console.Cli": {
         "type": "Direct",
-        "requested": "[0.50.1-preview.0.20, )",
-        "resolved": "0.50.1-preview.0.20",
-        "contentHash": "IRdZVc2HjfdyVGcwrqic0narldN9nwnmInGOeVR/P8bhj7inZYki6b15E64bqiFlr7jMbxXL+gSzA4PVe75G2A==",
+        "requested": "[0.51.1, )",
+        "resolved": "0.51.1",
+        "contentHash": "LqJjjug5f8ipFFzhwBaQHMXt8+uuJAxu3dsyAxF+Jyva9yHW0P3iP6s1NpwVqt0Yk11n6/f9qipyiEn0zBKBiQ==",
         "dependencies": {
-          "Spectre.Console": "0.50.1-preview.0.20"
+          "Spectre.Console": "0.51.1"
         }
       },
       "Microsoft.Build.Framework": {
@@ -166,8 +166,8 @@
       },
       "Spectre.Console": {
         "type": "Transitive",
-        "resolved": "0.50.1-preview.0.20",
-        "contentHash": "/kXc1by+ULOe75x2twmZjJ0NNGW3a0XOpXCxdbkbOP5H6YnF7N2fLwB9IcvXvHTDVBKpABPMxZiqVl0xWDOL+w=="
+        "resolved": "0.51.1",
+        "contentHash": "84xNywgnaG8XgOypnZAL+EZUbhCGE0umj7fuMrSI6esdE74HYHRoeBioeMUJXPiCt7iBDKHLwiBcg0IliYIIxA=="
       },
       "System.Collections.Immutable": {
         "type": "Transitive",
