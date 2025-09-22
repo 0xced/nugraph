@@ -20,7 +20,7 @@
     <PackageReference Include="AwesomeAssertions" Version="9.1.0" />
     <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="1.8.4" />
     <PackageReference Include="Spectre.Console.Testing" Version="0.51.1" />
-    <PackageReference Include="TUnit.Engine" Version="0.60.1" />
+    <PackageReference Include="TUnit.Engine" Version="0.61.13" />
   </ItemGroup>
 
   <ItemGroup>
