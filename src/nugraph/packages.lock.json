@@ -10,9 +10,9 @@
       },
       "Espresso3389.HttpStream": {
         "type": "Direct",
-        "requested": "[2.0.68, )",
-        "resolved": "2.0.68",
-        "contentHash": "YJjB3yirZKozmY2P+9yCkJUygs8blXnqEEw57EuASXW+oNlEQuKpjP9V3JVmmD4UXWAYvxCRlv24k71fw/FNXg=="
+        "requested": "[2.0.76, )",
+        "resolved": "2.0.76",
+        "contentHash": "/ba8Z8IWWWIgiQnzraOM/wn9bNMnlawz1odJgxcC/l6BM13axLfKhbrA9eesXxTCHBxDKUTgw93T41J4nLCkPQ=="
       },
       "Microsoft.Bcl.Memory": {
         "type": "Direct",
