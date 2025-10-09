@@ -99,6 +99,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     permissions:
       contents: write
+      id-token: write
     name: 🐿 Publish
     steps:
       - name: 📥 Download NuGet package artifact
@@ -116,5 +117,10 @@ jobs:
           body_path: ReleaseNotes.md
           prerelease: ${{ contains(github.ref_name, '-') }}
           files: "*.nupkg"
+      - name: 🔑 Retrieve NuGet API key
+        uses: NuGet/login@v1
+        id: nuget-login
+        with:
+          user: '0xced'
       - name: 🚀 Publish NuGet package on nuget.org
-        run: dotnet nuget push "*.nupkg" --source https://api.nuget.org/v3/index.json --api-key "${{ secrets.NUGET_API_KEY }}"
+        run: dotnet nuget push "*.nupkg" --source https://api.nuget.org/v3/index.json --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}"
