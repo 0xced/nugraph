@@ -16,9 +16,9 @@
       },
       "Microsoft.Bcl.Memory": {
         "type": "Direct",
-        "requested": "[9.0.9, )",
-        "resolved": "9.0.9",
-        "contentHash": "ofRgCJjZATx7Eb1EpvQRZ0lBIz9uQDjSpeWq+Y7ckP14nx5sRjRb5UJMpCKogof7LV1b2Yq5eLqfhO/Rnttobw=="
+        "requested": "[9.0.10, )",
+        "resolved": "9.0.10",
+        "contentHash": "LvEUWMuM9cFhiyIRRbvtmCI6n+kHvfqB2zFY6sZfBccGBAE4S1Cqc2wA6Sbcu6IdPhRsjPqdxNvj2IJe2eCqkw=="
       },
       "Microsoft.Build": {
         "type": "Direct",
@@ -36,9 +36,9 @@
       },
       "Microsoft.Build.Locator": {
         "type": "Direct",
-        "requested": "[1.10.2, )",
-        "resolved": "1.10.2",
-        "contentHash": "F+nLS7IpgtslyxNvtD6Jalnf5WU08lu8yfJBNQl3cbEF3AMUphs4t7nPuRYaaU8QZyGrqtVi7i73LhAe/yHx7A=="
+        "requested": "[1.10.12, )",
+        "resolved": "1.10.12",
+        "contentHash": "L4yL8b1oYyoxmFWWpPHqIVb5uGJSDSCd/RQDV5SsJkBRB3fRxSfUl3KYjNQfMdf9RNvoqCDeXaGGISjaY6f8Pg=="
       },
       "MinVer": {
         "type": "Direct",
