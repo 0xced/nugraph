@@ -28,9 +28,9 @@ internal sealed partial class FileOrPackage : OneOfBase<FileSystemInfo, PackageI
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Instantiated by Spectre.Console.Cli through reflection")]
 [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Instantiated by Spectre.Console.Cli through reflection")]
 [Description("Generates dependency graphs for .NET projects and NuGet packages.")]
-internal sealed class GraphCommand(ProgramEnvironment environment, CancellationToken cancellationToken) : CancelableCommand<GraphCommandSettings>(cancellationToken)
+internal sealed class GraphCommand(ProgramEnvironment environment) : AsyncCommand<GraphCommandSettings>
 {
-    protected override async Task<int> ExecuteAsync(CommandContext commandContext, GraphCommandSettings settings, CancellationToken cancellationToken)
+    public override async Task<int> ExecuteAsync(CommandContext commandContext, GraphCommandSettings settings, CancellationToken cancellationToken)
     {
         var stdOut = environment.StdOut;
         var console = environment.ConsoleErr;

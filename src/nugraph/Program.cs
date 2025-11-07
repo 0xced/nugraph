@@ -48,14 +48,13 @@ public class Program(ProgramEnvironment environment)
             config.SetApplicationVersion(typeof(Program).Assembly.GetVersion());
             config.ConfigureConsole(environment.ConsoleOut);
             config.Settings.Registrar.RegisterInstance(environment);
-            config.Settings.Registrar.RegisterInstance(cancellationTokenSource.Token);
             config.SetExceptionHandler((exception, _) =>
             {
                 var consoleErr = environment.ConsoleErr;
                 switch (exception)
                 {
                     case OperationCanceledException when cancellationTokenSource.IsCancellationRequested:
-                        return 130; // https://github.com/spectreconsole/spectre.console/issues/701#issuecomment-2342979700
+                        return config.Settings.CancellationExitCode;
                     case Exception when ExceptionTransformer.GetError(exception) is { } error:
                         consoleErr.Write(error.Pretty);
                         if (error.ExitCode.HasValue)
@@ -85,6 +84,6 @@ public class Program(ProgramEnvironment environment)
             });
         });
 
-        return await app.RunAsync(args);
+        return await app.RunAsync(args, cancellationTokenSource.Token);
     }
 }
