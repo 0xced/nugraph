@@ -85,7 +85,7 @@ internal sealed class GraphCommandSettings : CommandSettings
     public string Title { get; set; } = "";
 
     [CommandOption("-s|--include-version")]
-    [Description("Include package versions in the dependency graph nodes, e.g. [b]Serilog/4.3.0[/] instead of [b]Serilog[/]")]
+    [Description("Include package versions in the dependency graph nodes, e.g. [b]Serilog@4.3.0[/] instead of [b]Serilog[/]")]
     [DefaultValue(false)]
     public bool GraphIncludeVersions { get; init; }
 
