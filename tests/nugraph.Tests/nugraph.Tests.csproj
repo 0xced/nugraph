@@ -5,6 +5,7 @@
     <OutputType>Exe</OutputType>
     <Nullable>enable</Nullable>
     <DeterministicSourcePaths>false</DeterministicSourcePaths>
+    <!-- TestingPlatformDotnetTestSupport is ignored with the .NET 10 SDK but is required for older SDKs -->
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
   </PropertyGroup>
 

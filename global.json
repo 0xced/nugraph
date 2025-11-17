@@ -1,0 +1,6 @@
+{
+    "$schema": "https://www.schemastore.org/global.json",
+    "test": {
+        "runner": "Microsoft.Testing.Platform"
+    }
+}
