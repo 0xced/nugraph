@@ -92,6 +92,8 @@ public sealed partial class NugraphGlobalTool : Nugraph, IAsyncInitializer, IAsy
         if (IsContinuousIntegrationBuild)
         {
             packArgs.Add("--no-build");
+            packArgs.Add("--configuration");
+            packArgs.Add("Release");
         }
         var packageVersion = await RunDotnetAsync(packArgs.ToArray());
         _version = packageVersion.TrimEnd();
