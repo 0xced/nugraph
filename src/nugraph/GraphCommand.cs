@@ -30,7 +30,7 @@ internal sealed partial class FileOrPackage : OneOfBase<FileSystemInfo, PackageI
 [Description("Generates dependency graphs for .NET projects and NuGet packages.")]
 internal sealed class GraphCommand(ProgramEnvironment environment) : AsyncCommand<GraphCommandSettings>
 {
-    public override async Task<int> ExecuteAsync(CommandContext commandContext, GraphCommandSettings settings, CancellationToken cancellationToken)
+    protected override async Task<int> ExecuteAsync(CommandContext commandContext, GraphCommandSettings settings, CancellationToken cancellationToken)
     {
         var stdOut = environment.StdOut;
         var console = environment.ConsoleErr;
