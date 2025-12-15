@@ -112,7 +112,7 @@ public abstract class NugraphTests(Nugraph nugraph)
 
     [Test]
     [Arguments("--include-version")]
-    [Arguments("-s")]
+    [Arguments("-@")]
     public async Task Package_Serilog_401_net60_IncludeVersion(string option)
     {
         var result = await nugraph.RunAsync(["Serilog@4.0.1", "--framework", "net6.0", option]);
