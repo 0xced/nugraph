@@ -205,9 +205,9 @@ public abstract class NugraphTests(Nugraph nugraph)
                                  node [ fontname = "Segoe UI, sans-serif", shape = box, style = filled, fillcolor = aquamarine, color = "#009061", fontcolor = "#333333" ]
                                
                                
-                                 "Markdig" [ shape = hexagon, penwidth = 4, href="https://www.nuget.org/packages/Markdig/0.44.0" ]
-                                 "Microsoft.Bcl.Memory" [ shape = hexagon, penwidth = 4, href="https://www.nuget.org/packages/Microsoft.Bcl.Memory/10.0.0" ]
-                                 "MinVer" [ shape = hexagon, penwidth = 4, href="https://www.nuget.org/packages/MinVer/6.0.0" ]
+                                 "Markdig" [ shape = hexagon, penwidth = 4, href="https://www.nuget.org/packages/Markdig/1.2.0" ]
+                                 "Microsoft.Bcl.Memory" [ shape = hexagon, penwidth = 4, href="https://www.nuget.org/packages/Microsoft.Bcl.Memory/10.0.7" ]
+                                 "MinVer" [ shape = hexagon, penwidth = 4, href="https://www.nuget.org/packages/MinVer/7.0.0" ]
                                }
                                """);
     }
