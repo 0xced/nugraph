@@ -89,10 +89,7 @@ public abstract class NugraphTests(Nugraph nugraph)
 
         result.Should().Match(
             stdOutPattern: "https://mermaid.live/view#pako:*",
-            stdErrPattern: """
-                           Generating dependency graph for Serilog 4.0.1
-                           Generating dependency graph for Serilog 4.0.1 (net6.0)
-                           """)
+            stdErrPattern: "Generating dependency graph for Serilog 4.0.1 (net6.0)")
             .And.UrlHasDiagram("""
                                ---
                                title: Dependency graph of Serilog 4.0.1 (net6.0)
@@ -122,10 +119,7 @@ public abstract class NugraphTests(Nugraph nugraph)
 
         result.Should().Match(
             stdOutPattern: "https://mermaid.live/view#pako:*",
-            stdErrPattern: """
-                           Generating dependency graph for Serilog 4.0.1
-                           Generating dependency graph for Serilog 4.0.1 (net6.0)
-                           """)
+            stdErrPattern: "Generating dependency graph for Serilog 4.0.1 (net6.0)")
             .And.UrlHasDiagram("""
                                ---
                                title: Dependency graph of Serilog 4.0.1 (net6.0)

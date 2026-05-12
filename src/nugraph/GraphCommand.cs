@@ -22,7 +22,13 @@ namespace nugraph;
 [GenerateOneOf]
 internal sealed partial class FileOrPackage : OneOfBase<FileSystemInfo, PackageIdentity>
 {
-    public override string ToString() => Match(file => file.Name, package => package.HasVersion ? $"{package.Id} {package.Version}" : package.Id);
+    public string ToString(NuGetFramework? framework)
+    {
+        var description = Match(file => file.Name, package => package.HasVersion ? $"{package.Id} {package.Version}" : package.Id);
+        return framework != null ? $"{description} ({framework.GetShortFolderName()})" : description;
+    }
+
+    public override string ToString() => ToString(framework: null);
 }
 
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Instantiated by Spectre.Console.Cli through reflection")]
@@ -41,7 +47,7 @@ internal sealed class GraphCommand(ProgramEnvironment environment) : AsyncComman
         }
 
         var source = settings.Source ?? environment.CurrentWorkingDirectory;
-        var graphUrl = await console.Status().StartAsync($"Generating dependency graph for {source}".EscapeMarkup(), async context =>
+        var graphUrl = await console.Status().StartAsync($"Generating dependency graph for {source.ToString(settings.Framework)}".EscapeMarkup(), async context =>
         {
             var logger = new SpectreLogger(console, settings.LogLevel);
             var graph = await source.Match(
