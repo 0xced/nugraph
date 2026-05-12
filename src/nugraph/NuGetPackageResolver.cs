@@ -49,6 +49,12 @@ internal sealed class NuGetPackageResolver
                 await using var packageStream = await HttpStream.CreateAsync(packageUri, new MemoryStream(), ownStream: true, cachePageSize: 32768, cached: null, httpClient, cancellationToken);
                 using var reader = new PackageArchiveReader(packageStream, leaveStreamOpen: true);
                 var supportedFrameworks = (await reader.GetSupportedFrameworksAsync(cancellationToken)).Where(e => e.IsSpecificFramework).ToHashSet();
+                if (supportedFrameworks.Count == 0)
+                {
+                    // No supported frameworks found, fallback to the target framework of the dependency groups
+                    // Happens for metapackages such as https://www.nuget.org/packages/OpenTelemetry.AutoInstrumentation/1.15.0#dependencies-body-tab
+                    supportedFrameworks.AddRange(packageInfo.DependencyGroups.Select(e => e.TargetFramework));
+                }
                 _logger.LogDebug($"  => {(supportedFrameworks.Count == 0 ? "∅" : string.Join(", ", supportedFrameworks.Select(e => e.GetShortFolderName())))}");
                 return (packageInfo.Identity, supportedFrameworks);
             }

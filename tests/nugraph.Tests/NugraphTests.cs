@@ -161,6 +161,17 @@ public abstract class NugraphTests(Nugraph nugraph)
     }
 
     [Test]
+    public async Task Package_OpenTelemetryAutoInstrumentation_FallbackToNet80TargetFrameworkFromDependencyGroups()
+    {
+        var result = await nugraph.RunAsync(["OpenTelemetry.AutoInstrumentation@1.15.0"]);
+
+        result.Should().Match(stdOutPattern:"https://mermaid.live/view#pako:*", stdErrPattern: """
+                                Generating dependency graph for OpenTelemetry.AutoInstrumentation 1.15.0
+                                Generating dependency graph for OpenTelemetry.AutoInstrumentation 1.15.0 (net8.0)
+                                """);
+    }
+
+    [Test]
     public async Task Package_DoesNotExist()
     {
         var result = await nugraph.RunAsync(["DoesNotExist"], logLevel: LogLevel.Debug);
