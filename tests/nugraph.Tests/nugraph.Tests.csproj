@@ -17,6 +17,10 @@
     <None Update="*.DotSettings" Visible="false" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <DisableMSBuildAssemblyCopyCheck>true</DisableMSBuildAssemblyCopyCheck>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AwesomeAssertions" Version="9.4.0" />
     <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="2.2.2" />

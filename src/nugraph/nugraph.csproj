@@ -42,13 +42,17 @@
     <None Update="packages.lock.json" Visible="false" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <DisableMSBuildAssemblyCopyCheck>true</DisableMSBuildAssemblyCopyCheck>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="CliWrap" Version="3.10.1" />
     <PackageReference Include="Espresso3389.HttpStream" Version="2.0.76" />
     <PackageReference Include="Microsoft.Bcl.Memory" Version="10.0.7" />
     <!-- 17.11.31 is the latest version that supports .NET 8, starting with version 17.12.6, only .NET 9 is supported -->
     <PackageReference Include="Microsoft.Build" Version="[17.11.31,17.12.6)" ExcludeAssets="runtime" NoWarn="NU1903" />
-    <PackageReference Include="Microsoft.Build.Locator" Version="1.10.12" />
+    <PackageReference Include="Microsoft.Build.Locator" Version="1.11.2" />
     <PackageReference Include="MinVer" Version="7.0.0" PrivateAssets="all" />
     <PackageReference Include="NuGet.ProjectModel" Version="7.3.1" />
     <PackageReference Include="OneOf" Version="3.0.271" />
