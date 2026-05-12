@@ -190,6 +190,18 @@ public abstract class NugraphTests(Nugraph nugraph)
     }
 
     [Test]
+    [Arguments("--framework")]
+    [Arguments("-f")]
+    public async Task Package_Serilog_UnsupportedTargetFramework(string frameworkOption)
+    {
+        var result = await nugraph.RunAsync(["Serilog", frameworkOption, "wrong"]);
+
+        result.Should().Match(64, stdErrPattern: """
+                                                 The target framework "wrong" is not supported. See https://learn.microsoft.com/en-us/dotnet/standard/frameworks#supported-target-frameworks for the list of supported target frameworks*
+                                                 """);
+    }
+
+    [Test]
     public async Task Project_nugraph_WorkingDirectory()
     {
         var result = await nugraph.RunAsync(["-m", "gv"], workingDirectory: RepositoryDirectories.GetPath("src", "nugraph"));

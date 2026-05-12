@@ -42,8 +42,9 @@ internal sealed class GraphCommandSettings : CommandSettings
     [CommandOption("-f|--framework <FRAMEWORK>")]
     [Description("The target framework to consider when building the dependency graph\n" +
                  "See https://learn.microsoft.com/en-us/dotnet/standard/frameworks#supported-target-frameworks for the list of supported target frameworks")]
-    [TypeConverter(typeof(NuGetFrameworkConverter))]
-    public NuGetFramework? Framework { get; init; }
+    public string? FrameworkInput { get; init; }
+
+    public NuGetFramework? Framework { get; private set; }
 
     [CommandOption("-r|--runtime <RUNTIME_IDENTIFIER>")]
     [Description("The target runtime to consider when building the dependency graph\n" +
@@ -146,6 +147,16 @@ internal sealed class GraphCommandSettings : CommandSettings
         if (Sdk is { Exists: false })
         {
             return ValidationResult.Error($"The SDK directory ({Sdk}) must exist.");
+        }
+
+        if (FrameworkInput != null)
+        {
+            Framework = NuGetFramework.Parse(FrameworkInput);
+            if (Framework.IsUnsupported)
+            {
+                return ValidationResult.Error($"The target framework \"{FrameworkInput}\" is not supported. " +
+                                              $"See https://learn.microsoft.com/en-us/dotnet/standard/frameworks#supported-target-frameworks for the list of supported target frameworks");
+            }
         }
 
         return base.Validate();
