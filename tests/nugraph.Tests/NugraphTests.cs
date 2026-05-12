@@ -50,10 +50,12 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync(["Serilog"]);
 
-        result.Should().Match(stdOutPattern:"https://mermaid.live/view#pako:*", stdErrPattern: """
-                                Generating dependency graph for Serilog
-                                Generating dependency graph for Serilog *
-                                """);
+        result.Should().Match(
+            stdOutPattern: "https://mermaid.live/view#pako:*",
+            stdErrPattern: """
+                           Generating dependency graph for Serilog
+                           Generating dependency graph for Serilog *
+                           """);
     }
 
     [Test]
@@ -72,10 +74,12 @@ public abstract class NugraphTests(Nugraph nugraph)
 
         var result = await nugraph.RunAsync(["Serilog"], workingDirectory: workingDirectory);
 
-        result.Should().Match(stdOutPattern:"https://mermaid.live/view#pako:*", stdErrPattern: """
-                                Generating dependency graph for Serilog
-                                Generating dependency graph for Serilog *
-                                """);
+        result.Should().Match(
+            stdOutPattern: "https://mermaid.live/view#pako:*",
+            stdErrPattern: """
+                           Generating dependency graph for Serilog
+                           Generating dependency graph for Serilog *
+                           """);
     }
 
     [Test]
@@ -83,10 +87,12 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync(["Serilog@4.0.1", "--framework", "net6.0"]);
 
-        result.Should().Match(stdOutPattern: "https://mermaid.live/view#pako:*", stdErrPattern: """
-                                Generating dependency graph for Serilog 4.0.1
-                                Generating dependency graph for Serilog 4.0.1 (net6.0)
-                                """)
+        result.Should().Match(
+            stdOutPattern: "https://mermaid.live/view#pako:*",
+            stdErrPattern: """
+                           Generating dependency graph for Serilog 4.0.1
+                           Generating dependency graph for Serilog 4.0.1 (net6.0)
+                           """)
             .And.UrlHasDiagram("""
                                ---
                                title: Dependency graph of Serilog 4.0.1 (net6.0)
@@ -114,10 +120,12 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync(["Serilog@4.0.1", "--framework", "net6.0", option]);
 
-        result.Should().Match(stdOutPattern: "https://mermaid.live/view#pako:*", stdErrPattern: """
-                                Generating dependency graph for Serilog 4.0.1
-                                Generating dependency graph for Serilog 4.0.1 (net6.0)
-                                """)
+        result.Should().Match(
+            stdOutPattern: "https://mermaid.live/view#pako:*",
+            stdErrPattern: """
+                           Generating dependency graph for Serilog 4.0.1
+                           Generating dependency graph for Serilog 4.0.1 (net6.0)
+                           """)
             .And.UrlHasDiagram("""
                                ---
                                title: Dependency graph of Serilog 4.0.1 (net6.0)
@@ -154,10 +162,12 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync(["DockerRunner", "--format", "dot.svg"]);
 
-        result.Should().Match(stdOutPattern:"https://kroki.io/graphviz/svg/*", stdErrPattern: """
-                                Generating dependency graph for DockerRunner
-                                Generating dependency graph for DockerRunner 1.0.0-beta.2 (netstandard2.0)
-                                """);
+        result.Should().Match(
+            stdOutPattern: "https://kroki.io/graphviz/svg/*",
+            stdErrPattern: """
+                           Generating dependency graph for DockerRunner
+                           Generating dependency graph for DockerRunner 1.0.0-beta.2 (netstandard2.0)
+                           """);
     }
 
     [Test]
@@ -165,10 +175,12 @@ public abstract class NugraphTests(Nugraph nugraph)
     {
         var result = await nugraph.RunAsync(["OpenTelemetry.AutoInstrumentation@1.15.0"]);
 
-        result.Should().Match(stdOutPattern:"https://mermaid.live/view#pako:*", stdErrPattern: """
-                                Generating dependency graph for OpenTelemetry.AutoInstrumentation 1.15.0
-                                Generating dependency graph for OpenTelemetry.AutoInstrumentation 1.15.0 (net8.0)
-                                """);
+        result.Should().Match(
+            stdOutPattern: "https://mermaid.live/view#pako:*",
+            stdErrPattern: """
+                           Generating dependency graph for OpenTelemetry.AutoInstrumentation 1.15.0
+                           Generating dependency graph for OpenTelemetry.AutoInstrumentation 1.15.0 (net8.0)
+                           """);
     }
 
     [Test]
