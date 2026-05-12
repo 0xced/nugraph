@@ -10,19 +10,24 @@ namespace nugraph;
 
 public static class DotnetSdk
 {
+    private static readonly object LocatorLock = new();
+
     // Required for Microsoft.Build.* classes to work properly.
     public static string? Register(DirectoryInfo? sdk)
     {
-        if (MSBuildLocator.CanRegister)
+        lock (LocatorLock)
         {
-            if (sdk != null)
+            if (MSBuildLocator.CanRegister)
             {
-                MSBuildLocator.RegisterMSBuildPath(sdk.FullName);
-                return sdk.FullName;
-            }
+                if (sdk != null)
+                {
+                    MSBuildLocator.RegisterMSBuildPath(sdk.FullName);
+                    return sdk.FullName;
+                }
 
-            var instance = MSBuildLocator.RegisterDefaults();
-            return instance.MSBuildPath;
+                var instance = MSBuildLocator.RegisterDefaults();
+                return instance.MSBuildPath;
+            }
         }
 
         return null;
