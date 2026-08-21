@@ -117,7 +117,7 @@ internal sealed class GraphCommand(ProgramEnvironment environment) : AsyncComman
         {
             settings.Title = $"Dependency graph of {name}";
         }
-        var projectInfo = await DotnetCli.RestoreAsync(source, cancellationToken);
+        var projectInfo = await DotnetCli.RestoreAsync(source, logger, cancellationToken);
         var targetFramework = settings.Framework ?? projectInfo.TargetFrameworks.Select(NuGetFramework.Parse).First();
         var lockFile = new LockFileFormat().Read(projectInfo.ProjectAssetsFile.FullName);
         Predicate<Package> filter = projectInfo.CopyLocalPackages.Count > 0 ? package => projectInfo.CopyLocalPackages.Contains(package.Name) : _ => true;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using CliWrap;
+using NuGet.Common;
 
 namespace nugraph;
 
@@ -15,16 +17,17 @@ namespace nugraph;
 /// </summary>
 internal static partial class DotnetCli
 {
-    public static async Task<ProjectInfo> RestoreAsync(FileSystemInfo source, CancellationToken cancellationToken)
+    public static async Task<ProjectInfo> RestoreAsync(FileSystemInfo source, ILogger logger, CancellationToken cancellationToken)
     {
-        return await RestoreAsync(source, allowRetry: true, cancellationToken);
+        return await RestoreAsync(source, allowRetry: true, logger, cancellationToken);
     }
 
-    private static async Task<ProjectInfo> RestoreAsync(FileSystemInfo source, bool allowRetry, CancellationToken cancellationToken)
+    private static async Task<ProjectInfo> RestoreAsync(FileSystemInfo source, bool allowRetry, ILogger logger, CancellationToken cancellationToken)
     {
         var stdout = new StringBuilder();
         var stderr = new StringBuilder();
         var jsonPipe = new JsonPipeTarget<Result>(SourceGenerationContext.Default.Result);
+        var logPipe = PipeTarget.ToDelegate(logger.LogDebug);
         var dotnet = Cli.Wrap("dotnet")
             .WithArguments(args =>
             {
@@ -51,10 +54,14 @@ internal static partial class DotnetCli
                 .Set("DOTNET_CLI_UI_LANGUAGE", "en")
             )
             .WithValidation(CommandResultValidation.None)
-            .WithStandardOutputPipe(PipeTarget.Merge(jsonPipe, PipeTarget.ToStringBuilder(stdout)))
-            .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stderr));
+            .WithStandardOutputPipe(PipeTarget.Merge(jsonPipe, PipeTarget.ToStringBuilder(stdout), logPipe))
+            .WithStandardErrorPipe(PipeTarget.Merge(PipeTarget.ToStringBuilder(stderr), logPipe));
 
+        logger.LogVerbose($"Working directory: {dotnet.WorkingDirPath}");
+        logger.LogVerbose(dotnet.ToString());
+        var stopwatch = Stopwatch.StartNew();
         var commandResult = await dotnet.ExecuteAsync(forcefulCancellationToken: cancellationToken, gracefulCancellationToken: CancellationToken.None);
+        logger.LogVerbose($"Restored in {stopwatch.Elapsed.TotalSeconds:N1} seconds");
 
         if (!commandResult.IsSuccess)
         {
@@ -67,7 +74,7 @@ internal static partial class DotnetCli
         if (string.IsNullOrEmpty(properties.ProjectAssetsFile) && allowRetry)
         {
             // If the project was never restored, ProjectAssetsFile may return an empty string. Trying a second time should work.
-            return await RestoreAsync(source, allowRetry: false, cancellationToken);
+            return await RestoreAsync(source, allowRetry: false, logger, cancellationToken);
         }
 
         return new ProjectInfo(properties.GetProjectAssetsFile(), properties.GetTargetFrameworks(), items?.GetNuGetPackageIds() ?? []);

@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.6.0][0.6.0]
+## [Unreleased][Unreleased]
+
+* Added logs (at _debug_ and _verbose_ levels) during the internal `dotnet restore` phase.
+
+## [0.6.0][0.6.0] - 2026-08-21
 
 * Fixed graph generation for packages on authenticated NuGet feeds.
 * Fixed a bug where `nugraph` could fail with `InvalidProjectFileException` if run from a directory containing a `Directory.Build.props` file.
