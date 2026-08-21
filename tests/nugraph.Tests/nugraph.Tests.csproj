@@ -22,10 +22,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AwesomeAssertions" Version="9.5.0" />
+    <PackageReference Include="AwesomeAssertions" Version="9.6.0" />
     <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="2.3.3" />
     <PackageReference Include="Spectre.Console.Testing" Version="0.57.2" />
-    <PackageReference Include="TUnit.Engine" Version="1.64.6" />
+    <PackageReference Include="TUnit.Engine" Version="1.65.38" />
   </ItemGroup>
 
   <ItemGroup>
