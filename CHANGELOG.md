@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased][Unreleased]
+## [0.6.0][0.6.0]
 
 * Fixed graph generation for packages on authenticated NuGet feeds.
 * Fixed a bug where `nugraph` could fail with `InvalidProjectFileException` if run from a directory containing a `Directory.Build.props` file.
@@ -18,13 +18,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 Before:
 
 ```shell
-nugraph Newtonsoft.Json/12.0.3
+nugraph Newtonsoft.Json/13.0.4
 ```
 
 After:
 
 ```shell
-nugraph Newtonsoft.Json@12.0.3
+nugraph Newtonsoft.Json@13.0.4
 ```
 
 ## [0.5.0][0.5.0] - 2025-06-27
@@ -65,7 +65,8 @@ click Serilog "https://www.nuget.org/packages/Serilog/4.3.0" "Serilog 4.3.0"
 
 Initial release
 
-[Unreleased]: https://github.com/0xced/nugraph/compare/0.5.0...HEAD
+[Unreleased]: https://github.com/0xced/nugraph/compare/0.6.0...HEAD
+[0.6.0]: https://github.com/0xced/nugraph/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/0xced/nugraph/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/0xced/nugraph/compare/0.3.0...0.4.0
 [0.3.0]: https://github.com/0xced/nugraph/compare/b581197c8849922788f3e79fd88b417a8ca18db6...0.3.0
