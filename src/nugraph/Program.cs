@@ -69,6 +69,7 @@ public class Program(ProgramEnvironment environment)
                     default:
                         consoleErr.WriteLine("An unexpected error has occurred.", new Style(Color.Red, decoration: Decoration.Bold));
                         consoleErr.WriteLine("Please file a bug report on https://github.com/0xced/nugraph/issues/new and include the stack trace below along with instructions to reproduce this issue.");
+                        consoleErr.WriteLine("Also make sure to include the output of `nugraph --diagnose` in the bug report.");
                         consoleErr.Write(new Rule());
                         consoleErr.WriteException(exception, ExceptionFormats.ShortenTypes);
                         break;
