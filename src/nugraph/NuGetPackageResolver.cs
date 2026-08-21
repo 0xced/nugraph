@@ -45,7 +45,16 @@ internal sealed class NuGetPackageResolver
                 var packageUri = new Uri(packageInfo.ContentUri);
                 _logger.LogDebug($"Retrieving supported frameworks for {packageUri}");
                 var httpHandlerResource = await sourceRepository.GetResourceAsync<HttpHandlerResource>(cancellationToken);
-                using var httpClient = new HttpClient(httpHandlerResource.MessageHandler, disposeHandler: false); // Use the message handler of HttpHandlerResource so that authenticated feeds work
+                var messageHandler = httpHandlerResource?.MessageHandler;
+                // Use the message handler of HttpHandlerResource so that authenticated feeds work
+                if (messageHandler == null)
+                {
+                    _logger.LogWarning("NuGet's HttpHandlerResource message handler is not available, authenticated feeds might not work");
+                }
+                // Disable the CA2000 warning because "disposeHandler: messageHandler == null" takes care of disposing the SocketsHttpHandler
+#pragma warning disable CA2000 // Call System.IDisposable.Dispose on object created by 'new SocketsHttpHandler()' before all references to it are out of scope
+                using var httpClient = new HttpClient(messageHandler ?? new SocketsHttpHandler(), disposeHandler: messageHandler == null);
+#pragma warning restore CA2000
                 await using var packageStream = await HttpStream.CreateAsync(packageUri, new MemoryStream(), ownStream: true, cachePageSize: 32768, cached: null, httpClient, cancellationToken);
                 using var reader = new PackageArchiveReader(packageStream, leaveStreamOpen: true);
                 var supportedFrameworks = (await reader.GetSupportedFrameworksAsync(cancellationToken)).Where(e => e.IsSpecificFramework).ToHashSet();
@@ -84,7 +93,7 @@ internal sealed class NuGetPackageResolver
         }
 
         _logger.LogDebug($"Retrieving DependencyInfoResource for {sourceRepository}");
-        var dependencyInfoResource = await sourceRepository.GetResourceAsync<DependencyInfoResource>(cancellationToken);
+        var dependencyInfoResource = await sourceRepository.GetResourceAsync<DependencyInfoResource>(cancellationToken) ?? throw new InvalidOperationException("NuGet DependencyInfoResource is unavailable");
         _logger.LogDebug($"Resolving {package.Id} with {dependencyInfoResource}");
         var packageInfos = await dependencyInfoResource.ResolvePackages(package.Id, sourceCacheContext, _logger, cancellationToken);
 

@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * Fixed a bug where `nugraph` could fail with `InvalidProjectFileException` if run from a directory containing a `Directory.Build.props` file.
 * Improved target framework detection for metapackages.
 * Improved error message when the specified framework (with the `-f|--framework` option) is not supported.
+* Fixed this issue that has arisen with recent versions of the .NET SDK.
+  > The expression "[MSBuild]::GetTargetFrameworkVersion(net6.0)" cannot be evaluated. Could not load file or assembly 'NuGet.Frameworks, Version=7.9.0.0, Culture=neutral,
+  PublicKeyToken=31bf3856ad364e35'. The located assembly's manifest definition does not match the assembly reference.
 * Use `@` instead of `/` for separating package name and version. 
 
 Before:
