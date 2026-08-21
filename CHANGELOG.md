@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased][Unreleased]
 
+* Huge speed-up for a much faster `nugraph` experience.
 * Added logs (at _debug_ and _verbose_ levels) during the internal `dotnet restore` phase.
 
 ## [0.6.0][0.6.0] - 2026-08-21

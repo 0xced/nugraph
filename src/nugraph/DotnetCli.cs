@@ -34,6 +34,12 @@ internal static partial class DotnetCli
                 args.Add("restore");
                 args.Add(source.FullName);
 
+                // Running "dotnet restore" might be extremely slow, even when the project references a single package which is already in the NuGet cache.
+                // Sometimes, this log is written to stderr:
+                // > MSBuild server unavailable: could not connect to the server within the timeout window; the server may have failed to start. Falling back to an in-process build.
+                // Maybe this happens because of dotnet running inside dotnet? Anyway, adding --disable-build-servers prevents the timeout phase (20s) and skips right to the in-process build.
+                args.Add("--disable-build-servers");
+
                 // !!! Requires a recent .NET SDK (see https://github.com/dotnet/msbuild/issues/3911)
                 args.Add($"--getProperty:{nameof(Property.ProjectAssetsFile)}");
                 args.Add($"--getProperty:{nameof(Property.TargetFramework)}");
