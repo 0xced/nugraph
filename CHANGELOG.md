@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased][Unreleased]
+## [0.7.0][0.7.0] - 2026-08-21
 
 * Huge speed-up for a much faster `nugraph` experience.
 * Added logs (at _debug_ and _verbose_ levels) during the internal `dotnet restore` phase.
@@ -70,7 +70,8 @@ click Serilog "https://www.nuget.org/packages/Serilog/4.3.0" "Serilog 4.3.0"
 
 Initial release
 
-[Unreleased]: https://github.com/0xced/nugraph/compare/0.6.0...HEAD
+[Unreleased]: https://github.com/0xced/nugraph/compare/0.7.0...HEAD
+[0.7.0]: https://github.com/0xced/nugraph/compare/0.6.0...0.7.0
 [0.6.0]: https://github.com/0xced/nugraph/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/0xced/nugraph/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/0xced/nugraph/compare/0.3.0...0.4.0
