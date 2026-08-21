@@ -1,0 +1,236 @@
+nugraph:
+ Version:  0.5.1-alpha.0.55
+ Runtime:  8.0.30
+ SDK:      
+
+attributes:
+ [System.Reflection.AssemblyCompanyAttribute("Cédric Luthi")]
+ [System.Reflection.AssemblyConfigurationAttribute("Release")]
+ [System.Reflection.AssemblyCopyrightAttribute("Copyright © Cédric Luthi")]
+ [System.Reflection.AssemblyDescriptionAttribute("Command-line tool for creating visual dependency graphs of NuGet packages and .NET projects")]
+ [System.Reflection.AssemblyFileVersionAttribute("0.5.1.0")]
+ [System.Reflection.AssemblyInformationalVersionAttribute("0.5.1-alpha.0.55+a06f2cef8bd7e4b1492b2ba474e6e4e3900700cf")]
+ [System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/0xced/nugraph")]
+ [System.Reflection.AssemblyProductAttribute("nugraph")]
+ [System.Reflection.AssemblyTitleAttribute("nugraph")]
+ [System.Runtime.CompilerServices.CompilationRelaxationsAttribute((Int32)8)]
+ [System.Diagnostics.DebuggableAttribute((System.Diagnostics.DebuggableAttribute+DebuggingModes)2)]
+ [System.Runtime.CompilerServices.ExtensionAttribute()]
+ [System.Runtime.CompilerServices.RuntimeCompatibilityAttribute(WrapNonExceptionThrows = True)]
+ [System.Runtime.Versioning.TargetFrameworkAttribute(".NETCoreApp,Version=v8.0", FrameworkDisplayName = ".NET 8.0")]
+
+assemblies:
+ CliWrap, Version=3.10.5.0, Culture=neutral, PublicKeyToken=337a390ad141274e: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/CliWrap.dll
+ HttpStream, Version=2.0.76.0, Culture=neutral, PublicKeyToken=null: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/HttpStream.dll
+ Microsoft.Bcl.Memory, Version=10.0.0.11, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/Microsoft.Bcl.Memory.dll
+ Microsoft.Build, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/sdk/8.0.424/Microsoft.Build.dll
+ Microsoft.Build.Framework, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/sdk/8.0.424/Microsoft.Build.Framework.dll
+ Microsoft.Build.Locator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9dff12846e04bfbd: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/Microsoft.Build.Locator.dll
+ Microsoft.NET.StringTools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/sdk/8.0.424/Microsoft.NET.StringTools.dll
+ Microsoft.Win32.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/Microsoft.Win32.Primitives.dll
+ Microsoft.Win32.Registry, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/Microsoft.Win32.Registry.dll
+ netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/netstandard.dll
+ Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/Newtonsoft.Json.dll
+ NuGet.Common, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/NuGet.Common.dll
+ NuGet.Configuration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/NuGet.Configuration.dll
+ NuGet.DependencyResolver.Core, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/NuGet.DependencyResolver.Core.dll
+ NuGet.Frameworks, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/NuGet.Frameworks.dll
+ NuGet.LibraryModel, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/NuGet.LibraryModel.dll
+ NuGet.Packaging, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/NuGet.Packaging.dll
+ NuGet.ProjectModel, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/NuGet.ProjectModel.dll
+ NuGet.Protocol, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/NuGet.Protocol.dll
+ NuGet.Versioning, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/NuGet.Versioning.dll
+ nugraph, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.dll
+ OneOf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/OneOf.dll
+ Spectre.Console, Version=0.0.0.0, Culture=neutral, PublicKeyToken=170fe27f8af98a30: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/Spectre.Console.dll
+ Spectre.Console.Ansi, Version=0.0.0.0, Culture=neutral, PublicKeyToken=170fe27f8af98a30: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/Spectre.Console.Ansi.dll
+ Spectre.Console.Cli, Version=0.0.0.0, Culture=neutral, PublicKeyToken=170fe27f8af98a30: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/Spectre.Console.Cli.dll
+ System.Collections, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Collections.dll
+ System.Collections.Concurrent, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Collections.Concurrent.dll
+ System.Collections.Immutable, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Collections.Immutable.dll
+ System.Collections.NonGeneric, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Collections.NonGeneric.dll
+ System.Collections.Specialized, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Collections.Specialized.dll
+ System.ComponentModel, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.ComponentModel.dll
+ System.ComponentModel.EventBasedAsync, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.ComponentModel.EventBasedAsync.dll
+ System.ComponentModel.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.ComponentModel.Primitives.dll
+ System.ComponentModel.TypeConverter, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.ComponentModel.TypeConverter.dll
+ System.Configuration.ConfigurationManager, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/sdk/8.0.424/System.Configuration.ConfigurationManager.dll
+ System.Console, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Console.dll
+ System.Data.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Data.Common.dll
+ System.Diagnostics.Contracts, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Diagnostics.Contracts.dll
+ System.Diagnostics.DiagnosticSource, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Diagnostics.DiagnosticSource.dll
+ System.Diagnostics.EventLog, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/sdk/8.0.424/System.Diagnostics.EventLog.dll
+ System.Diagnostics.FileVersionInfo, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Diagnostics.FileVersionInfo.dll
+ System.Diagnostics.Process, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Diagnostics.Process.dll
+ System.Diagnostics.StackTrace, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Diagnostics.StackTrace.dll
+ System.Diagnostics.TextWriterTraceListener, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Diagnostics.TextWriterTraceListener.dll
+ System.Diagnostics.TraceSource, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Diagnostics.TraceSource.dll
+ System.Diagnostics.Tracing, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Diagnostics.Tracing.dll
+ System.Drawing.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Drawing.Primitives.dll
+ System.Formats.Asn1, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Formats.Asn1.dll
+ System.IO.Compression, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.IO.Compression.dll
+ System.IO.Compression.Brotli, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.IO.Compression.Brotli.dll
+ System.IO.Compression.ZipFile, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.IO.Compression.ZipFile.dll
+ System.IO.FileSystem.DriveInfo, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.IO.FileSystem.DriveInfo.dll
+ System.IO.FileSystem.Watcher, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.IO.FileSystem.Watcher.dll
+ System.IO.IsolatedStorage, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.IO.IsolatedStorage.dll
+ System.IO.MemoryMappedFiles, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.IO.MemoryMappedFiles.dll
+ System.IO.Pipes, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.IO.Pipes.dll
+ System.Linq, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Linq.dll
+ System.Linq.Expressions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Linq.Expressions.dll
+ System.Linq.Parallel, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Linq.Parallel.dll
+ System.Linq.Queryable, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Linq.Queryable.dll
+ System.Memory, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Memory.dll
+ System.Net.Http, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.Http.dll
+ System.Net.HttpListener, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.HttpListener.dll
+ System.Net.Mail, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.Mail.dll
+ System.Net.NameResolution, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.NameResolution.dll
+ System.Net.NetworkInformation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.NetworkInformation.dll
+ System.Net.Ping, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.Ping.dll
+ System.Net.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.Primitives.dll
+ System.Net.Quic, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.Quic.dll
+ System.Net.Requests, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.Requests.dll
+ System.Net.Security, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.Security.dll
+ System.Net.ServicePoint, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.ServicePoint.dll
+ System.Net.Sockets, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.Sockets.dll
+ System.Net.WebClient, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.WebClient.dll
+ System.Net.WebHeaderCollection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.WebHeaderCollection.dll
+ System.Net.WebProxy, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.WebProxy.dll
+ System.Net.WebSockets, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.WebSockets.dll
+ System.Net.WebSockets.Client, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Net.WebSockets.Client.dll
+ System.Numerics.Vectors, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Numerics.Vectors.dll
+ System.ObjectModel, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.ObjectModel.dll
+ System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Private.CoreLib.dll
+ System.Private.DataContractSerialization, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Private.DataContractSerialization.dll
+ System.Private.Uri, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Private.Uri.dll
+ System.Private.Xml, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Private.Xml.dll
+ System.Private.Xml.Linq, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Private.Xml.Linq.dll
+ System.Reflection.DispatchProxy, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Reflection.DispatchProxy.dll
+ System.Reflection.Emit, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Reflection.Emit.dll
+ System.Reflection.Emit.ILGeneration, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Reflection.Emit.ILGeneration.dll
+ System.Reflection.Emit.Lightweight, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Reflection.Emit.Lightweight.dll
+ System.Reflection.Metadata, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Reflection.Metadata.dll
+ System.Reflection.MetadataLoadContext, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/sdk/8.0.424/System.Reflection.MetadataLoadContext.dll
+ System.Reflection.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Reflection.Primitives.dll
+ System.Resources.Writer, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Resources.Writer.dll
+ System.Runtime, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Runtime.dll
+ System.Runtime.CompilerServices.VisualC, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Runtime.CompilerServices.VisualC.dll
+ System.Runtime.InteropServices, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Runtime.InteropServices.dll
+ System.Runtime.Intrinsics, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Runtime.Intrinsics.dll
+ System.Runtime.Loader, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Runtime.Loader.dll
+ System.Runtime.Numerics, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Runtime.Numerics.dll
+ System.Runtime.Serialization.Formatters, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Runtime.Serialization.Formatters.dll
+ System.Runtime.Serialization.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Runtime.Serialization.Json.dll
+ System.Runtime.Serialization.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Runtime.Serialization.Primitives.dll
+ System.Runtime.Serialization.Xml, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Runtime.Serialization.Xml.dll
+ System.Security.AccessControl, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Security.AccessControl.dll
+ System.Security.Claims, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Security.Claims.dll
+ System.Security.Cryptography, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Security.Cryptography.dll
+ System.Security.Cryptography.Pkcs, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/System.Security.Cryptography.Pkcs.dll
+ System.Security.Cryptography.ProtectedData, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/System.Security.Cryptography.ProtectedData.dll
+ System.Security.Principal.Windows, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Security.Principal.Windows.dll
+ System.Text.Encoding.CodePages, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Text.Encoding.CodePages.dll
+ System.Text.Encoding.Extensions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Text.Encoding.Extensions.dll
+ System.Text.Encodings.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Text.Encodings.Web.dll
+ System.Text.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Text.Json.dll
+ System.Text.RegularExpressions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Text.RegularExpressions.dll
+ System.Threading, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Threading.dll
+ System.Threading.Channels, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/System.Threading.Channels.dll
+ System.Threading.Overlapped, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Threading.Overlapped.dll
+ System.Threading.Tasks.Dataflow, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Threading.Tasks.Dataflow.dll
+ System.Threading.Tasks.Parallel, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Threading.Tasks.Parallel.dll
+ System.Threading.Thread, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Threading.Thread.dll
+ System.Threading.ThreadPool, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Threading.ThreadPool.dll
+ System.Transactions.Local, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Transactions.Local.dll
+ System.Web.HttpUtility, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Web.HttpUtility.dll
+ System.Xml.ReaderWriter, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Xml.ReaderWriter.dll
+ System.Xml.XDocument, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Xml.XDocument.dll
+ System.Xml.XmlSerializer, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Xml.XmlSerializer.dll
+ System.Xml.XPath, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Xml.XPath.dll
+ System.Xml.XPath.XDocument, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: ~/.dotnet/shared/Microsoft.NETCore.App/8.0.30/System.Xml.XPath.XDocument.dll
+
+.NET SDK:
+ Version:           10.0.400
+ Commit:            14fbf8d527
+ Workload version:  10.0.400-manifests.330ea142
+ MSBuild version:   18.9.6+14fbf8d52
+
+Runtime Environment:
+ OS Name:     Mac OS X
+ OS Version:  26.5
+ OS Platform: Darwin
+ RID:         osx-arm64
+ Base Path:   ~/.dotnet/sdk/10.0.400/
+
+.NET workloads installed:
+There are no installed workloads to display.
+Configured to use workload sets when installing new manifests.
+No workload sets are installed. Run "dotnet workload restore" to install a workload set.
+
+Host:
+  Version:      10.0.11
+  Architecture: arm64
+  Commit:       e2f47b0110
+
+.NET SDKs installed:
+  8.0.101 [~/.dotnet/sdk]
+  8.0.204 [~/.dotnet/sdk]
+  8.0.303 [~/.dotnet/sdk]
+  8.0.423 [~/.dotnet/sdk]
+  8.0.424 [~/.dotnet/sdk]
+  9.0.102 [~/.dotnet/sdk]
+  9.0.203 [~/.dotnet/sdk]
+  9.0.316 [~/.dotnet/sdk]
+  10.0.103 [~/.dotnet/sdk]
+  10.0.203 [~/.dotnet/sdk]
+  10.0.302 [~/.dotnet/sdk]
+  10.0.400 [~/.dotnet/sdk]
+
+.NET runtimes installed:
+  Microsoft.AspNetCore.App 8.0.1 [~/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 8.0.4 [~/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 8.0.7 [~/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 8.0.29 [~/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 8.0.30 [~/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 9.0.1 [~/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 9.0.4 [~/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 9.0.18 [~/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 10.0.3 [~/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 10.0.7 [~/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 10.0.10 [~/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 10.0.11 [~/.dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.NETCore.App 8.0.1 [~/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 8.0.4 [~/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 8.0.7 [~/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 8.0.29 [~/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 8.0.30 [~/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 9.0.1 [~/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 9.0.4 [~/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 9.0.18 [~/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 10.0.3 [~/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 10.0.7 [~/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 10.0.10 [~/.dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 10.0.11 [~/.dotnet/shared/Microsoft.NETCore.App]
+
+Other architectures found:
+  None
+
+Environment variables:
+  DOTNET_CLI_TELEMETRY_OPTOUT              [true]
+  DOTNET_CLI_TEST_COMMAND_WORKING_DIRECTORY [~/work/nugraph/nugraph]
+  DOTNET_HOST_PATH                         [~/.dotnet/dotnet]
+  DOTNET_MULTILEVEL_LOOKUP                 [0]
+  DOTNET_NOLOGO                            [true]
+  DOTNET_ROOT                              [~/.dotnet]
+  DOTNET_ROOT_ARM64                        [~/.dotnet]
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE        [1]
+  DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION [false]
+
+global.json file:
+  ~/work/nugraph/nugraph/global.json
+
+Learn more:
+  https://aka.ms/dotnet/info
+
+Download .NET:
+  https://aka.ms/dotnet/download

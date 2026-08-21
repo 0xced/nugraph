@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="6bd4045b-c87a-4f63-befd-7ef75b172595" name="@runnervm76f27 2026-08-21 16:00:37.9936119" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-08-21T16:00:18.1154209Z" queuing="2026-08-21T16:00:18.1154209Z" start="2026-08-21T16:00:18.1154209Z" finish="2026-08-21T16:00:38.0120518Z" />
+  <TestSettings name="default" id="9cf9ab23-569f-4ab0-86e7-72a88a77aec6">
+    <Deployment runDeploymentRoot="_runnervm76f27_2026-08-21_16_00_37.9936119" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="7e37f8df-7eaa-4483-b68a-8dc8c1c70569" testId="e73b818d-8458-1f68-2892-8cb90d8636d3" testName="Version" computerName="runnervm76f27" duration="00:00:00.6852035" startTime="2026-08-21T16:00:20.6633678+00:00" endTime="2026-08-21T16:00:21.3485713+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="7e37f8df-7eaa-4483-b68a-8dc8c1c70569" />
+    <UnitTestResult executionId="b40b9526-72e2-4428-8315-3ba9334a1040" testId="7fb482d8-99af-e985-650f-2f16e2ef2431" testName="BadUrlOption" computerName="runnervm76f27" duration="00:00:01.0167045" startTime="2026-08-21T16:00:20.6627214+00:00" endTime="2026-08-21T16:00:21.6794259+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="b40b9526-72e2-4428-8315-3ba9334a1040" />
+    <UnitTestResult executionId="e9567ed1-27ce-42db-bb2d-b1c4e84a67a4" testId="561fa2f7-4d3f-4b91-70a0-1ab55eabf1b0" testName="Help" computerName="runnervm76f27" duration="00:00:01.4553217" startTime="2026-08-21T16:00:20.6627322+00:00" endTime="2026-08-21T16:00:22.1180539+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="e9567ed1-27ce-42db-bb2d-b1c4e84a67a4">
+      <Output>
+        <StdOut>📁 /home/runner/work/nugraph/nugraph/tests/GlobalTool 🛠️ dotnet pack /home/runner/work/nugraph/nugraph/src/nugraph/nugraph.csproj --output /home/runner/work/nugraph/nugraph/tests/GlobalTool --getProperty:PackageVersion --no-build --configuration Release
+==&gt; out: 0.5.1-alpha.0.55
+📁 /home/runner/work/nugraph/nugraph/tests/GlobalTool 🛠️ dotnet tool list --global nugraph
+==&gt; out: Package Id      Version      Commands
+==&gt; out: -------------------------------------
+📁 /home/runner/work/nugraph/nugraph/tests/GlobalTool 🛠️ dotnet tool install nugraph --global --version 0.5.1-alpha.0.55 --add-source /home/runner/work/nugraph/nugraph/tests/GlobalTool
+==&gt; out: You can invoke the tool using the following command: nugraph
+==&gt; out: Tool 'nugraph' (version '0.5.1-alpha.0.55') was successfully installed.
+</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5a936f79-9618-4bcd-9cc1-d163ec58fe19" testId="cf57f873-e1ba-aefc-f07a-2b4b4aee6134" testName="Package_Serilog_UnsupportedTargetFramework(--framework)" computerName="runnervm76f27" duration="00:00:01.5729768" startTime="2026-08-21T16:00:20.6833108+00:00" endTime="2026-08-21T16:00:22.2562876+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="5a936f79-9618-4bcd-9cc1-d163ec58fe19" />
+    <UnitTestResult executionId="d9c5203e-1b74-400f-9bf1-2e8682f90185" testId="b1e9cbfd-c027-7d76-b679-f9a8e6242926" testName="Package_Serilog_UnsupportedTargetFramework(-f)" computerName="runnervm76f27" duration="00:00:01.9424991" startTime="2026-08-21T16:00:20.6862040+00:00" endTime="2026-08-21T16:00:22.6287031+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="d9c5203e-1b74-400f-9bf1-2e8682f90185" />
+    <UnitTestResult executionId="469d80d2-aedf-4e6d-bad3-e26df4352734" testId="1761cd27-c8d8-7c51-a43a-92e2717289de" testName="Project_SolutionFile" computerName="runnervm76f27" duration="00:00:01.3723477" startTime="2026-08-21T16:00:21.6896794+00:00" endTime="2026-08-21T16:00:23.0620271+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="469d80d2-aedf-4e6d-bad3-e26df4352734" />
+    <UnitTestResult executionId="eeba21f3-accd-4ba3-b00c-764962422f21" testId="9d054fd2-1ec4-00f3-3f5b-9418e2173bad" testName="Project_NoProject" computerName="runnervm76f27" duration="00:00:01.3879351" startTime="2026-08-21T16:00:22.2568536+00:00" endTime="2026-08-21T16:00:23.6447887+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="eeba21f3-accd-4ba3-b00c-764962422f21" />
+    <UnitTestResult executionId="228a5b36-b7a6-4fe3-ae43-a0ee3c3f0cc2" testId="262f6cc0-984a-a9cc-3674-51650c222b43" testName="Version" computerName="runnervm76f27" duration="00:00:00.0245360" startTime="2026-08-21T16:00:23.6453038+00:00" endTime="2026-08-21T16:00:23.6698398+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="228a5b36-b7a6-4fe3-ae43-a0ee3c3f0cc2" />
+    <UnitTestResult executionId="53fba2cf-0a95-4712-9794-826ecf6283d1" testId="3d8c6802-7925-625b-fabe-a39699254c82" testName="BadUrlOption" computerName="runnervm76f27" duration="00:00:01.0767639" startTime="2026-08-21T16:00:22.6293712+00:00" endTime="2026-08-21T16:00:23.7061351+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="53fba2cf-0a95-4712-9794-826ecf6283d1" />
+    <UnitTestResult executionId="d7abe9c7-6652-4aa0-9804-8505190685a6" testId="5572c7d6-c04e-2d0f-25bf-b7cd7adc54d0" testName="Help" computerName="runnervm76f27" duration="00:00:00.1869727" startTime="2026-08-21T16:00:23.6705433+00:00" endTime="2026-08-21T16:00:23.8575160+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="d7abe9c7-6652-4aa0-9804-8505190685a6" />
+    <UnitTestResult executionId="a07f7178-6a5a-4729-b1ea-4ce8e95d6fe1" testId="af17c6ea-d514-519b-4906-6c062086fa94" testName="Package_DoesNotExist" computerName="runnervm76f27" duration="00:00:03.6860819" startTime="2026-08-21T16:00:20.6793910+00:00" endTime="2026-08-21T16:00:24.3654729+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="a07f7178-6a5a-4729-b1ea-4ce8e95d6fe1" />
+    <UnitTestResult executionId="c1038960-95cf-4399-90d8-3948c2ce787d" testId="b67766bc-2a11-4968-c2fb-e0c40b67d006" testName="Project_SolutionFile" computerName="runnervm76f27" duration="00:00:01.3592316" startTime="2026-08-21T16:00:23.0624952+00:00" endTime="2026-08-21T16:00:24.4217268+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="c1038960-95cf-4399-90d8-3948c2ce787d" />
+    <UnitTestResult executionId="b2462605-2267-4c9c-82cc-ff2167049678" testId="6887db62-b5f1-969c-1824-d944a0039d1d" testName="Diagnose" computerName="runnervm76f27" duration="00:00:03.5716472" startTime="2026-08-21T16:00:22.1289109+00:00" endTime="2026-08-21T16:00:25.7005581+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="b2462605-2267-4c9c-82cc-ff2167049678" />
+    <UnitTestResult executionId="4bb2c2df-eadc-4e2a-a0e2-eca2d15fdfc2" testId="19d49f7f-36d0-4648-75ec-a8ce92c00e33" testName="Project_nugraph_WorkingDirectory" computerName="runnervm76f27" duration="00:00:07.4516116" startTime="2026-08-21T16:00:20.6768062+00:00" endTime="2026-08-21T16:00:28.1284178+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="4bb2c2df-eadc-4e2a-a0e2-eca2d15fdfc2" />
+    <UnitTestResult executionId="2d24c4ac-99a2-4f37-abfb-836e6336f749" testId="3ce3bab3-f73c-6e32-6ad4-847813a78dc2" testName="Project_nugraph_ExplicitDirectory" computerName="runnervm76f27" duration="00:00:07.8761696" startTime="2026-08-21T16:00:20.6709709+00:00" endTime="2026-08-21T16:00:28.5471405+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="2d24c4ac-99a2-4f37-abfb-836e6336f749" />
+    <UnitTestResult executionId="dc5f8519-ebf3-42b1-9fde-380c9a5775d1" testId="a4505150-f982-d711-dedd-914e2b414eb4" testName="Project_NoProject" computerName="runnervm76f27" duration="00:00:00.6805416" startTime="2026-08-21T16:00:28.1289179+00:00" endTime="2026-08-21T16:00:28.8094595+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="dc5f8519-ebf3-42b1-9fde-380c9a5775d1" />
+    <UnitTestResult executionId="54e93a70-ceeb-455c-93d0-614577045e3d" testId="56a4ca54-7a99-d359-d160-df7fb4b5bc49" testName="Package_Serilog_401_net60_IncludeVersion(-s)" computerName="runnervm76f27" duration="00:00:08.9667511" startTime="2026-08-21T16:00:20.6723366+00:00" endTime="2026-08-21T16:00:29.6390877+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="54e93a70-ceeb-455c-93d0-614577045e3d" />
+    <UnitTestResult executionId="5a6bd249-d619-4719-bb67-6b238e6cf185" testId="3f09aeba-70b6-16a1-eb44-178dab4c6ba2" testName="Package_DoesNotExist" computerName="runnervm76f27" duration="00:00:00.3580747" startTime="2026-08-21T16:00:29.6395478+00:00" endTime="2026-08-21T16:00:29.9976225+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="5a6bd249-d619-4719-bb67-6b238e6cf185" />
+    <UnitTestResult executionId="b90d526b-cdbf-4691-81ce-887d40d254c9" testId="3e86130d-7bef-6468-c0dc-6df10b51faa6" testName="Package_Serilog_UnsupportedTargetFramework(--framework)" computerName="runnervm76f27" duration="00:00:00.0949210" startTime="2026-08-21T16:00:29.9981279+00:00" endTime="2026-08-21T16:00:30.0930489+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="b90d526b-cdbf-4691-81ce-887d40d254c9" />
+    <UnitTestResult executionId="80aaefa8-287b-46e6-8495-f4d795c64265" testId="8b122a8e-d644-feb1-9273-23913c85a623" testName="Package_Serilog_UnsupportedTargetFramework(-f)" computerName="runnervm76f27" duration="00:00:00.0997446" startTime="2026-08-21T16:00:30.0934131+00:00" endTime="2026-08-21T16:00:30.1931577+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="80aaefa8-287b-46e6-8495-f4d795c64265" />
+    <UnitTestResult executionId="660cf53c-7872-4f84-9ffd-721f45ddd81d" testId="2d1b65f6-d8e9-8669-4f96-a681dfe5311b" testName="Project_mmd_ProjectFile" computerName="runnervm76f27" duration="00:00:09.1091454" startTime="2026-08-21T16:00:21.4376471+00:00" endTime="2026-08-21T16:00:30.5467925+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="660cf53c-7872-4f84-9ffd-721f45ddd81d" />
+    <UnitTestResult executionId="1bf1be76-55f5-4ebd-9dbd-7cad03b3cf79" testId="97716bfe-370e-a490-ed25-d4339eeb11b8" testName="Package_Serilog_401_net60_IncludeVersion(--include-version)" computerName="runnervm76f27" duration="00:00:10.0875173" startTime="2026-08-21T16:00:20.6711890+00:00" endTime="2026-08-21T16:00:30.7587063+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="1bf1be76-55f5-4ebd-9dbd-7cad03b3cf79" />
+    <UnitTestResult executionId="42d7b07e-4c60-4261-b4b4-b69dd27d0ef0" testId="0c93f51d-65ab-0462-5b92-4a4138d55efd" testName="Package_Serilog_401_net60" computerName="runnervm76f27" duration="00:00:10.7339636" startTime="2026-08-21T16:00:20.6706604+00:00" endTime="2026-08-21T16:00:31.4046240+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="42d7b07e-4c60-4261-b4b4-b69dd27d0ef0" />
+    <UnitTestResult executionId="bf9424a7-a763-4d5b-ab8d-60df33a78c0f" testId="538c90aa-bbb0-df11-6e8d-0179900547f7" testName="Package_OpenTelemetryAutoInstrumentation_FallbackToNet80TargetFrameworkFromDependencyGroups" computerName="runnervm76f27" duration="00:00:11.5570328" startTime="2026-08-21T16:00:20.6765051+00:00" endTime="2026-08-21T16:00:32.2335379+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="bf9424a7-a763-4d5b-ab8d-60df33a78c0f" />
+    <UnitTestResult executionId="abea4d8f-cd1e-4b72-a858-8d357f6bb9cc" testId="a3cf568b-c20f-bfc8-aa1b-5c665fdce458" testName="Package_DockerRunner_MermaidSvg" computerName="runnervm76f27" duration="00:00:11.6197659" startTime="2026-08-21T16:00:20.6728601+00:00" endTime="2026-08-21T16:00:32.2926260+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="abea4d8f-cd1e-4b72-a858-8d357f6bb9cc" />
+    <UnitTestResult executionId="40f69217-5699-421f-8a72-2da042dda70c" testId="178964fa-1461-35c3-24b4-a271b6a5ced9" testName="Package_DockerRunner_GraphvizSvg" computerName="runnervm76f27" duration="00:00:11.6558848" startTime="2026-08-21T16:00:20.6792908+00:00" endTime="2026-08-21T16:00:32.3351756+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="40f69217-5699-421f-8a72-2da042dda70c" />
+    <UnitTestResult executionId="66f6e190-fdb7-4d8f-9f44-1d2a92bfa42f" testId="3a5cb697-7c7e-2a4f-0010-c7fd1dbe052d" testName="Package_Serilog" computerName="runnervm76f27" duration="00:00:11.7719574" startTime="2026-08-21T16:00:20.6627281+00:00" endTime="2026-08-21T16:00:32.4346855+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="66f6e190-fdb7-4d8f-9f44-1d2a92bfa42f" />
+    <UnitTestResult executionId="7c78bbf3-33ff-4e00-ba6b-a55c845dfdf8" testId="5b59d449-87c4-25d3-8d3e-715e38f3da0d" testName="Package_Serilog_WorkingDirectoryUsingArcadeSdk" computerName="runnervm76f27" duration="00:00:12.3829081" startTime="2026-08-21T16:00:20.6627178+00:00" endTime="2026-08-21T16:00:33.0456259+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="7c78bbf3-33ff-4e00-ba6b-a55c845dfdf8">
+      <Output>
+        <StdOut>📁 /home/runner/work/nugraph/nugraph/tests/GlobalTool 🛠️ dotnet tool uninstall --global nugraph
+==&gt; out: Tool 'nugraph' (version '0.5.1-alpha.0.55') was successfully uninstalled.
+</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="bff49ac9-2f8d-42f9-a512-c3825a354d16" testId="492c5d3e-e337-e1d7-cce6-278129be892b" testName="Package_Serilog_401_net60_IncludeVersion(-s)" computerName="runnervm76f27" duration="00:00:08.4160144" startTime="2026-08-21T16:00:25.7010333+00:00" endTime="2026-08-21T16:00:34.1170477+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="bff49ac9-2f8d-42f9-a512-c3825a354d16" />
+    <UnitTestResult executionId="f20f26e0-0c47-4149-afb6-6402dac75568" testId="26c80844-ec2e-3571-8693-08542b20a91e" testName="Package_Serilog_401_net60_IncludeVersion(--include-version)" computerName="runnervm76f27" duration="00:00:09.6948540" startTime="2026-08-21T16:00:24.4221937+00:00" endTime="2026-08-21T16:00:34.1170477+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="f20f26e0-0c47-4149-afb6-6402dac75568" />
+    <UnitTestResult executionId="0608667f-daab-4c33-9c9d-6cde98b110eb" testId="df67ab51-fe38-41ca-ba42-1d6ee3b43fb9" testName="Package_Serilog_401_net60" computerName="runnervm76f27" duration="00:00:09.7569178" startTime="2026-08-21T16:00:24.3681169+00:00" endTime="2026-08-21T16:00:34.1250347+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="0608667f-daab-4c33-9c9d-6cde98b110eb" />
+    <UnitTestResult executionId="dbeaed02-edc1-4aa0-b65b-1103f0afc015" testId="d0fab63e-0c02-1aa2-f0d3-b577f0032fd4" testName="Diagnose" computerName="runnervm76f27" duration="00:00:02.8213257" startTime="2026-08-21T16:00:32.2339815+00:00" endTime="2026-08-21T16:00:35.0553072+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="dbeaed02-edc1-4aa0-b65b-1103f0afc015" />
+    <UnitTestResult executionId="22cd1d83-c0f1-4649-a325-4979a1d05dfa" testId="00b48606-5f00-b3f5-02f3-46956bbf37dd" testName="Project_mmd_ProjectFile" computerName="runnervm76f27" duration="00:00:06.3559963" startTime="2026-08-21T16:00:30.7592658+00:00" endTime="2026-08-21T16:00:37.1152621+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="22cd1d83-c0f1-4649-a325-4979a1d05dfa" />
+    <UnitTestResult executionId="e3c859e2-4571-4349-989d-938eb62ace4d" testId="76728aaa-66cc-4262-57a0-dd80a114ad9e" testName="Package_Serilog" computerName="runnervm76f27" duration="00:00:13.6411676" startTime="2026-08-21T16:00:23.7158322+00:00" endTime="2026-08-21T16:00:37.3569998+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="e3c859e2-4571-4349-989d-938eb62ace4d" />
+    <UnitTestResult executionId="83788f7e-4700-41a0-8d03-5c58e5dda1f1" testId="c5c06487-080a-cb0e-b426-abdd0c6f31e6" testName="Package_Serilog_WorkingDirectoryUsingArcadeSdk" computerName="runnervm76f27" duration="00:00:13.5316738" startTime="2026-08-21T16:00:23.8672504+00:00" endTime="2026-08-21T16:00:37.3989242+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="83788f7e-4700-41a0-8d03-5c58e5dda1f1" />
+    <UnitTestResult executionId="27ab659d-f877-41ef-9ce8-d36fc90358c6" testId="653c296e-43c6-7555-b8a6-bfd0b91f7662" testName="Package_DockerRunner_GraphvizSvg" computerName="runnervm76f27" duration="00:00:05.9997968" startTime="2026-08-21T16:00:31.4050889+00:00" endTime="2026-08-21T16:00:37.4048857+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="27ab659d-f877-41ef-9ce8-d36fc90358c6" />
+    <UnitTestResult executionId="1aeef0f6-9c0e-48bb-80a1-e7832c890d09" testId="f3a7c589-6540-69f5-e8ec-8ba7d1c16cd6" testName="Package_DockerRunner_MermaidSvg" computerName="runnervm76f27" duration="00:00:08.8934077" startTime="2026-08-21T16:00:28.5475835+00:00" endTime="2026-08-21T16:00:37.4409912+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="1aeef0f6-9c0e-48bb-80a1-e7832c890d09" />
+    <UnitTestResult executionId="2bb5f08d-5272-4323-b44f-39b5c98860ea" testId="8996249b-501b-33da-7503-b3d0d0eefbf4" testName="Package_OpenTelemetryAutoInstrumentation_FallbackToNet80TargetFrameworkFromDependencyGroups" computerName="runnervm76f27" duration="00:00:08.8133218" startTime="2026-08-21T16:00:28.8100596+00:00" endTime="2026-08-21T16:00:37.6233814+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="2bb5f08d-5272-4323-b44f-39b5c98860ea" />
+    <UnitTestResult executionId="c9bed3c1-ecb5-4687-a18c-410231c10202" testId="e2e72203-7b11-4eb7-d6ca-8b4383f80a33" testName="Project_nugraph_ExplicitDirectory" computerName="runnervm76f27" duration="00:00:07.0810383" startTime="2026-08-21T16:00:30.5472538+00:00" endTime="2026-08-21T16:00:37.6282921+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Passed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="c9bed3c1-ecb5-4687-a18c-410231c10202" />
+    <UnitTestResult executionId="81acf734-8341-4d60-bf77-7df9040eec3d" testId="d9ff7c9c-9294-f9d4-0e25-42a44ec0a8ce" testName="Project_nugraph_WorkingDirectory" computerName="runnervm76f27" duration="00:00:07.7256234" startTime="2026-08-21T16:00:30.1988807+00:00" endTime="2026-08-21T16:00:37.9245041+00:00" testType="13CDC9D9-DDB5-4fa4-A97D-D965CCFC6D4B" outcome="Failed" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" relativeResultsDirectory="81acf734-8341-4d60-bf77-7df9040eec3d">
+      <Output>
+        <ErrorInfo>
+          <Message>AssertionFailedException: Expected result.ExitCode to be 0, but found 65 (difference of 65).
+Expected result.StdOut to match "https://edotor.net/#deflate:*", but "" does not.
+Expected result.StdErr to match "Generating dependency graph for nugraph", but "Generating dependency graph for nugraph
+Running dotnet restore failed with exit code 1
+── 📁 Working directory ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0
+── 🛠 Full dotnet restore command ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+dotnet restore /home/runner/work/nugraph/nugraph/src/nugraph --getProperty:ProjectAssetsFile --getProperty:TargetFramework --getProperty:TargetFrameworks --getTargetResult:_LoadRestoreGraphEntryPoints
+── 👇 Output from dotnet restore ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+/usr/share/dotnet/sdk/8.0.424/NuGet.targets(174,5): error : The file '/home/runner/work/nugraph/nugraph/src/nugraph/obj/nugraph.csproj.nuget.g.props' already exists. [/home/runner/work/nugraph/nugraph/src/nugraph/nugraph.csproj]" does not.</Message>
+          <StackTrace>   at AwesomeAssertions.Execution.FallbackTestFramework.Throw(String message)
+   at AwesomeAssertions.Execution.GivenSelector`1.FailWith(String message, Object[] args)
+   at AwesomeAssertions.Execution.GivenSelector`1.FailWith(String message)
+   at nugraph.Tests.NugraphAssertions.Match(Int32 exitCode, String stdOutPattern, String stdErrPattern, String because, Object[] becauseArgs) in /home/runner/work/nugraph/nugraph/tests/nugraph.Tests/Support/NugraphAssertions.cs:line 46
+   at nugraph.Tests.NugraphTests.Project_nugraph_WorkingDirectory() in /home/runner/work/nugraph/nugraph/tests/nugraph.Tests/NugraphTests.cs:line 207
+   --- TUnit internals omitted (run with --detailed-stacktrace for full trace) ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Version" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="e73b818d-8458-1f68-2892-8cb90d8636d3">
+      <Execution id="7e37f8df-7eaa-4483-b68a-8dc8c1c70569" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Version" />
+    </UnitTest>
+    <UnitTest name="BadUrlOption" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="7fb482d8-99af-e985-650f-2f16e2ef2431">
+      <Execution id="b40b9526-72e2-4428-8315-3ba9334a1040" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="BadUrlOption" />
+    </UnitTest>
+    <UnitTest name="Help" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="561fa2f7-4d3f-4b91-70a0-1ab55eabf1b0">
+      <Execution id="e9567ed1-27ce-42db-bb2d-b1c4e84a67a4" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Help" />
+    </UnitTest>
+    <UnitTest name="Package_Serilog_UnsupportedTargetFramework(--framework)" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="cf57f873-e1ba-aefc-f07a-2b4b4aee6134">
+      <Execution id="5a936f79-9618-4bcd-9cc1-d163ec58fe19" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Package_Serilog_UnsupportedTargetFramework" />
+    </UnitTest>
+    <UnitTest name="Package_Serilog_UnsupportedTargetFramework(-f)" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="b1e9cbfd-c027-7d76-b679-f9a8e6242926">
+      <Execution id="d9c5203e-1b74-400f-9bf1-2e8682f90185" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Package_Serilog_UnsupportedTargetFramework" />
+    </UnitTest>
+    <UnitTest name="Project_SolutionFile" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="1761cd27-c8d8-7c51-a43a-92e2717289de">
+      <Execution id="469d80d2-aedf-4e6d-bad3-e26df4352734" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Project_SolutionFile" />
+    </UnitTest>
+    <UnitTest name="Project_NoProject" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="9d054fd2-1ec4-00f3-3f5b-9418e2173bad">
+      <Execution id="eeba21f3-accd-4ba3-b00c-764962422f21" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Project_NoProject" />
+    </UnitTest>
+    <UnitTest name="Version" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="262f6cc0-984a-a9cc-3674-51650c222b43">
+      <Execution id="228a5b36-b7a6-4fe3-ae43-a0ee3c3f0cc2" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Version" />
+    </UnitTest>
+    <UnitTest name="BadUrlOption" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="3d8c6802-7925-625b-fabe-a39699254c82">
+      <Execution id="53fba2cf-0a95-4712-9794-826ecf6283d1" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="BadUrlOption" />
+    </UnitTest>
+    <UnitTest name="Help" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="5572c7d6-c04e-2d0f-25bf-b7cd7adc54d0">
+      <Execution id="d7abe9c7-6652-4aa0-9804-8505190685a6" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Help" />
+    </UnitTest>
+    <UnitTest name="Package_DoesNotExist" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="af17c6ea-d514-519b-4906-6c062086fa94">
+      <Execution id="a07f7178-6a5a-4729-b1ea-4ce8e95d6fe1" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Package_DoesNotExist" />
+    </UnitTest>
+    <UnitTest name="Project_SolutionFile" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="b67766bc-2a11-4968-c2fb-e0c40b67d006">
+      <Execution id="c1038960-95cf-4399-90d8-3948c2ce787d" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Project_SolutionFile" />
+    </UnitTest>
+    <UnitTest name="Diagnose" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="6887db62-b5f1-969c-1824-d944a0039d1d">
+      <Execution id="b2462605-2267-4c9c-82cc-ff2167049678" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Diagnose" />
+    </UnitTest>
+    <UnitTest name="Project_nugraph_WorkingDirectory" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="19d49f7f-36d0-4648-75ec-a8ce92c00e33">
+      <Execution id="4bb2c2df-eadc-4e2a-a0e2-eca2d15fdfc2" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Project_nugraph_WorkingDirectory" />
+    </UnitTest>
+    <UnitTest name="Project_nugraph_ExplicitDirectory" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="3ce3bab3-f73c-6e32-6ad4-847813a78dc2">
+      <Execution id="2d24c4ac-99a2-4f37-abfb-836e6336f749" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Project_nugraph_ExplicitDirectory" />
+    </UnitTest>
+    <UnitTest name="Project_NoProject" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="a4505150-f982-d711-dedd-914e2b414eb4">
+      <Execution id="dc5f8519-ebf3-42b1-9fde-380c9a5775d1" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Project_NoProject" />
+    </UnitTest>
+    <UnitTest name="Package_Serilog_401_net60_IncludeVersion(-s)" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="56a4ca54-7a99-d359-d160-df7fb4b5bc49">
+      <Execution id="54e93a70-ceeb-455c-93d0-614577045e3d" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Package_Serilog_401_net60_IncludeVersion" />
+    </UnitTest>
+    <UnitTest name="Package_DoesNotExist" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="3f09aeba-70b6-16a1-eb44-178dab4c6ba2">
+      <Execution id="5a6bd249-d619-4719-bb67-6b238e6cf185" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Package_DoesNotExist" />
+    </UnitTest>
+    <UnitTest name="Package_Serilog_UnsupportedTargetFramework(--framework)" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="3e86130d-7bef-6468-c0dc-6df10b51faa6">
+      <Execution id="b90d526b-cdbf-4691-81ce-887d40d254c9" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Package_Serilog_UnsupportedTargetFramework" />
+    </UnitTest>
+    <UnitTest name="Package_Serilog_UnsupportedTargetFramework(-f)" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="8b122a8e-d644-feb1-9273-23913c85a623">
+      <Execution id="80aaefa8-287b-46e6-8495-f4d795c64265" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Package_Serilog_UnsupportedTargetFramework" />
+    </UnitTest>
+    <UnitTest name="Project_mmd_ProjectFile" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="2d1b65f6-d8e9-8669-4f96-a681dfe5311b">
+      <Execution id="660cf53c-7872-4f84-9ffd-721f45ddd81d" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Project_mmd_ProjectFile" />
+    </UnitTest>
+    <UnitTest name="Package_Serilog_401_net60_IncludeVersion(--include-version)" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="97716bfe-370e-a490-ed25-d4339eeb11b8">
+      <Execution id="1bf1be76-55f5-4ebd-9dbd-7cad03b3cf79" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Package_Serilog_401_net60_IncludeVersion" />
+    </UnitTest>
+    <UnitTest name="Package_Serilog_401_net60" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="0c93f51d-65ab-0462-5b92-4a4138d55efd">
+      <Execution id="42d7b07e-4c60-4261-b4b4-b69dd27d0ef0" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Package_Serilog_401_net60" />
+    </UnitTest>
+    <UnitTest name="Package_OpenTelemetryAutoInstrumentation_FallbackToNet80TargetFrameworkFromDependencyGroups" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="538c90aa-bbb0-df11-6e8d-0179900547f7">
+      <Execution id="bf9424a7-a763-4d5b-ab8d-60df33a78c0f" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Package_OpenTelemetryAutoInstrumentation_FallbackToNet80TargetFrameworkFromDependencyGroups" />
+    </UnitTest>
+    <UnitTest name="Package_DockerRunner_MermaidSvg" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="a3cf568b-c20f-bfc8-aa1b-5c665fdce458">
+      <Execution id="abea4d8f-cd1e-4b72-a858-8d357f6bb9cc" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Package_DockerRunner_MermaidSvg" />
+    </UnitTest>
+    <UnitTest name="Package_DockerRunner_GraphvizSvg" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="178964fa-1461-35c3-24b4-a271b6a5ced9">
+      <Execution id="40f69217-5699-421f-8a72-2da042dda70c" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Package_DockerRunner_GraphvizSvg" />
+    </UnitTest>
+    <UnitTest name="Package_Serilog" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="3a5cb697-7c7e-2a4f-0010-c7fd1dbe052d">
+      <Execution id="66f6e190-fdb7-4d8f-9f44-1d2a92bfa42f" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Package_Serilog" />
+    </UnitTest>
+    <UnitTest name="Package_Serilog_WorkingDirectoryUsingArcadeSdk" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="5b59d449-87c4-25d3-8d3e-715e38f3da0d">
+      <Execution id="7c78bbf3-33ff-4e00-ba6b-a55c845dfdf8" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+GlobalTool" name="Package_Serilog_WorkingDirectoryUsingArcadeSdk" />
+    </UnitTest>
+    <UnitTest name="Package_Serilog_401_net60_IncludeVersion(-s)" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="492c5d3e-e337-e1d7-cce6-278129be892b">
+      <Execution id="bff49ac9-2f8d-42f9-a512-c3825a354d16" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Package_Serilog_401_net60_IncludeVersion" />
+    </UnitTest>
+    <UnitTest name="Package_Serilog_401_net60_IncludeVersion(--include-version)" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="26c80844-ec2e-3571-8693-08542b20a91e">
+      <Execution id="f20f26e0-0c47-4149-afb6-6402dac75568" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Package_Serilog_401_net60_IncludeVersion" />
+    </UnitTest>
+    <UnitTest name="Package_Serilog_401_net60" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="df67ab51-fe38-41ca-ba42-1d6ee3b43fb9">
+      <Execution id="0608667f-daab-4c33-9c9d-6cde98b110eb" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Package_Serilog_401_net60" />
+    </UnitTest>
+    <UnitTest name="Diagnose" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="d0fab63e-0c02-1aa2-f0d3-b577f0032fd4">
+      <Execution id="dbeaed02-edc1-4aa0-b65b-1103f0afc015" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Diagnose" />
+    </UnitTest>
+    <UnitTest name="Project_mmd_ProjectFile" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="00b48606-5f00-b3f5-02f3-46956bbf37dd">
+      <Execution id="22cd1d83-c0f1-4649-a325-4979a1d05dfa" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Project_mmd_ProjectFile" />
+    </UnitTest>
+    <UnitTest name="Package_Serilog" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="76728aaa-66cc-4262-57a0-dd80a114ad9e">
+      <Execution id="e3c859e2-4571-4349-989d-938eb62ace4d" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Package_Serilog" />
+    </UnitTest>
+    <UnitTest name="Package_Serilog_WorkingDirectoryUsingArcadeSdk" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="c5c06487-080a-cb0e-b426-abdd0c6f31e6">
+      <Execution id="83788f7e-4700-41a0-8d03-5c58e5dda1f1" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Package_Serilog_WorkingDirectoryUsingArcadeSdk" />
+    </UnitTest>
+    <UnitTest name="Package_DockerRunner_GraphvizSvg" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="653c296e-43c6-7555-b8a6-bfd0b91f7662">
+      <Execution id="27ab659d-f877-41ef-9ce8-d36fc90358c6" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Package_DockerRunner_GraphvizSvg" />
+    </UnitTest>
+    <UnitTest name="Package_DockerRunner_MermaidSvg" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="f3a7c589-6540-69f5-e8ec-8ba7d1c16cd6">
+      <Execution id="1aeef0f6-9c0e-48bb-80a1-e7832c890d09" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Package_DockerRunner_MermaidSvg" />
+    </UnitTest>
+    <UnitTest name="Package_OpenTelemetryAutoInstrumentation_FallbackToNet80TargetFrameworkFromDependencyGroups" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="8996249b-501b-33da-7503-b3d0d0eefbf4">
+      <Execution id="2bb5f08d-5272-4323-b44f-39b5c98860ea" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Package_OpenTelemetryAutoInstrumentation_FallbackToNet80TargetFrameworkFromDependencyGroups" />
+    </UnitTest>
+    <UnitTest name="Project_nugraph_ExplicitDirectory" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="e2e72203-7b11-4eb7-d6ca-8b4383f80a33">
+      <Execution id="c9bed3c1-ecb5-4687-a18c-410231c10202" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Project_nugraph_ExplicitDirectory" />
+    </UnitTest>
+    <UnitTest name="Project_nugraph_WorkingDirectory" storage="/home/runner/work/nugraph/nugraph/tests/nugraph.tests/bin/release/net8.0/nugraph.tests.dll" id="d9ff7c9c-9294-f9d4-0e25-42a44ec0a8ce">
+      <Execution id="81acf734-8341-4d60-bf77-7df9040eec3d" />
+      <TestMethod codeBase="/home/runner/work/nugraph/nugraph/tests/nugraph.Tests/bin/Release/net8.0/nugraph.Tests.dll" adapterTypeName="executor://TUnitExtension/1.65.38.0" className="nugraph.Tests.NugraphTests+Program" name="Project_nugraph_WorkingDirectory" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="e73b818d-8458-1f68-2892-8cb90d8636d3" executionId="7e37f8df-7eaa-4483-b68a-8dc8c1c70569" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="7fb482d8-99af-e985-650f-2f16e2ef2431" executionId="b40b9526-72e2-4428-8315-3ba9334a1040" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="561fa2f7-4d3f-4b91-70a0-1ab55eabf1b0" executionId="e9567ed1-27ce-42db-bb2d-b1c4e84a67a4" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="cf57f873-e1ba-aefc-f07a-2b4b4aee6134" executionId="5a936f79-9618-4bcd-9cc1-d163ec58fe19" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="b1e9cbfd-c027-7d76-b679-f9a8e6242926" executionId="d9c5203e-1b74-400f-9bf1-2e8682f90185" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="1761cd27-c8d8-7c51-a43a-92e2717289de" executionId="469d80d2-aedf-4e6d-bad3-e26df4352734" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="9d054fd2-1ec4-00f3-3f5b-9418e2173bad" executionId="eeba21f3-accd-4ba3-b00c-764962422f21" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="262f6cc0-984a-a9cc-3674-51650c222b43" executionId="228a5b36-b7a6-4fe3-ae43-a0ee3c3f0cc2" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="3d8c6802-7925-625b-fabe-a39699254c82" executionId="53fba2cf-0a95-4712-9794-826ecf6283d1" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="5572c7d6-c04e-2d0f-25bf-b7cd7adc54d0" executionId="d7abe9c7-6652-4aa0-9804-8505190685a6" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="af17c6ea-d514-519b-4906-6c062086fa94" executionId="a07f7178-6a5a-4729-b1ea-4ce8e95d6fe1" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="b67766bc-2a11-4968-c2fb-e0c40b67d006" executionId="c1038960-95cf-4399-90d8-3948c2ce787d" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="6887db62-b5f1-969c-1824-d944a0039d1d" executionId="b2462605-2267-4c9c-82cc-ff2167049678" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="19d49f7f-36d0-4648-75ec-a8ce92c00e33" executionId="4bb2c2df-eadc-4e2a-a0e2-eca2d15fdfc2" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="3ce3bab3-f73c-6e32-6ad4-847813a78dc2" executionId="2d24c4ac-99a2-4f37-abfb-836e6336f749" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="a4505150-f982-d711-dedd-914e2b414eb4" executionId="dc5f8519-ebf3-42b1-9fde-380c9a5775d1" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="56a4ca54-7a99-d359-d160-df7fb4b5bc49" executionId="54e93a70-ceeb-455c-93d0-614577045e3d" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="3f09aeba-70b6-16a1-eb44-178dab4c6ba2" executionId="5a6bd249-d619-4719-bb67-6b238e6cf185" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="3e86130d-7bef-6468-c0dc-6df10b51faa6" executionId="b90d526b-cdbf-4691-81ce-887d40d254c9" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="8b122a8e-d644-feb1-9273-23913c85a623" executionId="80aaefa8-287b-46e6-8495-f4d795c64265" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="2d1b65f6-d8e9-8669-4f96-a681dfe5311b" executionId="660cf53c-7872-4f84-9ffd-721f45ddd81d" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="97716bfe-370e-a490-ed25-d4339eeb11b8" executionId="1bf1be76-55f5-4ebd-9dbd-7cad03b3cf79" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="0c93f51d-65ab-0462-5b92-4a4138d55efd" executionId="42d7b07e-4c60-4261-b4b4-b69dd27d0ef0" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="538c90aa-bbb0-df11-6e8d-0179900547f7" executionId="bf9424a7-a763-4d5b-ab8d-60df33a78c0f" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="a3cf568b-c20f-bfc8-aa1b-5c665fdce458" executionId="abea4d8f-cd1e-4b72-a858-8d357f6bb9cc" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="178964fa-1461-35c3-24b4-a271b6a5ced9" executionId="40f69217-5699-421f-8a72-2da042dda70c" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="3a5cb697-7c7e-2a4f-0010-c7fd1dbe052d" executionId="66f6e190-fdb7-4d8f-9f44-1d2a92bfa42f" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="5b59d449-87c4-25d3-8d3e-715e38f3da0d" executionId="7c78bbf3-33ff-4e00-ba6b-a55c845dfdf8" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="492c5d3e-e337-e1d7-cce6-278129be892b" executionId="bff49ac9-2f8d-42f9-a512-c3825a354d16" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="26c80844-ec2e-3571-8693-08542b20a91e" executionId="f20f26e0-0c47-4149-afb6-6402dac75568" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="df67ab51-fe38-41ca-ba42-1d6ee3b43fb9" executionId="0608667f-daab-4c33-9c9d-6cde98b110eb" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="d0fab63e-0c02-1aa2-f0d3-b577f0032fd4" executionId="dbeaed02-edc1-4aa0-b65b-1103f0afc015" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="00b48606-5f00-b3f5-02f3-46956bbf37dd" executionId="22cd1d83-c0f1-4649-a325-4979a1d05dfa" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="76728aaa-66cc-4262-57a0-dd80a114ad9e" executionId="e3c859e2-4571-4349-989d-938eb62ace4d" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="c5c06487-080a-cb0e-b426-abdd0c6f31e6" executionId="83788f7e-4700-41a0-8d03-5c58e5dda1f1" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="653c296e-43c6-7555-b8a6-bfd0b91f7662" executionId="27ab659d-f877-41ef-9ce8-d36fc90358c6" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="f3a7c589-6540-69f5-e8ec-8ba7d1c16cd6" executionId="1aeef0f6-9c0e-48bb-80a1-e7832c890d09" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="8996249b-501b-33da-7503-b3d0d0eefbf4" executionId="2bb5f08d-5272-4323-b44f-39b5c98860ea" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="e2e72203-7b11-4eb7-d6ca-8b4383f80a33" executionId="c9bed3c1-ecb5-4687-a18c-410231c10202" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestEntry testId="d9ff7c9c-9294-f9d4-0e25-42a44ec0a8ce" executionId="81acf734-8341-4d60-bf77-7df9040eec3d" testListId="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8C84FA94-04C1-424b-9868-57A2D4851A1D" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="40" executed="40" passed="39" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="runnervm76f27" outcome="Error" timestamp="2026-08-21T16:00:38.0199786">
+        <Text>Exit code indicates failure: '2'. Please refer to https://aka.ms/testingplatform/exitcodes for more information.</Text>
+      </RunInfo>
+    </RunInfos>
+    <CollectorDataEntries>
+      <Collector agentName="runnervm76f27" uri="datacollector://TUnitExtensionHtmlReporter/1.65.38.0" collectorDisplayName="TUnit">
+        <UriAttachments>
+          <UriAttachment>
+            <A href="runnervm76f27/nugraph.Tests-linux-net8.0-report.html" />
+          </UriAttachment>
+        </UriAttachments>
+      </Collector>
+    </CollectorDataEntries>
+  </ResultSummary>
+</TestRun>
