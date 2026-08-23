@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CliWrap;
 using NuGet.Common;
+using NuGet.Frameworks;
 
 namespace nugraph;
 
@@ -86,7 +87,7 @@ internal static partial class DotnetCli
         return new ProjectInfo(properties.GetProjectAssetsFile(), properties.GetTargetFrameworks(), items?.GetNuGetPackageIds() ?? []);
     }
 
-    public sealed record ProjectInfo(FileInfo ProjectAssetsFile, IReadOnlyCollection<string> TargetFrameworks, IReadOnlyCollection<string> CopyLocalPackages);
+    public sealed record ProjectInfo(FileInfo ProjectAssetsFile, IReadOnlyCollection<NuGetFramework> TargetFrameworks, IReadOnlyCollection<string> CopyLocalPackages);
 
     [JsonSerializable(typeof(Result))]
     private sealed partial class SourceGenerationContext : JsonSerializerContext;
@@ -95,9 +96,9 @@ internal static partial class DotnetCli
 
     private sealed record Property(string? ProjectAssetsFile, string? TargetFramework, string? TargetFrameworks)
     {
-        public HashSet<string> GetTargetFrameworks()
+        public HashSet<NuGetFramework> GetTargetFrameworks()
         {
-            var targetFrameworks = TargetFrameworks?.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToHashSet();
+            var targetFrameworks = TargetFrameworks?.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Select(NuGetFramework.Parse).ToHashSet();
             if (targetFrameworks?.Count > 0)
             {
                 return targetFrameworks;
@@ -105,7 +106,7 @@ internal static partial class DotnetCli
 
             if (!string.IsNullOrEmpty(TargetFramework))
             {
-                return [TargetFramework];
+                return [NuGetFramework.Parse(TargetFramework)];
             }
 
             throw new InvalidDataException($"Either {nameof(TargetFrameworks)} (plural) or {nameof(TargetFramework)} (singular) is missing");
