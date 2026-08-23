@@ -17,9 +17,9 @@ public sealed class NugraphProgram : Nugraph
     public override async Task<NugraphResult> RunAsync(string[] arguments, string? workingDirectory = null, LogLevel logLevel = LogLevel.Warning, UrlAction action = UrlAction.print)
     {
         using var consoleOut = new TestConsole();
-        consoleOut.Profile.Width = 256;
+        consoleOut.Profile.Width = 640;
         using var consoleErr = new TestConsole();
-        consoleErr.Profile.Width = 256;
+        consoleErr.Profile.Width = 640;
         await using var stdOut = new StringWriter();
         var program = new Program(new ProgramEnvironment(new DirectoryInfo(workingDirectory ?? Environment.CurrentDirectory), consoleOut, consoleErr, stdOut));
         var args = arguments.Append("--log").Append(logLevel.ToString()).Append("--url").Append(action.ToString()).ToArray();

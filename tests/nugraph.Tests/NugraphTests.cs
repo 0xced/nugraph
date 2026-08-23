@@ -1,9 +1,12 @@
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AwesomeAssertions;
 using AwesomeAssertions.Execution;
+using CliWrap;
 using NuGet.Common;
+using NuGet.Versioning;
 
 namespace nugraph.Tests;
 
@@ -242,6 +245,21 @@ public abstract class NugraphTests(Nugraph nugraph)
     }
 
     [Test]
+    public async Task Package_Dotnet10Only_UsingDotnet8Sdk()
+    {
+        var sdk = await GetSdkAsync(version => version.Major == 8);
+        Skip.When(sdk == null, "The .NET 8 SDK is not available");
+
+        var result = await nugraph.RunAsync(["Microsoft.OData.Edm@9.0.0", "--sdk", sdk]);
+
+        const string err = """
+                           *Generating dependency graph for Microsoft.OData.Edm 9.0.0 (net10.0)*
+                           *error NETSDK1045: The current .NET SDK does not support targeting .NET 10.0*Either target .NET 8.0 or lower, or use a version of the .NET SDK that supports .NET 10.0*
+                           """;
+        result.Should().Match(65, stdErrPattern: err);
+    }
+
+    [Test]
     public async Task Project_SolutionFile()
     {
         var result = await nugraph.RunAsync([], workingDirectory: RepositoryDirectories.GetPath());
@@ -275,5 +293,28 @@ public abstract class NugraphTests(Nugraph nugraph)
                                                  DESCRIPTION:*
                                                  *USAGE:*nugraph*[SOURCE]*
                                                  """);
+    }
+
+    private static async Task<string?> GetSdkAsync(Predicate<NuGetVersion> versionPredicate)
+    {
+        var sdkPathRegex = new Regex(@"(.*) \[(.*)\]");
+        string? sdkPath = null;
+        await Cli.Wrap("dotnet")
+            .WithArguments("--list-sdks")
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
+            {
+                if (sdkPathRegex.Match(line) is { Success: true } match)
+                {
+                    var versionString = match.Groups[1].Value;
+                    var version = NuGetVersion.Parse(versionString);
+                    if (versionPredicate(version))
+                    {
+                        sdkPath = Path.Combine(match.Groups[2].Value, versionString);
+                    }
+                }
+            }))
+            .ExecuteAsync();
+
+        return sdkPath;
     }
 }
