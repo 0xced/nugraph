@@ -106,17 +106,10 @@ public sealed partial class NugraphGlobalTool : Nugraph, IAsyncInitializer, IAsy
         if (match.Success)
         {
             _previousVersion = match.Groups[1].Value;
+            await RunDotnetAsync(["tool", "uninstall", "--global", "nugraph"]);
         }
 
-        var installArgs = new[] {
-            "tool",
-            "install",
-            "nugraph",
-            "--global",
-            "--version", Version,
-            "--add-source", _workingDirectory.FullName,
-        };
-        await RunDotnetAsync(installArgs);
+        await RunDotnetAsync(["tool", "install", "nugraph", "--global", "--version", Version, "--add-source", _workingDirectory.FullName]);
     }
 
     private async Task<string> RunDotnetAsync(string[] arguments, bool allowNonZeroExitCode = false)
