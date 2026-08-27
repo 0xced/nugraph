@@ -72,15 +72,15 @@ public sealed class TemporaryProject : IDisposable
         project.Save(xmlWriter);
     }
 
-    public static async Task<TemporaryProject> CreateAsync(PackageIdentity package, NuGetFramework? targetFramework, DirectoryInfo? sdk, ISettings nugetSettings, ILogger logger, CancellationToken cancellationToken)
+    public static async Task<TemporaryProject> CreateAsync(PackageIdentity package, NuGetFramework? targetFramework, DirectoryInfo? sdk, ISettings nugetSettings, IReadOnlyList<string> additionalRestoreArgs, ILogger logger, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(logger);
 
-        var (identity, resolvedTargetFramework) = await ResolveAsync(package, targetFramework, sdk, nugetSettings, logger, cancellationToken);
+        var (identity, resolvedTargetFramework) = await ResolveAsync(package, targetFramework, sdk, nugetSettings, additionalRestoreArgs, logger, cancellationToken);
         return new TemporaryProject(identity, resolvedTargetFramework, sdk);
     }
 
-    private static async Task<(PackageIdentity Identity, NuGetFramework Framework)> ResolveAsync(PackageIdentity package, NuGetFramework? framework, DirectoryInfo? sdk, ISettings nugetSettings, ILogger logger, CancellationToken cancellationToken)
+    private static async Task<(PackageIdentity Identity, NuGetFramework Framework)> ResolveAsync(PackageIdentity package, NuGetFramework? framework, DirectoryInfo? sdk, ISettings nugetSettings, IReadOnlyList<string> additionalRestoreArgs, ILogger logger, CancellationToken cancellationToken)
     {
         using var sourceCacheContext = new SourceCacheContext();
         var packageSources = GetPackageSources(nugetSettings, logger);
@@ -103,7 +103,7 @@ public sealed class TemporaryProject : IDisposable
         {
             logger.LogDebug($"Using .NET SDK at {sdk.FullName}");
         }
-        var supportedTargetFrameworks = await DotnetCli.GetSupportedFrameworksAsync(sdk, logger, cancellationToken);
+        var supportedTargetFrameworks = await DotnetCli.GetSupportedFrameworksAsync(sdk, additionalRestoreArgs, logger, cancellationToken);
 
         var supportedTargetFramework = targetFrameworks.Intersect(supportedTargetFrameworks).Order(NuGetFrameworkVersionComparer.Instance).FirstOrDefault();
         if (supportedTargetFramework != null)

@@ -18,31 +18,31 @@ namespace nugraph;
 /// </summary>
 internal static partial class DotnetCli
 {
-    public static async Task<ProjectInfo> RestoreAsync(FileSystemInfo source, ILogger logger, CancellationToken cancellationToken)
+    public static async Task<ProjectInfo> RestoreAsync(FileSystemInfo source, IReadOnlyList<string> additionalRestoreArgs, ILogger logger, CancellationToken cancellationToken)
     {
         var jsonPipe = new JsonPipeTarget<RestoreResult>(SourceGenerationContext.Default.RestoreResult);
-        var (properties, items) = await RestoreAsync(jsonPipe, source, logger, cancellationToken);
+        var (properties, items) = await RestoreAsync(jsonPipe, source, additionalRestoreArgs, logger, cancellationToken);
 
         if (string.IsNullOrEmpty(properties.ProjectAssetsFile))
         {
             // If the project was never restored, ProjectAssetsFile may return an empty string. Trying a second time should work.
-            (properties, items) = await RestoreAsync(jsonPipe, source, logger, cancellationToken);
+            (properties, items) = await RestoreAsync(jsonPipe, source, additionalRestoreArgs, logger, cancellationToken);
         }
 
         return new ProjectInfo(properties.GetProjectAssetsFile(), properties.GetTargetFrameworks(), items?.GetNuGetPackageIds() ?? []);
     }
 
-    public static async Task<IReadOnlySet<NuGetFramework>> GetSupportedFrameworksAsync(DirectoryInfo? sdk, ILogger logger, CancellationToken cancellationToken)
+    public static async Task<IReadOnlySet<NuGetFramework>> GetSupportedFrameworksAsync(DirectoryInfo? sdk, IReadOnlyList<string> additionalRestoreArgs, ILogger logger, CancellationToken cancellationToken)
     {
         using var emptyProject = new TemporaryProject(FrameworkConstants.CommonFrameworks.NetStandard20, sdk);
 
         var jsonPipe = new JsonPipeTarget<SupportedFrameworkResult>(SourceGenerationContext.Default.SupportedFrameworkResult);
-        var result = await RestoreAsync(jsonPipe, emptyProject.File, logger, cancellationToken);
+        var result = await RestoreAsync(jsonPipe, emptyProject.File, additionalRestoreArgs, logger, cancellationToken);
 
         return result.GetItems().GetSupportedTargetFrameworks();
     }
 
-    private static async Task<T> RestoreAsync<T>(JsonPipeTarget<T> jsonPipe, FileSystemInfo source, ILogger logger, CancellationToken cancellationToken)
+    private static async Task<T> RestoreAsync<T>(JsonPipeTarget<T> jsonPipe, FileSystemInfo source, IReadOnlyList<string> additionalRestoreArgs, ILogger logger, CancellationToken cancellationToken)
     {
         var stdout = new StringBuilder();
         var stderr = new StringBuilder();
@@ -52,12 +52,6 @@ internal static partial class DotnetCli
             {
                 args.Add("restore");
                 args.Add(source.FullName);
-
-                // Running "dotnet restore" might be extremely slow, even when the project references a single package which is already in the NuGet cache.
-                // Sometimes, this log is written to stderr:
-                // > MSBuild server unavailable: could not connect to the server within the timeout window; the server may have failed to start. Falling back to an in-process build.
-                // Maybe this happens because of dotnet running inside dotnet? Anyway, adding --disable-build-servers prevents the timeout phase (20s) and skips right to the in-process build.
-                args.Add("--disable-build-servers");
 
                 // !!! --getProperty and --getItem require a recent .NET SDK (see https://github.com/dotnet/msbuild/issues/3911)
                 if (typeof(T) == typeof(RestoreResult))
@@ -78,6 +72,11 @@ internal static partial class DotnetCli
                 else if (typeof(T) == typeof(SupportedFrameworkResult))
                 {
                     args.Add($"--getItem:{nameof(RestoreItem.SupportedTargetFramework)}");
+                }
+
+                foreach (var arg in additionalRestoreArgs)
+                {
+                    args.Add(arg);
                 }
             })
             .WithWorkingDirectory(source is FileInfo { DirectoryName: not null } file ? file.DirectoryName : Path.GetDirectoryName(typeof(Program).Assembly.Location) ?? Path.GetTempPath())

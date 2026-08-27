@@ -46,6 +46,7 @@ public class Program(ProgramEnvironment environment)
 #endif
             config.SetApplicationName(OperatingSystem.IsWindows() ? "nugraph.exe" : "nugraph");
             config.SetApplicationVersion(typeof(Program).Assembly.GetVersion());
+            config.UseStrictParsing();
             config.ConfigureConsole(environment.ConsoleOut);
             config.Settings.Registrar.RegisterInstance(environment);
             config.SetExceptionHandler((exception, _) =>
