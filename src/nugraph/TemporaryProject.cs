@@ -23,11 +23,15 @@ public sealed class TemporaryProject : IDisposable
 
     private readonly DirectoryInfo _directory;
 
-    public TemporaryProject() : this(package: null, targetFramework: null)
+    public TemporaryProject() : this(package: null, targetFramework: null, sdk: null)
     {
     }
 
-    private TemporaryProject(PackageIdentity? package, NuGetFramework? targetFramework)
+    public TemporaryProject(NuGetFramework targetFramework, DirectoryInfo? sdk) : this(package: null, targetFramework, sdk)
+    {
+    }
+
+    private TemporaryProject(PackageIdentity? package, NuGetFramework? targetFramework, DirectoryInfo? sdk)
     {
         _directory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "nugraph", Path.GetRandomFileName().Replace(".", "", StringComparison.OrdinalIgnoreCase)));
         _directory.Create();
@@ -46,7 +50,20 @@ public sealed class TemporaryProject : IDisposable
                 new XElement("PackageReference", new XAttribute("Include", package.Id), new XAttribute("Version", package.Version?.ToString() ?? "*"))));
         }
 
-        File = new FileInfo(Path.Combine(_directory.FullName, "project.csproj"));
+        if (sdk != null)
+        {
+            // lang=json
+            var json = $$"""
+                       {
+                         "sdk": {
+                           "version": "{{sdk.Name}}"
+                         }
+                       }
+                       """;
+            System.IO.File.WriteAllText(Path.Combine(_directory.FullName, "global.json"), json);
+        }
+
+        File = new FileInfo(Path.Combine(_directory.FullName, package == null ? "empty.csproj" : "project.csproj"));
         Package = package ?? new PackageIdentity("", new NuGetVersion(0, 0, 0));
         TargetFramework = targetFramework ?? NuGetFramework.UnsupportedFramework;
 
@@ -60,7 +77,7 @@ public sealed class TemporaryProject : IDisposable
         ArgumentNullException.ThrowIfNull(logger);
 
         var (identity, resolvedTargetFramework) = await ResolveAsync(package, targetFramework, sdk, nugetSettings, logger, cancellationToken);
-        return new TemporaryProject(identity, resolvedTargetFramework);
+        return new TemporaryProject(identity, resolvedTargetFramework, sdk);
     }
 
     private static async Task<(PackageIdentity Identity, NuGetFramework Framework)> ResolveAsync(PackageIdentity package, NuGetFramework? framework, DirectoryInfo? sdk, ISettings nugetSettings, ILogger logger, CancellationToken cancellationToken)
@@ -82,9 +99,11 @@ public sealed class TemporaryProject : IDisposable
             return (identity, framework);
         }
 
-        var sdkPath = DotnetSdk.Register(sdk);
-        logger.LogDebug($"Using .NET SDK at {sdkPath}");
-        var supportedTargetFrameworks = DotnetSdk.GetSupportedTargetFrameworks();
+        if (sdk != null)
+        {
+            logger.LogDebug($"Using .NET SDK at {sdk.FullName}");
+        }
+        var supportedTargetFrameworks = await DotnetCli.GetSupportedFrameworksAsync(sdk, logger, cancellationToken);
 
         var supportedTargetFramework = targetFrameworks.Intersect(supportedTargetFrameworks).Order(NuGetFrameworkVersionComparer.Instance).FirstOrDefault();
         if (supportedTargetFramework != null)

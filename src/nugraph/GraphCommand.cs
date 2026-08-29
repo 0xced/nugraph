@@ -86,9 +86,12 @@ internal sealed class GraphCommand(ProgramEnvironment environment) : AsyncComman
         var userProfileReplacement = OperatingSystem.IsWindows() ? "%UserProfile%" : "~";
 
         await stdOut.WriteLineAsync("nugraph:");
-        await stdOut.WriteLineAsync($" Version:  {typeof(Program).Assembly.GetVersion()}");
-        await stdOut.WriteLineAsync($" Runtime:  {Environment.Version}");
-        await stdOut.WriteLineAsync($" SDK:      {DotnetSdk.Register(sdk)?.Replace(userProfile, userProfileReplacement)}");
+        await stdOut.WriteLineAsync($" Version: {typeof(Program).Assembly.GetVersion()}");
+        await stdOut.WriteLineAsync($" Runtime: {Environment.Version}");
+        if (sdk != null)
+        {
+            await stdOut.WriteLineAsync($" SDK:     {sdk.FullName.Replace(userProfile, userProfileReplacement)}");
+        }
         await stdOut.WriteLineAsync();
 
         await stdOut.WriteLineAsync("attributes:");
