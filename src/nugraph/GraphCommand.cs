@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -49,10 +50,11 @@ internal sealed class GraphCommand(ProgramEnvironment environment) : AsyncComman
         var source = settings.Source ?? environment.CurrentWorkingDirectory;
         var graphUrl = await console.Status().StartAsync($"Generating dependency graph for {source.ToString(settings.Framework)}".EscapeMarkup(), async context =>
         {
+            var additionalRestoreArgs = commandContext.Remaining.Raw;
             var logger = new SpectreLogger(console, settings.LogLevel);
             var graph = await source.Match(
-                file => ComputeDependencyGraphAsync(file, settings, logger, cancellationToken),
-                package => ComputeDependencyGraphAsync(package, settings, Settings.LoadDefaultSettings(settings.NuGetRoot), logger, context, cancellationToken)
+                file => ComputeDependencyGraphAsync(file, settings, additionalRestoreArgs, logger, cancellationToken),
+                package => ComputeDependencyGraphAsync(package, settings, Settings.LoadDefaultSettings(settings.NuGetRoot), additionalRestoreArgs, logger, context, cancellationToken)
             );
             return await WriteGraphAsync(graph, settings);
         });
@@ -86,9 +88,12 @@ internal sealed class GraphCommand(ProgramEnvironment environment) : AsyncComman
         var userProfileReplacement = OperatingSystem.IsWindows() ? "%UserProfile%" : "~";
 
         await stdOut.WriteLineAsync("nugraph:");
-        await stdOut.WriteLineAsync($" Version:  {typeof(Program).Assembly.GetVersion()}");
-        await stdOut.WriteLineAsync($" Runtime:  {Environment.Version}");
-        await stdOut.WriteLineAsync($" SDK:      {DotnetSdk.Register(sdk)?.Replace(userProfile, userProfileReplacement)}");
+        await stdOut.WriteLineAsync($" Version: {typeof(Program).Assembly.GetVersion()}");
+        await stdOut.WriteLineAsync($" Runtime: {Environment.Version}");
+        if (sdk != null)
+        {
+            await stdOut.WriteLineAsync($" SDK:     {sdk.FullName.Replace(userProfile, userProfileReplacement)}");
+        }
         await stdOut.WriteLineAsync();
 
         await stdOut.WriteLineAsync("attributes:");
@@ -110,15 +115,15 @@ internal sealed class GraphCommand(ProgramEnvironment environment) : AsyncComman
         return result.ExitCode;
     }
 
-    private static async Task<DependencyGraph> ComputeDependencyGraphAsync(FileSystemInfo source, GraphCommandSettings settings, ILogger logger, CancellationToken cancellationToken)
+    private static async Task<DependencyGraph> ComputeDependencyGraphAsync(FileSystemInfo source, GraphCommandSettings settings, IReadOnlyList<string> additionalRestoreArgs, ILogger logger, CancellationToken cancellationToken)
     {
         var name = Path.GetFileNameWithoutExtension(source.Name);
         if (settings.Title == GraphCommandSettings.DefaultTitle)
         {
             settings.Title = $"Dependency graph of {name}";
         }
-        var projectInfo = await DotnetCli.RestoreAsync(source, logger, cancellationToken);
-        var targetFramework = settings.Framework ?? projectInfo.TargetFrameworks.Select(NuGetFramework.Parse).First();
+        var projectInfo = await DotnetCli.RestoreAsync(source, additionalRestoreArgs, logger, cancellationToken);
+        var targetFramework = settings.Framework ?? projectInfo.TargetFrameworks.First();
         var lockFile = new LockFileFormat().Read(projectInfo.ProjectAssetsFile.FullName);
         Predicate<Package> filter = projectInfo.CopyLocalPackages.Count > 0 ? package => projectInfo.CopyLocalPackages.Contains(package.Name) : _ => true;
         var (packages, roots) = lockFile.ReadPackages(targetFramework.GetShortFolderName(), settings.RuntimeIdentifier, filter);
@@ -130,15 +135,15 @@ internal sealed class GraphCommand(ProgramEnvironment environment) : AsyncComman
         return dependencyGraph;
     }
 
-    private static async Task<DependencyGraph> ComputeDependencyGraphAsync(PackageIdentity package, GraphCommandSettings settings, ISettings nugetSettings, ILogger logger, StatusContext context, CancellationToken cancellationToken)
+    private static async Task<DependencyGraph> ComputeDependencyGraphAsync(PackageIdentity package, GraphCommandSettings settings, ISettings nugetSettings, IReadOnlyList<string> additionalRestoreArgs, ILogger logger, StatusContext context, CancellationToken cancellationToken)
     {
-        using var project = await TemporaryProject.CreateAsync(package, settings.Framework, settings.Sdk, nugetSettings, logger, cancellationToken);
+        using var project = await TemporaryProject.CreateAsync(package, settings.Framework, settings.Sdk, nugetSettings, additionalRestoreArgs, logger, cancellationToken);
         if (settings.Title == GraphCommandSettings.DefaultTitle)
         {
             settings.Title = $"Dependency graph of {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})";
         }
         context.Status = $"Generating dependency graph for {project.Package.Id} {project.Package.Version} ({project.TargetFramework.GetShortFolderName()})".EscapeMarkup();
-        return await ComputeDependencyGraphAsync(project.File, settings, logger, cancellationToken);
+        return await ComputeDependencyGraphAsync(project.File, settings, additionalRestoreArgs, logger, cancellationToken);
     }
 
     private static async Task<Uri?> WriteGraphAsync(DependencyGraph graph, GraphCommandSettings settings)

@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CliWrap;
 using NuGet.Common;
+using NuGet.Frameworks;
 
 namespace nugraph;
 
@@ -17,16 +18,34 @@ namespace nugraph;
 /// </summary>
 internal static partial class DotnetCli
 {
-    public static async Task<ProjectInfo> RestoreAsync(FileSystemInfo source, ILogger logger, CancellationToken cancellationToken)
+    public static async Task<ProjectInfo> RestoreAsync(FileSystemInfo source, IReadOnlyList<string> additionalRestoreArgs, ILogger logger, CancellationToken cancellationToken)
     {
-        return await RestoreAsync(source, allowRetry: true, logger, cancellationToken);
+        var jsonPipe = new JsonPipeTarget<RestoreResult>(SourceGenerationContext.Default.RestoreResult);
+        var (properties, items) = await RestoreAsync(jsonPipe, source, additionalRestoreArgs, logger, cancellationToken);
+
+        if (string.IsNullOrEmpty(properties.ProjectAssetsFile))
+        {
+            // If the project was never restored, ProjectAssetsFile may return an empty string. Trying a second time should work.
+            (properties, items) = await RestoreAsync(jsonPipe, source, additionalRestoreArgs, logger, cancellationToken);
+        }
+
+        return new ProjectInfo(properties.GetProjectAssetsFile(), properties.GetTargetFrameworks(), items?.GetNuGetPackageIds() ?? []);
     }
 
-    private static async Task<ProjectInfo> RestoreAsync(FileSystemInfo source, bool allowRetry, ILogger logger, CancellationToken cancellationToken)
+    public static async Task<IReadOnlySet<NuGetFramework>> GetSupportedFrameworksAsync(DirectoryInfo? sdk, IReadOnlyList<string> additionalRestoreArgs, ILogger logger, CancellationToken cancellationToken)
+    {
+        using var emptyProject = new TemporaryProject(FrameworkConstants.CommonFrameworks.NetStandard20, sdk);
+
+        var jsonPipe = new JsonPipeTarget<SupportedFrameworkResult>(SourceGenerationContext.Default.SupportedFrameworkResult);
+        var result = await RestoreAsync(jsonPipe, emptyProject.File, additionalRestoreArgs, logger, cancellationToken);
+
+        return result.GetItems().GetSupportedTargetFrameworks();
+    }
+
+    private static async Task<T> RestoreAsync<T>(JsonPipeTarget<T> jsonPipe, FileSystemInfo source, IReadOnlyList<string> additionalRestoreArgs, ILogger logger, CancellationToken cancellationToken)
     {
         var stdout = new StringBuilder();
         var stderr = new StringBuilder();
-        var jsonPipe = new JsonPipeTarget<Result>(SourceGenerationContext.Default.Result);
         var logPipe = PipeTarget.ToDelegate(logger.LogDebug);
         var dotnet = Cli.Wrap("dotnet")
             .WithArguments(args =>
@@ -34,27 +53,33 @@ internal static partial class DotnetCli
                 args.Add("restore");
                 args.Add(source.FullName);
 
-                // Running "dotnet restore" might be extremely slow, even when the project references a single package which is already in the NuGet cache.
-                // Sometimes, this log is written to stderr:
-                // > MSBuild server unavailable: could not connect to the server within the timeout window; the server may have failed to start. Falling back to an in-process build.
-                // Maybe this happens because of dotnet running inside dotnet? Anyway, adding --disable-build-servers prevents the timeout phase (20s) and skips right to the in-process build.
-                args.Add("--disable-build-servers");
-
-                // !!! Requires a recent .NET SDK (see https://github.com/dotnet/msbuild/issues/3911)
-                args.Add($"--getProperty:{nameof(Property.ProjectAssetsFile)}");
-                args.Add($"--getProperty:{nameof(Property.TargetFramework)}");
-                args.Add($"--getProperty:{nameof(Property.TargetFrameworks)}");
+                // !!! --getProperty and --getItem require a recent .NET SDK (see https://github.com/dotnet/msbuild/issues/3911)
+                if (typeof(T) == typeof(RestoreResult))
+                {
+                    args.Add($"--getProperty:{nameof(RestoreProperty.ProjectAssetsFile)}");
+                    args.Add($"--getProperty:{nameof(RestoreProperty.TargetFramework)}");
+                    args.Add($"--getProperty:{nameof(RestoreProperty.TargetFrameworks)}");
 #if false
-                // ResolvePackageAssets only works for non library projects.
-                // RuntimeCopyLocalItems + NativeCopyLocalItems can then be used to reduce the dependency graph to packages that have assets which are copied, thus ignoring development dependencies (packages with PrivateAssets="all")
-                args.Add("--target:ResolvePackageAssets");
-                args.Add($"--getItem:{nameof(Item.RuntimeCopyLocalItems)}");
-                args.Add($"--getItem:{nameof(Item.NativeCopyLocalItems)}");
+                    // ResolvePackageAssets only works for non-library projects.
+                    // RuntimeCopyLocalItems + NativeCopyLocalItems can then be used to reduce the dependency graph to packages that have assets which are copied, thus ignoring development dependencies (packages with PrivateAssets="all")
+                    args.Add("--target:ResolvePackageAssets");
+                    args.Add($"--getItem:{nameof(Item.RuntimeCopyLocalItems)}");
+                    args.Add($"--getItem:{nameof(Item.NativeCopyLocalItems)}");
 #endif
-                // Workaround to get ProjectAssetsFile, see https://github.com/dotnet/sdk/issues/49426
-                args.Add("--getTargetResult:_LoadRestoreGraphEntryPoints");
+                    // Workaround to get ProjectAssetsFile, see https://github.com/dotnet/sdk/issues/49426
+                    args.Add("--getTargetResult:_LoadRestoreGraphEntryPoints");
+                }
+                else if (typeof(T) == typeof(SupportedFrameworkResult))
+                {
+                    args.Add($"--getItem:{nameof(RestoreItem.SupportedTargetFramework)}");
+                }
+
+                foreach (var arg in additionalRestoreArgs)
+                {
+                    args.Add(arg);
+                }
             })
-            .WithWorkingDirectory(Path.GetDirectoryName(typeof(Program).Assembly.Location) ?? Path.GetTempPath())
+            .WithWorkingDirectory(source is FileInfo { DirectoryName: not null } file ? file.DirectoryName : Path.GetDirectoryName(typeof(Program).Assembly.Location) ?? Path.GetTempPath())
             .WithEnvironmentVariables(env => env
                 .Set("DOTNET_NOLOGO", "1")
                 .Set("DOTNET_CLI_UI_LANGUAGE", "en")
@@ -75,29 +100,37 @@ internal static partial class DotnetCli
             throw RestoreException.Create(exitCode: commandResult.ExitCode, workingDirectory: dotnet.WorkingDirPath, command: dotnet.ToString(), output: output);
         }
 
-        var (properties, items) = jsonPipe.Result ?? throw new InvalidDataException("Missing JSON payload");
-
-        if (string.IsNullOrEmpty(properties.ProjectAssetsFile) && allowRetry)
-        {
-            // If the project was never restored, ProjectAssetsFile may return an empty string. Trying a second time should work.
-            return await RestoreAsync(source, allowRetry: false, logger, cancellationToken);
-        }
-
-        return new ProjectInfo(properties.GetProjectAssetsFile(), properties.GetTargetFrameworks(), items?.GetNuGetPackageIds() ?? []);
+        return jsonPipe.Result ?? throw new InvalidDataException("Missing JSON payload");
     }
 
-    public sealed record ProjectInfo(FileInfo ProjectAssetsFile, IReadOnlyCollection<string> TargetFrameworks, IReadOnlyCollection<string> CopyLocalPackages);
+    public sealed record ProjectInfo(FileInfo ProjectAssetsFile, IReadOnlyCollection<NuGetFramework> TargetFrameworks, IReadOnlyCollection<string> CopyLocalPackages);
 
-    [JsonSerializable(typeof(Result))]
+    [JsonSerializable(typeof(RestoreResult))]
+    [JsonSerializable(typeof(SupportedFrameworkResult))]
     private sealed partial class SourceGenerationContext : JsonSerializerContext;
 
-    private sealed record Result(Property Properties, Item? Items);
-
-    private sealed record Property(string? ProjectAssetsFile, string? TargetFramework, string? TargetFrameworks)
+    private sealed record RestoreResult(RestoreProperty? Properties, RestoreItem? Items)
     {
-        public HashSet<string> GetTargetFrameworks()
+        public void Deconstruct(out RestoreProperty properties, out RestoreItem? items)
         {
-            var targetFrameworks = TargetFrameworks?.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToHashSet();
+            properties = Properties ?? throw new InvalidDataException($"{nameof(Properties)} is missing");
+            items = Items;
+        }
+    }
+
+    private sealed record SupportedFrameworkResult(SupportedFrameworkItem? Items)
+    {
+        public SupportedFrameworkItem GetItems()
+        {
+            return Items ?? throw new InvalidDataException($"{nameof(Items)} is missing");
+        }
+    }
+
+    private sealed record RestoreProperty(string? ProjectAssetsFile, string? TargetFramework, string? TargetFrameworks)
+    {
+        public HashSet<NuGetFramework> GetTargetFrameworks()
+        {
+            var targetFrameworks = TargetFrameworks?.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Select(NuGetFramework.Parse).ToHashSet();
             if (targetFrameworks?.Count > 0)
             {
                 return targetFrameworks;
@@ -105,7 +138,7 @@ internal static partial class DotnetCli
 
             if (!string.IsNullOrEmpty(TargetFramework))
             {
-                return [TargetFramework];
+                return [NuGetFramework.Parse(TargetFramework)];
             }
 
             throw new InvalidDataException($"Either {nameof(TargetFrameworks)} (plural) or {nameof(TargetFramework)} (singular) is missing");
@@ -117,15 +150,32 @@ internal static partial class DotnetCli
         }
     }
 
-    private sealed record Item(CopyLocalItem[]? RuntimeCopyLocalItems, CopyLocalItem[]? NativeCopyLocalItems)
+    private sealed record RestoreItem(CopyLocalItem[]? RuntimeCopyLocalItems, CopyLocalItem[]? NativeCopyLocalItems, Tfm[]? SupportedTargetFramework)
     {
         public HashSet<string> GetNuGetPackageIds()
         {
             var runtimeCopyLocalItems = RuntimeCopyLocalItems ?? throw new InvalidDataException($"{nameof(RuntimeCopyLocalItems)} is missing");
             var nativeCopyLocalItems = NativeCopyLocalItems ?? throw new InvalidDataException($"{nameof(NativeCopyLocalItems)} is missing");
-            return runtimeCopyLocalItems.Concat(nativeCopyLocalItems).Select(e => e.NuGetPackageId).OfType<string>().ToHashSet();
+            return [.. runtimeCopyLocalItems.Concat(nativeCopyLocalItems).Select(e => e.NuGetPackageId).OfType<string>()];
+        }
+    }
+
+    private sealed record SupportedFrameworkItem(Tfm[]? SupportedTargetFramework)
+    {
+        public HashSet<NuGetFramework> GetSupportedTargetFrameworks()
+        {
+            var supportedTargetFramework = SupportedTargetFramework ?? throw new InvalidDataException($"{nameof(SupportedTargetFramework)} is missing");
+            return [.. supportedTargetFramework.Select(e => e.GetIdentity()).Select(NuGetFramework.Parse)];
         }
     }
 
     private sealed record CopyLocalItem(string? NuGetPackageId);
+
+    private sealed record Tfm(string? Identity)
+    {
+        public string GetIdentity()
+        {
+            return Identity ?? throw new InvalidDataException($"{nameof(Identity)} is missing");
+        }
+    }
 }
