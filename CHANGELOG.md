@@ -11,8 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   > The expression "[MSBuild]::GetTargetFrameworkVersion(net6.0)" cannot be evaluated. Could not load file or assembly 'NuGet.Frameworks, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'. The located assembly's manifest definition does not match the assembly reference.
 
   Technical details: the `nugraph` tool doesn't depend on the `Microsoft.Build` and `Microsoft.Build.Locator` packages anymore.
-  
 * Make sure that the console cursor is displayed again if `nugraph` is terminated by pressing Ctrl+C twice.
+* When Ctrl+C is invoked twice and the `NUGRAPH_CORE_DUMP` environment variable is set to `true`, a core dump is captured. This might help understand where exaclty `nugraph` was stuck and why Ctrl+C had to be invoked twice to force termination.
 
 ## [0.7.0][0.7.0] - 2026-08-21
 

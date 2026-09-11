@@ -29,15 +29,16 @@ public class Program(ProgramEnvironment environment)
         // ReSharper disable AccessToDisposedClosure
         Console.CancelKeyPress += (_, eventArgs) =>
         {
-            if (cancellationTokenSource.IsCancellationRequested)
-            {
-                // Ctrl+C was pressed twice => graceful termination did not work, make sure to restore the cursor
-                environment.ConsoleOut.Cursor.Show();
-            }
-            else
+            if (!cancellationTokenSource.IsCancellationRequested)
             {
                 // Ctrl+C was pressed for the first time => try graceful termination first
                 eventArgs.Cancel = true;
+            }
+            else
+            {
+                // Ctrl+C was pressed twice (graceful termination did not work) => abort live rendering "properly" and collect a core dump
+                environment.ConsoleErr.Pipeline.AbortLiveRendering();
+                DotnetDump.RunAsync(environment.ConsoleErr).GetAwaiter().GetResult();
             }
             cancellationTokenSource.Cancel();
         };
