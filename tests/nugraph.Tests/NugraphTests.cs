@@ -238,8 +238,8 @@ public abstract class NugraphTests(Nugraph nugraph)
                                
                                
                                  "Markdig" [ shape = hexagon, penwidth = 4, href="https://www.nuget.org/packages/Markdig/1.3.2" ]
-                                 "Microsoft.Bcl.Memory" [ shape = hexagon, penwidth = 4, href="https://www.nuget.org/packages/Microsoft.Bcl.Memory/10.0.11" ]
-                                 "MinVer" [ shape = hexagon, penwidth = 4, href="https://www.nuget.org/packages/MinVer/7.0.0" ]
+                                 "Microsoft.Bcl.Memory" [ shape = hexagon, penwidth = 4, href="https://www.nuget.org/packages/Microsoft.Bcl.Memory/10.0.12" ]
+                                 "MinVer" [ shape = hexagon, penwidth = 4, href="https://www.nuget.org/packages/MinVer/8.0.0" ]
                                }
                                """);
     }
