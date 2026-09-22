@@ -30,7 +30,7 @@ internal partial class MermaidImageCodeBlockRenderer(IReadOnlyDictionary<string,
             {
                 // Requires [Remove the allowlist for allowed image domains in READMEs](https://github.com/NuGet/NuGetGallery/issues/10198) to be resolved first in order to use mermaid.ink images
                 var data = Encoding.UTF8.GetBytes(text);
-                url = GraphService.GetUri(data, OnlineService.MermaidInkSvg, "dagre");
+                url = GraphService.GetUri(data, OnlineService.MermaidInkSvg);
             }
 
             renderer.WriteLine($"![{title}]({url})");

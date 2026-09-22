@@ -160,12 +160,13 @@ internal sealed class GraphCommand(ProgramEnvironment environment) : AsyncComman
             {
                 Direction = settings.GraphDirection,
                 Title = settings.Title,
+                Layout = settings.Layout,
                 IncludeVersions = settings.GraphIncludeVersions,
                 WriteIgnoredPackages = settings.GraphWriteIgnoredPackages,
             };
             graphWriter.Write(graph, graphOptions);
         }
 
-        return memoryStream == null ? null : GraphService.GetUri(memoryStream.AsSpan(), settings.Service, settings.Layout);
+        return memoryStream == null ? null : GraphService.GetUri(memoryStream.AsSpan(), settings.Service);
     }
 }
