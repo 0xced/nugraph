@@ -66,6 +66,13 @@ internal sealed class GraphCommandSettings : CommandSettings
     [DefaultValue("mermaid")]
     public string Format { get; init; } = "";
 
+    [CommandOption("-y|--layout <LAYOUT>")]
+    [Description("The layout to use for Mermaid graphs\n" +
+                 "The best layouts for a dependency graph are [b]dagre[/] (curved edges) or [b]elk[/] (straight edges)\n" +
+                 "See https://mermaid.js.org/config/layouts.html#supported-layouts for all supported layouts")]
+    [DefaultValue("dagre")]
+    public string Layout { get; init; } = "";
+
     public OnlineService Service { get; private set; }
 
     [CommandOption("-u|--url")]

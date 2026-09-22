@@ -166,6 +166,6 @@ internal sealed class GraphCommand(ProgramEnvironment environment) : AsyncComman
             graphWriter.Write(graph, graphOptions);
         }
 
-        return memoryStream == null ? null : GraphService.GetUri(memoryStream.AsSpan(), settings.Service);
+        return memoryStream == null ? null : GraphService.GetUri(memoryStream.AsSpan(), settings.Service, settings.Layout);
     }
 }
