@@ -54,13 +54,11 @@ internal static class GraphService
         {
             if (liveEditor)
             {
-                // See https://github.com/mermaid-js/mermaid-live-editor/blob/dc72838036719637f3947a7c16c0cbbdeba0d73b/src/lib/types.d.ts#L21-L31
-                // And https://github.com/mermaid-js/mermaid-live-editor/blob/dc72838036719637f3947a7c16c0cbbdeba0d73b/src/lib/util/state.ts#L10-L23
+                // See https://github.com/mermaid-js/mermaid-live-editor/blob/1ab7e2e0740a4380172df93bb707538521c14b15/src/lib/types.d.ts#L25-L38
+                // And https://github.com/mermaid-js/mermaid-live-editor/blob/1ab7e2e0740a4380172df93bb707538521c14b15/src/lib/constants.ts#L44-L58
                 using var writer = new Utf8JsonWriter(zlibStream);
                 writer.WriteStartObject();
                 writer.WriteString("code"u8, data);
-                writer.WriteString("mermaid"u8, """{"theme":"default"}"""u8);
-                writer.WriteBoolean("panZoom"u8, true);
                 writer.WriteEndObject();
             }
             else

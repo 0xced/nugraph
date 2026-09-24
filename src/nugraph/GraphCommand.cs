@@ -160,6 +160,7 @@ internal sealed class GraphCommand(ProgramEnvironment environment) : AsyncComman
             {
                 Direction = settings.GraphDirection,
                 Title = settings.Title,
+                Layout = settings.Layout,
                 IncludeVersions = settings.GraphIncludeVersions,
                 WriteIgnoredPackages = settings.GraphWriteIgnoredPackages,
             };
