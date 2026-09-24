@@ -106,7 +106,7 @@ Run `nugraph <NuGetPackageName>` to generate the dependency graph of a NuGet pac
 
 A specific version can be explicitly requested by appending **@version** to the package name, for example `nugraph Serilog.Sinks.File@4.1.0`. When no version is specified, the latest version available on NuGet is chosen. 
 
-Many packages support multiple target frameworks and sometimes the dependencies varies across different target frameworks. A target framework is guessed automatically, but it can be overriden with the `-f` or `--framework` option.
+Many packages support multiple target frameworks, and sometimes the dependencies vary across different target frameworks. A target framework is guessed automatically, but it can be overriden with the `-f` or `--framework` option.
 
 ### .NET project mode
 
@@ -114,7 +114,7 @@ In addition to NuGet packages graphs, nugraph can also create graphs of .NET pro
 
 Without any argument, `nugraph` creates the graph of the project in the current working directory. An existing directory or an existing project file can also be passed explicitly. Under the hood, nugraph calls `dotnet restore` to resolve dependencies, so any private NuGet feeds configured in `NuGet.config` will just work.
 
-Here's an example with an open source project that produces a large graph. The ignore option (`-i`) is used to remove all the System.* and Humanizer.Core.* packages to make the graph more readable. The `--no-links` (or `-k`) option is also specified to smooth using the excellent [Graphviz Interactive Preview](https://marketplace.visualstudio.com/items?itemName=tintinweb.graphviz-interactive-preview) extension for Visual Studio Code.
+Here's an example of an open source project that produces a large graph. The ignore option (`-i`) is used to remove all the System.* and Humanizer.Core.* packages to make the graph more readable. The `--no-links` (or `-k`) option is also specified to smooth using the excellent [Graphviz Interactive Preview](https://marketplace.visualstudio.com/items?itemName=tintinweb.graphviz-interactive-preview) extension for Visual Studio Code.
 
 ```shell
 git clone https://github.com/nopSolutions/nopCommerce
@@ -127,14 +127,14 @@ When a node is selected in Graphviz Interactive Preview, all the connected nodes
 ![Dependency graph of Nop.Web with the Microsoft.Data.SqlClient node selected in Graphviz Interactive Preview](resources/nopCommerce.png)
 
 > [!NOTE]
-> Package references are rendered in green and project references are rendered in blue. The hexagon shaped boxes represent the roots of the graph, i.e. the explicit package or project references in the project file.
+> Package references are rendered in green and project references are rendered in blue. The hexagon-shaped boxes represent the roots of the graph, i.e., the explicit package or project references in the project file.
 
 ### Output
 
 To write the dependency graph to a file, use the `-o` or `--output` options. If the output file name ends with either `.mmd` or `.mermaid` a [Mermaid](https://mermaid.js.org) file will be written.
 Otherwise, a [Graphviz](https://graphviz.org) file will be written. Suggested extensions for Graphviz files are `.gv` or `.dot`.
 
-When no output options is specified, the format can be chosen with the `-m` or `--format` option. The default browser will be opened to one of the supported online services.
+When no output option is specified, the format can be chosen with the `-m` or `--format` option. The default browser will be opened to one of the supported online services.
 
 #### Mermaid
 
