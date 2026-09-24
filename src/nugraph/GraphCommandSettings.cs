@@ -101,9 +101,10 @@ internal sealed class GraphCommandSettings : CommandSettings
     [Description("Packages to ignore in the dependency graph, may be used multiple times and supports * wildcards, e.g. [b]--ignore \"System.*\"[/]")]
     public string[] GraphIgnore { get; init; } = [];
 
-    [CommandOption("--no-links")]
+    [CommandOption("-k|--no-links")]
     [Description("Remove clickable links from the the dependency graph\n" +
-                 "Can be useful to reduce the size of the graph if it becomes too large and Mermaid Live Editor is returning \"Maximum text size in diagram exceeded\" ")]
+                 "Can be useful to reduce the size of the graph if it becomes too large and Mermaid Live Editor is returning \"Maximum text size in diagram exceeded\"\n" +
+                 "Also useful when using the Graphviz Interactive Preview extension for Visual Studio Code and clicking on nodes to highlight a dependency path")]
     [DefaultValue(false)]
     public bool NoLinks { get; set; }
 

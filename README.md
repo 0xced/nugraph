@@ -114,7 +114,7 @@ In addition to NuGet packages graphs, nugraph can also create graphs of .NET pro
 
 Without any argument, `nugraph` creates the graph of the project in the current working directory. An existing directory or an existing project file can also be passed explicitly. Under the hood, nugraph calls `dotnet restore` to resolve dependencies, so any private NuGet feeds configured in `NuGet.config` will just work.
 
-Here's an example with an open source project that produces a large graph. The ignore option (`-i`) is used to remove all the System.* and Humanizer.Core.* packages to make the graph more readable. The `--no-links` option is also specified to smooth using the excellent [Graphviz Interactive Preview](https://marketplace.visualstudio.com/items?itemName=tintinweb.graphviz-interactive-preview) extension for Visual Studio Code.
+Here's an example with an open source project that produces a large graph. The ignore option (`-i`) is used to remove all the System.* and Humanizer.Core.* packages to make the graph more readable. The `--no-links` (or `-k`) option is also specified to smooth using the excellent [Graphviz Interactive Preview](https://marketplace.visualstudio.com/items?itemName=tintinweb.graphviz-interactive-preview) extension for Visual Studio Code.
 
 ```shell
 git clone https://github.com/nopSolutions/nopCommerce
@@ -162,4 +162,4 @@ For example, run `nugraph Microsoft.Data.SqlClient -m mmd.svg` to open the graph
 For example, run `nugraph Microsoft.Data.SqlClient -m dot` to open the graph in the Edotor interactive service.
 
 > [!TIP]
-> The interactive, SVG and PDF formats have clickable links to the nuget.org page of the packages, unless the `--no-links` option is specified.
+> The interactive, SVG and PDF formats have clickable links to the nuget.org page of the packages, unless the `--no-links` (or `-k`) option is specified.
