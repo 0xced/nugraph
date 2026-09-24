@@ -163,3 +163,28 @@ For example, run `nugraph Microsoft.Data.SqlClient -m dot` to open the graph in 
 
 > [!TIP]
 > The interactive, SVG and PDF formats have clickable links to the nuget.org page of the packages, unless the `--no-links` (or `-k`) option is specified.
+
+### Layout
+
+Since version 0.8.0, a layout can be specified for Mermaid graphs with the `--layout` (or `-y`) option. The default layout is `dagre` which produces a graph with rounded edges. Another option is the `elk` layout which produces straight edges.
+
+Here's a graph using the `dagre` layout (nugraph's default).
+
+```shell
+nugraph OpenTelemetry.AutoInstrumentation
+```
+
+![OpenTelemetry.AutoInstrumentation with dagre layout](resources/OpenTelemetry.AutoInstrumentation-dagre.svg)
+
+Here's a graph using the `elk` layout.
+
+```shell
+nugraph OpenTelemetry.AutoInstrumentation --layout elk
+```
+
+![OpenTelemetry.AutoInstrumentation with elk layout](resources/OpenTelemetry.AutoInstrumentation-elk.svg)
+
+See the Mermaid documentation for the list of all [supported layouts]( https://mermaid.js.org/config/layouts.html#supported-layouts). 
+
+> [!NOTE]
+> The layout option is ignored for Graphviz graphs because none of the [layouts](https://graphviz.org/docs/layouts/) except the default (dot) work well for dependency graphs.
